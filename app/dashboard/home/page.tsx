@@ -10,5 +10,9 @@ export default async function HomePage() {
   const daily = await getDailyForecast();
   const hourly = await getHourlyForecast();
 
-  return <WeatherView current={current} daily={daily} hourly={hourly} />;
+  return (
+    <div className="">
+      <WeatherView current={current} daily={daily} hourly={hourly} />
+    </div>
+  );
 }

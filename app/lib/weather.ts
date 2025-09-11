@@ -10,7 +10,6 @@ export async function getWeather(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  console.log("Weather Data: ", data);
 
   return {
     latitude: data.latitude,
@@ -28,7 +27,6 @@ export async function getDailyForecast(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  console.log("Day Data: ", data);
   return data.daily.time.map((date: string, idx: number) => ({
     date,
     tempMax: data.daily.temperature_2m_max[idx],
@@ -44,7 +42,6 @@ export async function getHourlyForecast(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,windspeed_10m&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  console.log("Hourly Data: ", data);
 
   return data.hourly.time.map((time: string, idx: number) => ({
     time,
