@@ -6,6 +6,7 @@ import {
   getHourlyForecast,
 } from "../lib/weather";
 import { WeatherViewProps } from "../types/weather";
+import { WeatherOverviewCard } from "./WeatherOverviewCard";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
@@ -44,22 +45,13 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   }, []);
 
   return (
-    <section>
-      <h1>
-        {weatherCurrent.city},{weatherCurrent.country}
-      </h1>
-      <p>Temp: {weatherCurrent.temp}°C</p>
-      <p>Feels Like: {weatherCurrent.feelsLike ?? "-"}</p>
-
-      <ul>
-        {weatherDaily.map((day) => (
-          <li key={day.date}>
-            <p>{day.date}</p>
-            <span>{day.tempMax}</span>
-            <span>{day.tempMin}</span>
-          </li>
-        ))}
-      </ul>
+    <section className="max-w-screen-xl w-full flex flex-col gap-4">
+      <header className="w-full min-h-20 p-6 border-amber-700">
+        Header goes here
+      </header>
+      <div className="w-full">
+        <WeatherOverviewCard data={weatherCurrent} />
+      </div>
     </section>
   );
 };
