@@ -11,8 +11,11 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
   const [weatherDaily, setWeatherDaily] = useState(daily);
   const [weatherHourly, setWeatherHourly] = useState(hourly);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
+    // Inside this useEffect I am detecting the user's geo coordinates,
+    // I am using these coordinates to fetch the city, and country details using BigDataCloud API
     if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -22,7 +25,19 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         getDailyForecast(latitude, longitude),
         getHourlyForecast(latitude, longitude),
       ]);
-      setWeatherCurrent(currentData);
+      const geoRes = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
+      );
+      const geoData = await geoRes.json();
+      console.log("Geo Data:", geoData);
+      const city = geoData.city;
+      const country = geoData.countryName;
+
+      setWeatherCurrent({
+        ...currentData,
+        city,
+        country,
+      });
       setWeatherDaily(dailyData);
       setWeatherHourly(hourlyData);
     });
@@ -30,6 +45,9 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
 
   return (
     <section>
+      <h1>
+        {weatherCurrent.city},{weatherCurrent.country}
+      </h1>
       <p>Temp: {weatherCurrent.temp}°C</p>
       <p>Feels Like: {weatherCurrent.feelsLike ?? "-"}</p>
 

@@ -8,6 +8,8 @@ export interface Weather {
   humidity?: number;
   precipitation?: number;
   time?: string;
+  city?: string;
+  country?: string;
 }
 
 // Single day in the 7-day forecast
