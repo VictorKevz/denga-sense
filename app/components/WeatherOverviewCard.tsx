@@ -10,14 +10,17 @@ interface WeatherOverviewCardProps {
 }
 export const WeatherOverviewCard = ({ data }: WeatherOverviewCardProps) => {
   return (
-    <div className="w-full bg-amber-500 rounded-2xl px-5 py-8 flex items-center justify-between">
+    <div
+      className="w-full bg-cover bg-center bg-no-repeat px-5 h-[18rem] flex items-center justify-between rounded-[1.25rem]"
+      style={{ backgroundImage: "url(/images/bg-today-large.svg)" }}
+    >
       <div>
         <h3>
           {data.city}, {data.country}
         </h3>
         <p>{data.time}</p>
       </div>
-      <p>{data.temp}</p>
+      <p>{data.temp}°</p>
     </div>
   );
 };

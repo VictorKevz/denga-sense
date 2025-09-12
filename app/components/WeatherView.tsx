@@ -5,8 +5,10 @@ import {
   getDailyForecast,
   getHourlyForecast,
 } from "../lib/weather";
-import { WeatherViewProps } from "../types/weather";
+import { MetricType, WeatherViewProps } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
+import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
+import { MetricCard } from "./MetricCard";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
@@ -38,19 +40,52 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         ...currentData,
         city,
         country,
+        precipitation: hourlyData[0]?.precipitation,
+        humidity: hourlyData[0]?.humidity,
+        feelsLike: hourly[0]?.feelsLike,
       });
       setWeatherDaily(dailyData);
       setWeatherHourly(hourlyData);
     });
   }, []);
 
+  // temporary array data
+  const metricData: MetricType[] = [
+    {
+      label: "Feels Like",
+      value: `${weatherCurrent.feelsLike}°`,
+    },
+    {
+      label: "Humidity",
+      value: `${weatherCurrent.humidity}%`,
+    },
+    {
+      label: "Wind",
+      value: `${weatherCurrent.windspeed} km/h`,
+    },
+    {
+      label: "Precipitation",
+      value: `${weatherCurrent.precipitation} mm`,
+    },
+  ];
   return (
-    <section className="w-full flex flex-col gap-4 bg-blue-200">
-      <header className="w-full min-h-20 p-6 border-amber-700">
+    <section className="max-w-screen-xl w-full mx-auto h-dvh py-8 px-4 lg:px-8 text-white">
+      <header className="w-full min-h-20 p-6 border border-amber-700">
         Header goes here
       </header>
-      <div className="w-full">
-        <WeatherOverviewCard data={weatherCurrent} />
+      <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8">
+        <div className="w-full lg:col-span-2">
+          <WeatherOverviewCard data={weatherCurrent} />
+          <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            {metricData.map((metric) => (
+              <MetricCard key={metric.label} data={metric} />
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full h-full bg-blue-400">
+          Hourly forecast card here
+        </div>
       </div>
     </section>
   );

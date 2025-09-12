@@ -10,7 +10,7 @@ export async function getWeather(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-
+  console.log("Weather Data", data);
   return {
     latitude: data.latitude,
     longitude: data.longitude,
@@ -39,7 +39,7 @@ export async function getHourlyForecast(
   latitude = FALLBACK.latitude,
   longitude = FALLBACK.longitude
 ): Promise<ForecastHour[]> {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,windspeed_10m&timezone=auto`;
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation,windspeed_10m,relative_humidity_2m`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
 
@@ -48,5 +48,7 @@ export async function getHourlyForecast(
     temp: data.hourly.temperature_2m[idx],
     windspeed: data.hourly.windspeed_10m[idx],
     precipitation: data.hourly.precipitation[idx],
+    feelsLike: data.hourly.apparent_temperature[idx],
+    humidity: data.hourly.relative_humidity_2m[idx],
   }));
 }
