@@ -45,7 +45,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   }, []);
 
   return (
-    <section className="max-w-screen-xl w-full flex flex-col gap-4">
+    <section className="w-full flex flex-col gap-4 bg-blue-200">
       <header className="w-full min-h-20 p-6 border-amber-700">
         Header goes here
       </header>
