@@ -49,7 +49,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     });
   }, []);
 
-  // temporary array data
+  // temporary metrics data
   const metricData: MetricType[] = [
     {
       label: "Feels Like",
