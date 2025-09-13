@@ -9,6 +9,7 @@ import { MetricType, WeatherViewProps } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
 import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import { MetricCard } from "./MetricCard";
+import { DailyForecastCard } from "./DailyForecastCard";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
@@ -81,11 +82,19 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
               <MetricCard key={metric.label} data={metric} />
             ))}
           </div>
+          <div className="w-full mt-10">
+            <h3 className="text-xl text-[var(--text-primary)]">
+              Daily Forecast
+            </h3>
+            <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
+              {weatherDaily.map((day) => (
+                <DailyForecastCard key={day.date} data={day} />
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="w-full h-full bg-blue-400">
-          Hourly forecast card here
-        </div>
+        <div className="card h-full bg-blue-400">Hourly forecast card here</div>
       </div>
     </section>
   );

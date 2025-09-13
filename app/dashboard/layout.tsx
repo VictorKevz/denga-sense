@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { ThemeToggle } from "../components/ThemeButton";
+import Image from "next/image";
 
 // /app/dashboard/layout.tsx
 export default function DashboardLayout({
@@ -7,21 +9,36 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="flex items-start gap-12 w-full">
-        <aside className="w-[8rem] flex flex-col items-center justify-between h-dvh bg-blue-900 pb-8 rounded-r-4xl">
-          <header className="w-full bg-blue-300 h-22 rounded-r-3xl"></header>
+        <aside className="w-[8rem] flex flex-col items-center justify-between h-dvh bg-[var(--bg-secondary)] pb-8 rounded-r-4xl shadow-2xl shadow-blue-300/20">
+          <header className="w-full bg-[var(--primary)] h-22 rounded-r-3xl"></header>
           <nav className="w-full flex flex-col gap-4 px-4">
             {navTabs.map((tab) => {
               return (
-                <Link key={tab.id} href={tab.url} className="text-white">
+                <Link
+                  key={tab.id}
+                  href={tab.url}
+                  className="text-[var(--text-primary)]"
+                >
                   {tab.text}
                 </Link>
               );
             })}
           </nav>
-          <div className="w-full flex items-center justify-center pt-5 border-t border-amber-50/30">
-            <span className="h-15 w-15 bg-red-700 rounded-full"></span>
+          <div className="w-full center flex-col!">
+            <ThemeToggle />
+            <div className="w-full center border-t pt-5 mt-5 border-t-[var(--border)]">
+              <span className=" rounded-full">
+                <Image
+                  src="/images/profile.png"
+                  alt="Victor's profile picture"
+                  width={55}
+                  height={55}
+                  className="rounded-full"
+                />
+              </span>
+            </div>
           </div>
         </aside>
         <div className="w-full">

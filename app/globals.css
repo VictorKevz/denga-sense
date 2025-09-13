@@ -5,12 +5,13 @@
 :root {
   /* Neutrals */
   --neutral-0: hsl(0, 0%, 100%);
+  --neutral-50: hsl(240, 1%, 97%);
   --neutral-200: hsl(210, 16%, 90%);
   --neutral-300: hsl(210, 12%, 70%); /* borders, secondary text */
   --neutral-600: hsl(210, 12%, 40%); /* text, icons */
   --neutral-700: hsl(210, 14%, 30%);
   --neutral-800: hsl(210, 16%, 20%);
-  --neutral-900: hsl(210, 18%, 12%);
+  --neutral-900: hsl(243, 96%, 9%);
 
   /* Semantic colors */
   --primary: hsl(220, 90%, 50%); /* main brand / buttons */
@@ -18,15 +19,15 @@
   --accent: hsl(28, 100%, 52%); /* highlights, notifications */
 
   /* Text */
-  --text-primary: var(--neutral-900);
-  --text-secondary: var(--neutral-700);
+  --text-primary: var(--neutral-800);
+  --text-secondary: var(--neutral-600);
 
   /* Backgrounds */
-  --bg-primary: var(--neutral-0);
-  --bg-secondary: var(--neutral-200);
+  --bg-primary: var(--neutral-50);
+  --bg-secondary: var(--neutral-0);
 
   /* Borders & dividers */
-  --border: var(--neutral-300);
+  --border: var(--neutral-200);
 }
 
 /* Dark mode Palette */
@@ -46,7 +47,7 @@
 
   /* Text */
   --text-primary: var(--neutral-0);
-  --text-secondary: var(--neutral-300);
+  --text-secondary: var(--neutral-200);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-900);
@@ -58,6 +59,7 @@
 * {
   box-sizing: border-box;
   font-family: "DM Sans", sans-serif;
+  transition: all 0.3s ease-in-out;
 }
 
 body {
@@ -68,10 +70,22 @@ h2 {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 700;
 }
-
+p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
 /* Common classes */
 .center {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.card {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  background-color: var(--bg-secondary);
+}
+button {
+  cursor: pointer;
 }
