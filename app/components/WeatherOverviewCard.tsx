@@ -16,12 +16,14 @@ export const WeatherOverviewCard = ({ data }: WeatherOverviewCardProps) => {
       style={{ backgroundImage: "url(/images/bg-today-large.svg)" }}
     >
       <div>
-        <h3 className="text-2xl font-bold">
+        <h3 className="text-2xl font-bold text-[var(--neutral-0)]">
           {data.city}, {data.country}
         </h3>
-        <p>{formatFullDate(data.time!)}</p>
+        <p className="text-[var(--neutral-0)]!">{formatFullDate(data.time!)}</p>
       </div>
-      <span className="text-7xl font-semibold italic">{data.temp}°</span>
+      <span className="text-7xl text-[var(--neutral-0)] font-semibold italic">
+        {data.temp}°
+      </span>
     </div>
   );
 };

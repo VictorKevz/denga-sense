@@ -9,7 +9,7 @@ export const DailyForecastCard = ({ data }: DailyForecastProps) => {
   const { date, weatherCode, tempMax, tempMin } = data;
   console.log("WeatherCode:", weatherCode);
   return (
-    <div className="card px-2.5 py-4  flex flex-col items-center justify-between">
+    <div className="glass px-2.5 py-4  flex flex-col items-center justify-between">
       <p className="text-[var(--text-secondary)]">{formatDayOfWeek(date)}</p>
       <div className="my-5">
         <WeatherIcon code={weatherCode!} />

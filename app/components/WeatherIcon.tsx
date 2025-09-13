@@ -15,7 +15,7 @@ export function WeatherIcon({ code }: WeatherIconProps) {
   }
 
   return (
-    <span className="text-xl" title={info.label} aria-label={info.label}>
+    <span className="text-2xl" title={info.label} aria-label={info.label}>
       {info.icon}
     </span>
   );

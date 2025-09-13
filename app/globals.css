@@ -18,6 +18,9 @@
   --primary-dark: hsl(220, 80%, 35%); /* hover / active */
   --accent: hsl(28, 100%, 52%); /* highlights, notifications */
 
+  --glass-inset: rgba(0, 191, 255, 0.289);
+  --glass-end: rgba(249, 249, 252, 0.401);
+  --glass-border: rgba(250, 249, 249, 0.312);
   /* Text */
   --text-primary: var(--neutral-800);
   --text-secondary: var(--neutral-600);
@@ -25,6 +28,7 @@
   /* Backgrounds */
   --bg-primary: var(--neutral-50);
   --bg-secondary: var(--neutral-0);
+  --main-bg: url("/images/main-bg-light.png");
 
   /* Borders & dividers */
   --border: var(--neutral-200);
@@ -45,13 +49,17 @@
   --primary-dark: hsl(248, 70%, 36%);
   --accent: hsl(28, 100%, 52%);
 
+  --glass-inset: rgba(0, 0, 255, 0.233);
+  --glass-end: rgba(0, 0, 0, 0.241);
+  --glass-border: rgba(226, 222, 222, 0.272);
   /* Text */
   --text-primary: var(--neutral-0);
-  --text-secondary: var(--neutral-200);
+  --text-secondary: var(--neutral-50);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-900);
   --bg-secondary: var(--neutral-800);
+  --main-bg: url("/images/main-bg-dark.png");
 
   /* Borders & dividers */
   --border: var(--neutral-700);
@@ -62,9 +70,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-body {
-  background-color: var(--bg-primary);
-}
 h1,
 h2 {
   font-family: "Bricolage Grotesque", sans-serif;
@@ -85,6 +90,14 @@ p {
   border-radius: 0.75rem;
   border: 1px solid var(--border);
   background-color: var(--bg-secondary);
+}
+.glass {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: var(--glass-end);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.75rem;
+  box-shadow: inset 0 0 1rem 0.5rem var(--glass-inset);
 }
 button {
   cursor: pointer;

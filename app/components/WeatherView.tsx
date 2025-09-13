@@ -70,10 +70,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     },
   ];
   return (
-    <section className="max-w-screen-xl w-full mx-auto h-dvh py-8 px-4 lg:px-8 text-white">
-      <header className="w-full min-h-20 p-6 border border-amber-700">
-        Header goes here
-      </header>
+    <section className="max-w-screen-xl w-full mx-auto">
       <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8">
         <div className="w-full lg:col-span-2">
           <WeatherOverviewCard data={weatherCurrent} />
@@ -94,7 +91,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
           </div>
         </div>
 
-        <div className="card h-full bg-blue-400">Hourly forecast card here</div>
+        <div className="card ">Hourly forecast card here</div>
       </div>
     </section>
   );
