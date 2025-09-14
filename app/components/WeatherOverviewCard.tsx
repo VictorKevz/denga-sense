@@ -5,19 +5,25 @@
 
 import React from "react";
 import { Weather } from "../types/weather";
+import { formatFullDate } from "../utils/formatters";
 interface WeatherOverviewCardProps {
   data: Weather;
 }
 export const WeatherOverviewCard = ({ data }: WeatherOverviewCardProps) => {
   return (
-    <div className="w-full bg-amber-500 rounded-2xl px-5 py-8 flex items-center justify-between">
+    <div
+      className="w-full bg-cover bg-center bg-no-repeat px-5 py-20 flex items-center justify-between rounded-[1.25rem]"
+      style={{ backgroundImage: "url(/images/bg-today-large.svg)" }}
+    >
       <div>
-        <h3>
+        <h3 className="text-2xl font-bold text-[var(--neutral-0)]">
           {data.city}, {data.country}
         </h3>
-        <p>{data.time}</p>
+        <p className="text-[var(--neutral-0)]!">{formatFullDate(data.time!)}</p>
       </div>
-      <p>{data.temp}</p>
+      <span className="text-7xl text-[var(--neutral-0)] font-semibold italic">
+        {data.temp}°
+      </span>
     </div>
   );
 };

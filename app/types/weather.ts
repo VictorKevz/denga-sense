@@ -24,9 +24,11 @@ export interface ForecastDay {
 export interface ForecastHour {
   time: string;
   temp: number;
+  feelsLike?: number;
   windspeed?: number;
   precipitation?: number;
   weatherCode?: number;
+  humidity?: number;
 }
 
 // AI insights / suggestions => I will later decide on the specifics...
@@ -39,4 +41,8 @@ export type WeatherViewProps = {
   current: Weather;
   daily: ForecastDay[];
   hourly: ForecastHour[];
+};
+export type MetricType = {
+  label: string;
+  value: string;
 };
