@@ -7,16 +7,16 @@
   --neutral-0: hsl(0, 0%, 100%);
   --neutral-50: hsl(240, 1%, 97%);
   --neutral-200: hsl(210, 16%, 90%);
-  --neutral-300: hsl(210, 12%, 70%); /* borders, secondary text */
-  --neutral-600: hsl(210, 12%, 40%); /* text, icons */
+  --neutral-300: hsl(210, 12%, 70%);
+  --neutral-600: hsl(210, 12%, 40%);
   --neutral-700: hsl(210, 14%, 30%);
   --neutral-800: hsl(210, 16%, 20%);
   --neutral-900: hsl(243, 96%, 9%);
 
   /* Semantic colors */
-  --primary: hsl(220, 90%, 50%); /* main brand / buttons */
-  --primary-dark: hsl(220, 80%, 35%); /* hover / active */
-  --accent: hsl(28, 100%, 52%); /* highlights, notifications */
+  --primary: hsl(212, 90%, 50%);
+  --primary-dark: hsl(220, 80%, 35%);
+  --accent: hsl(28, 100%, 52%);
 
   --glass-inset: rgba(0, 191, 255, 0.289);
   --glass-end: rgba(249, 249, 252, 0.401);
@@ -28,7 +28,7 @@
   /* Backgrounds */
   --bg-primary: var(--neutral-50);
   --bg-secondary: var(--neutral-0);
-  --main-bg: url("/images/main-bg-light.png");
+  --main-bg: url("/images/main-bg-light.webp");
   --overlay: rgba(43, 39, 255, 0.3);
 
   /* Borders & dividers */
@@ -60,7 +60,7 @@
   /* Backgrounds */
   --bg-primary: var(--neutral-900);
   --bg-secondary: var(--neutral-800);
-  --main-bg: url("/images/main-bg-dark.png");
+  --main-bg: url("/images/main-bg-dark.webp");
   --overlay: rgba(0, 0, 0, 0.265);
 
   /* Borders & dividers */

@@ -1,24 +1,38 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeButton";
-import Image from "next/image";
+import { useTheme } from "next-themes";
 export const Navbar = () => {
+  const [currentUrl, setCurrentUrl] = useState<string>("/dashboard/home");
+  const { resolvedTheme } = useTheme();
+  if (!resolvedTheme) return null;
   return (
     <header className="w-full flex items-center justify-between py-8 px-4 md:px-6 ">
-      <Image
-        src="/images/logo.svg"
-        alt="Company's logo"
-        width={100}
-        height={100}
-        className=""
-      />
-      <nav className="glass max-w-sm w-full flex items-center justify-between gap-8 px-6 h-[3rem]">
+      <div className="flex items-center gap-0.5">
+        <img
+          src={`/images/logo-${resolvedTheme}.webp`}
+          alt="Company's logo"
+          className="w-[4rem] h-auto"
+        />
+        <span className="font-bold text-xl text-[var(--neutral-0)]">
+          DengaSense
+        </span>
+      </div>
+
+      <nav className="glass max-w-sm w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
         {navTabs.map((tab) => {
+          const isActive = tab.url === currentUrl;
           return (
             <Link
               key={tab.id}
               href={tab.url}
-              className="text-[var(--text-primary)] text-lg"
+              onClick={() => setCurrentUrl(tab.url)}
+              className={`text-[var(--text-primary)] text-lg ${
+                isActive
+                  ? "bg-[var(--primary)] text-[var(--neutral-0)]! px-3 rounded-sm"
+                  : ""
+              }`}
             >
               {tab.text}
             </Link>

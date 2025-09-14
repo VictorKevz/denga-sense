@@ -93,10 +93,12 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
 
         <div className="glass ">Hourly forecast card here</div>
       </div>
-      <article className="center bg-[var(--bg-secondary)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
+      <article className="center bg-[var(--primary)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
         <div className="max-w-screen-xl w-full">
           <header className="text-center">
-            <h3 className="text-4xl font-bold">AI-Powered Insights</h3>
+            <h3 className="text-4xl font-bold text-white!">
+              AI-Powered Insights
+            </h3>
           </header>
         </div>
       </article>
