@@ -23,12 +23,13 @@
   --glass-border: rgba(250, 249, 249, 0.312);
   /* Text */
   --text-primary: var(--neutral-800);
-  --text-secondary: var(--neutral-600);
+  --text-secondary: var(--neutral-700);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-50);
   --bg-secondary: var(--neutral-0);
   --main-bg: url("/images/main-bg-light.png");
+  --overlay: rgba(43, 39, 255, 0.3);
 
   /* Borders & dividers */
   --border: var(--neutral-200);
@@ -54,12 +55,13 @@
   --glass-border: rgba(226, 222, 222, 0.272);
   /* Text */
   --text-primary: var(--neutral-0);
-  --text-secondary: var(--neutral-50);
+  --text-secondary: var(--neutral-200);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-900);
   --bg-secondary: var(--neutral-800);
   --main-bg: url("/images/main-bg-dark.png");
+  --overlay: rgba(0, 0, 0, 0.265);
 
   /* Borders & dividers */
   --border: var(--neutral-700);
@@ -76,7 +78,7 @@ h2 {
   font-weight: 700;
 }
 p {
-  font-size: 1rem;
+  font-size: 1.125rem;
   color: var(--text-secondary);
 }
 /* Common classes */
@@ -99,6 +101,18 @@ p {
   border-radius: 0.75rem;
   box-shadow: inset 0 0 1rem 0.5rem var(--glass-inset);
 }
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay);
+  backdrop-filter: blur(5px) saturate(150%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 button {
   cursor: pointer;
 }

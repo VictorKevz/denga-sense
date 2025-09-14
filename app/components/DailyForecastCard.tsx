@@ -7,7 +7,6 @@ interface DailyForecastProps {
 }
 export const DailyForecastCard = ({ data }: DailyForecastProps) => {
   const { date, weatherCode, tempMax, tempMin } = data;
-  console.log("WeatherCode:", weatherCode);
   return (
     <div className="glass px-2.5 py-4  flex flex-col items-center justify-between">
       <p className="text-[var(--text-secondary)]">{formatDayOfWeek(date)}</p>
@@ -15,9 +14,9 @@ export const DailyForecastCard = ({ data }: DailyForecastProps) => {
         <WeatherIcon code={weatherCode!} />
       </div>
 
-      <div className="flex items-center justify-between gap-4!">
-        <p className="text-sm!">{tempMax}</p>
-        <p className="text-sm!">{tempMin}</p>
+      <div className="w-full flex items-center justify-between gap-4!">
+        <p className="">{Math.round(tempMax)}</p>
+        <p className="">{Math.floor(tempMin)}</p>
       </div>
     </div>
   );
