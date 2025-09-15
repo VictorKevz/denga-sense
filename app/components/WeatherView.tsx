@@ -5,16 +5,23 @@ import {
   getDailyForecast,
   getHourlyForecast,
 } from "../lib/weather";
-import { MetricType, WeatherViewProps } from "../types/weather";
+import { WeatherViewProps } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
-import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import { MetricCard } from "./MetricCard";
 import { DailyForecastCard } from "./DailyForecastCard";
+import { formatPrecip, formatTemp, formatWind } from "../utils/formatters";
+import { MetricCardProps, UnitsState } from "../types/units";
+import { HourlyForecastCard } from "./HourlyForecastCard";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
   const [weatherDaily, setWeatherDaily] = useState(daily);
   const [weatherHourly, setWeatherHourly] = useState(hourly);
+  const [units, setUnits] = useState<UnitsState>({
+    temperature: "°C",
+    windspeed: "km/h",
+    precipitation: "mm",
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -33,7 +40,6 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
       );
       const geoData = await geoRes.json();
-      console.log("Geo Data:", geoData);
       const city = geoData.city;
       const country = geoData.countryName;
 
@@ -47,27 +53,31 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
       });
       setWeatherDaily(dailyData);
       setWeatherHourly(hourlyData);
+      console.log("Hourly Data:", hourlyData);
     });
   }, []);
 
-  // temporary metrics data
-  const metricData: MetricType[] = [
+  const metricCards: MetricCardProps[] = [
     {
-      label: "Feels Like",
-      value: `${weatherCurrent.feelsLike}°`,
-    },
-    {
-      label: "Humidity",
-      value: `${weatherCurrent.humidity}%`,
+      label: "Temperature",
+      value: `${formatTemp(weatherCurrent.temp, units.temperature)}${
+        units.temperature
+      }`,
     },
     {
       label: "Wind",
-      value: `${weatherCurrent.windspeed} km/h`,
+      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)} ${
+        units.windspeed
+      }`,
     },
     {
       label: "Precipitation",
-      value: `${weatherCurrent.precipitation} mm`,
+      value: `${formatPrecip(
+        weatherCurrent.precipitation!,
+        units.precipitation
+      )} ${units.precipitation}`,
     },
+    { label: "Humidity", value: `${weatherCurrent.humidity ?? 0}%` },
   ];
   return (
     <section className="w-full center flex-col!">
@@ -75,7 +85,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         <div className="w-full lg:col-span-2">
           <WeatherOverviewCard data={weatherCurrent} />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-            {metricData.map((metric) => (
+            {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} />
             ))}
           </div>
@@ -91,14 +101,22 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
           </div>
         </div>
 
-        <div className="glass ">Hourly forecast card here</div>
+        <article className="glass w-full p-6">
+          <header className="w-full flex items-center justify-between">
+            <h3>Hourly forecast</h3>
+            <div>Tuesday</div>
+          </header>
+          <ul className="w-full flex flex-col gap-4 mt-4">
+            {weatherHourly.slice(0, 7).map((hour) => (
+              <HourlyForecastCard key={hour.time} data={hour} units={units} />
+            ))}
+          </ul>
+        </article>
       </div>
-      <article className="center bg-[var(--primary)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
+      <article className="center bg-[var(--glass-inset)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
         <div className="max-w-screen-xl w-full">
           <header className="text-center">
-            <h3 className="text-4xl font-bold text-white!">
-              AI-Powered Insights
-            </h3>
+            <h3 className="text-4xl font-bold">AI-Powered Insights</h3>
           </header>
         </div>
       </article>

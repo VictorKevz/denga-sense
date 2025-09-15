@@ -10,7 +10,6 @@ export async function getWeather(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  console.log("Weather Data", data);
   return {
     latitude: data.latitude,
     longitude: data.longitude,
@@ -39,16 +38,22 @@ export async function getHourlyForecast(
   latitude = FALLBACK.latitude,
   longitude = FALLBACK.longitude
 ): Promise<ForecastHour[]> {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation,windspeed_10m,relative_humidity_2m`;
+  const today = new Date().toISOString().split("T")[0];
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation,windspeed_10m,relative_humidity_2m,weathercode&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm&start_date=${today}&end_date=${today}&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
+  console.log("Hourly Data", data.hourly);
+  const currentHour = new Date().getHours();
 
-  return data.hourly.time.map((time: string, idx: number) => ({
-    time,
-    temp: data.hourly.temperature_2m[idx],
-    windspeed: data.hourly.windspeed_10m[idx],
-    precipitation: data.hourly.precipitation[idx],
-    feelsLike: data.hourly.apparent_temperature[idx],
-    humidity: data.hourly.relative_humidity_2m[idx],
-  }));
+  return data.hourly.time
+    .map((t: string, idx: number) => ({
+      time: t,
+      temp: data.hourly.temperature_2m[idx],
+      feelsLike: data.hourly.apparent_temperature[idx],
+      windspeed: data.hourly.windspeed_10m[idx],
+      precipitation: data.hourly.precipitation[idx],
+      humidity: data.hourly.relative_humidity_2m?.[idx],
+      weatherCode: data.hourly.weathercode?.[idx],
+    }))
+    .filter((h: ForecastHour) => new Date(h.time).getHours() >= currentHour);
 }

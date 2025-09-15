@@ -15,8 +15,8 @@ export const DailyForecastCard = ({ data }: DailyForecastProps) => {
       </div>
 
       <div className="w-full flex items-center justify-between gap-4!">
-        <p className="">{Math.round(tempMax)}</p>
-        <p className="">{Math.floor(tempMin)}</p>
+        <p className="">{Math.round(tempMax)}°</p>
+        <p className="">{Math.floor(tempMin)}°</p>
       </div>
     </div>
   );

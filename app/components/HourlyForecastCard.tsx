@@ -1,18 +1,25 @@
 import React from "react";
 import { WeatherIcon } from "./WeatherIcon";
-
-export const HourlyForecastCard = () => {
-  return <div>HourlyForecastCard</div>;
-};
-
-export const HourlyForecastItem = () => {
+import { ForecastHour } from "../types/weather";
+import { UnitsState } from "../types/units";
+import { formatHour, formatTemp } from "../utils/formatters";
+interface HourlyForecastProps {
+  data: ForecastHour;
+  units: UnitsState;
+}
+export const HourlyForecastCard = ({ data, units }: HourlyForecastProps) => {
   return (
-    <div className="card flex items-center justify-between bg-[var(--neutral-50)]!">
-      <div>
-        <WeatherIcon code={1} />
-        <p>3 PM</p>
+    <li className="glass w-full flex items-center justify-between rounded-lg! p-4">
+      <div className="flex items-center gap-3">
+        <WeatherIcon code={data.weatherCode!} />
+        <time
+          dateTime={data.time}
+          className="text-[var(--text-primary)] text-lg"
+        >
+          {formatHour(data.time)}
+        </time>
       </div>
-      <p>20</p>
-    </div>
+      <p className="text-base!">{formatTemp(data.temp, units.temperature)}°</p>
+    </li>
   );
 };
