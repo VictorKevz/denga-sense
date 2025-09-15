@@ -1,17 +1,24 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   getWeather,
   getDailyForecast,
   getHourlyForecast,
 } from "../lib/weather";
-import { WeatherViewProps } from "../types/weather";
+import { DayOptions, ForecastHour, WeatherViewProps } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
 import { MetricCard } from "./MetricCard";
 import { DailyForecastCard } from "./DailyForecastCard";
-import { formatPrecip, formatTemp, formatWind } from "../utils/formatters";
+import {
+  formatDayOfWeek,
+  formatPrecip,
+  formatTemp,
+  formatWind,
+} from "../utils/formatters";
 import { MetricCardProps, UnitsState } from "../types/units";
 import { HourlyForecastCard } from "./HourlyForecastCard";
+import { DropDown } from "./DropDown";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
@@ -22,6 +29,9 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     windspeed: "km/h",
     precipitation: "mm",
   });
+  const todayKey = new Date().toISOString().split("T")[0];
+  const [currentDay, setCurrentDay] = useState<string>(todayKey);
+  const [showDropDown, setShowDrop] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -57,6 +67,41 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     });
   }, []);
 
+  const groupedHourly = weatherHourly.reduce<Record<string, ForecastHour[]>>(
+    (acc, hour) => {
+      const day = hour.time.slice(0, 10);
+      if (!acc[day]) acc[day] = [];
+      acc[day].push(hour);
+      return acc;
+    },
+    {}
+  );
+
+  const today = new Date();
+  const nextWeek = new Date();
+  nextWeek.setDate(today.getDate() + 7);
+
+  const dayOptions: DayOptions[] = Object.keys(groupedHourly)
+    .filter((date) => {
+      const d = new Date(date);
+      return d >= today && d <= nextWeek;
+    })
+    .map((date) => {
+      const d = new Date(date);
+      return {
+        date,
+        label: d.toLocaleDateString("en-US", { weekday: "long" }),
+      };
+    });
+
+  const toggleDropDown = () => {
+    setShowDrop((prev) => !prev);
+  };
+
+  const updateCurrentDay = useCallback((newDay: string) => {
+    setCurrentDay(newDay);
+    toggleDropDown();
+  }, []);
   const metricCards: MetricCardProps[] = [
     {
       label: "Temperature",
@@ -101,13 +146,31 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
           </div>
         </div>
 
-        <article className="glass w-full p-6">
+        <article className="glass w-full p-6 max-h-[693px] overflow-auto">
           <header className="w-full flex items-center justify-between">
             <h3>Hourly forecast</h3>
-            <div>Tuesday</div>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={toggleDropDown}
+                className="center gap-1.5 px-4 py-2 rounded-lg text-[var(--neutral-0)] bg-[var(--primary)]"
+              >
+                {formatDayOfWeek(currentDay, "long")}
+                <span>
+                  {showDropDown ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                </span>
+              </button>
+              {showDropDown && (
+                <DropDown
+                  data={dayOptions}
+                  onUpdate={updateCurrentDay}
+                  currentDay={currentDay}
+                />
+              )}
+            </div>
           </header>
-          <ul className="w-full flex flex-col gap-4 mt-4">
-            {weatherHourly.slice(0, 7).map((hour) => (
+          <ul className="w-full flex flex-col gap-4 mt-4 h-[693px]">
+            {groupedHourly[currentDay]?.map((hour) => (
               <HourlyForecastCard key={hour.time} data={hour} units={units} />
             ))}
           </ul>

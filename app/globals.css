@@ -17,6 +17,7 @@
   --primary: hsl(212, 90%, 50%);
   --primary-dark: hsl(220, 80%, 35%);
   --accent: hsl(28, 100%, 52%);
+  --info: rgb(181, 216, 248);
 
   --glass-inset: rgba(0, 191, 255, 0.289);
   --glass-end: rgba(249, 249, 252, 0.401);
@@ -26,20 +27,20 @@
 
   /* Backgrounds */
   --bg-primary: var(--neutral-50);
-  --bg-secondary: var(--neutral-0);
+  --bg-secondary: var(--info);
   --main-bg: url("/images/main-bg-light.webp");
   --overlay: rgba(43, 39, 255, 0.3);
 
   /* Borders & dividers */
-  --border: var(--neutral-200);
+  --border: var(--neutral-50);
   --glass-border: rgba(250, 249, 249, 0.312);
 }
 
 /* Dark mode Palette */
 .dark {
   /* Neutrals */
-  --neutral-900: hsl(243, 96%, 9%);
-  --neutral-800: hsl(243, 27%, 20%);
+  --neutral-900: hsl(244, 63%, 10%);
+  --neutral-800: hsl(234, 44%, 21%);
   --neutral-700: hsl(243, 23%, 24%);
   --neutral-600: hsl(243, 23%, 30%);
   --neutral-300: hsl(240, 6%, 70%);
@@ -49,16 +50,18 @@
   --primary: hsl(233, 67%, 56%);
   --primary-dark: hsl(248, 70%, 36%);
   --accent: hsl(28, 100%, 52%);
+  --info: hsl(234, 67%, 24%);
 
   --glass-inset: rgba(0, 0, 255, 0.233);
   --glass-end: rgba(0, 0, 0, 0.241);
+
   /* Text */
   --text-primary: var(--neutral-0);
   --text-secondary: var(--neutral-200);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-900);
-  --bg-secondary: var(--neutral-800);
+  --bg-secondary: var(--info);
   --main-bg: url("/images/main-bg-dark.webp");
   --overlay: rgba(0, 0, 0, 0.265);
 

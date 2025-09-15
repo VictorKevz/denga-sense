@@ -40,21 +40,25 @@ export async function getHourlyForecast(
   latitude = FALLBACK.latitude,
   longitude = FALLBACK.longitude
 ): Promise<ForecastHour[]> {
-  const today = new Date().toISOString().split("T")[0];
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation,windspeed_10m,relative_humidity_2m,weathercode&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm&start_date=${today}&end_date=${today}&timezone=auto`;
+  const today = new Date();
+  const sixDaysLater = new Date(today);
+  sixDaysLater.setDate(today.getDate() + 6);
+
+  const start = today.toISOString().split("T")[0];
+  const end = sixDaysLater.toISOString().split("T")[0];
+
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation,windspeed_10m,relative_humidity_2m,weathercode&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm&start_date=${start}&end_date=${end}&timezone=auto`;
+
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  const currentHour = new Date().getHours();
 
-  return data.hourly.time
-    .map((t: string, idx: number) => ({
-      time: t,
-      temp: data.hourly.temperature_2m[idx],
-      feelsLike: data.hourly.apparent_temperature[idx],
-      windspeed: data.hourly.windspeed_10m[idx],
-      precipitation: data.hourly.precipitation[idx],
-      humidity: data.hourly.relative_humidity_2m?.[idx],
-      weatherCode: data.hourly.weathercode?.[idx],
-    }))
-    .filter((h: ForecastHour) => new Date(h.time).getHours() >= currentHour);
+  return data.hourly.time.map((t: string, idx: number) => ({
+    time: t,
+    temp: data.hourly.temperature_2m[idx],
+    feelsLike: data.hourly.apparent_temperature[idx],
+    windspeed: data.hourly.windspeed_10m[idx],
+    precipitation: data.hourly.precipitation[idx],
+    humidity: data.hourly.relative_humidity_2m?.[idx],
+    weatherCode: data.hourly.weathercode?.[idx],
+  }));
 }

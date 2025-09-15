@@ -10,10 +10,13 @@ export function formatFullDate(dateString: string): string {
   }).format(date);
 }
 
-export function formatDayOfWeek(dateString: string): string {
+export function formatDayOfWeek(
+  dateString: string,
+  format: "long" | "short" | "narrow" = "short"
+): string {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
+    weekday: format,
   }).format(date);
 }
 

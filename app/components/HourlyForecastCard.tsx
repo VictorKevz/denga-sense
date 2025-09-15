@@ -9,7 +9,7 @@ interface HourlyForecastProps {
 }
 export const HourlyForecastCard = ({ data, units }: HourlyForecastProps) => {
   return (
-    <li className="glass w-full flex items-center justify-between rounded-lg! p-4">
+    <li className="glass w-full flex items-center justify-between rounded-lg! px-4 h-15">
       <div className="flex items-center gap-3">
         <WeatherIcon code={data.weatherCode!} />
         <time
