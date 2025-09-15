@@ -7,7 +7,7 @@ type WeatherIconProps = {
   size?: number;
 };
 
-export function WeatherIcon({ code }: WeatherIconProps) {
+export function WeatherIcon({ code, size = 1.75 }: WeatherIconProps) {
   const info = weatherCodeMap[code];
 
   if (!info) {
@@ -15,7 +15,11 @@ export function WeatherIcon({ code }: WeatherIconProps) {
   }
 
   return (
-    <span className="text-2xl" title={info.label} aria-label={info.label}>
+    <span
+      style={{ fontSize: `${size}rem` }}
+      title={info.label}
+      aria-label={info.label}
+    >
       {info.icon}
     </span>
   );

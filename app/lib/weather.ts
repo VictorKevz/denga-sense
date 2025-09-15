@@ -10,12 +10,14 @@ export async function getWeather(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
+  console.log("Weather Data", data);
   return {
     latitude: data.latitude,
     longitude: data.longitude,
     temp: data.current_weather.temperature,
     windspeed: data.current_weather.windspeed,
     time: data.current_weather.time,
+    weatherCode: data.current_weather.weathercode,
   };
 }
 
@@ -42,7 +44,6 @@ export async function getHourlyForecast(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,apparent_temperature,precipitation,windspeed_10m,relative_humidity_2m,weathercode&temperature_unit=celsius&windspeed_unit=kmh&precipitation_unit=mm&start_date=${today}&end_date=${today}&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  console.log("Hourly Data", data.hourly);
   const currentHour = new Date().getHours();
 
   return data.hourly.time

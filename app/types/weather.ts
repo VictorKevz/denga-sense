@@ -10,6 +10,7 @@ export interface Weather {
   time?: string;
   city?: string;
   country?: string;
+  weatherCode?: number;
 }
 
 // Single day in the 7-day forecast
