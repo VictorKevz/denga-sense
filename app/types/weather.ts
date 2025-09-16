@@ -10,6 +10,7 @@ export interface Weather {
   time?: string;
   city?: string;
   country?: string;
+  weatherCode?: number;
 }
 
 // Single day in the 7-day forecast
@@ -31,12 +32,6 @@ export interface ForecastHour {
   humidity?: number;
 }
 
-// AI insights / suggestions => I will later decide on the specifics...
-export interface AIInsight {
-  type: "summary" | "clothes" | "activity";
-  text: string;
-}
-
 export type WeatherViewProps = {
   current: Weather;
   daily: ForecastDay[];
@@ -46,3 +41,7 @@ export type MetricType = {
   label: string;
   value: string;
 };
+export interface DayOptions {
+  date: string;
+  label: string;
+}

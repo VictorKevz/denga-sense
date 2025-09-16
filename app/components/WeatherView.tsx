@@ -1,20 +1,37 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   getWeather,
   getDailyForecast,
   getHourlyForecast,
 } from "../lib/weather";
-import { MetricType, WeatherViewProps } from "../types/weather";
+import { DayOptions, ForecastHour, WeatherViewProps } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
-import Loadable from "next/dist/shared/lib/loadable.shared-runtime";
 import { MetricCard } from "./MetricCard";
 import { DailyForecastCard } from "./DailyForecastCard";
+import {
+  formatDayOfWeek,
+  formatPrecip,
+  formatTemp,
+  formatWind,
+} from "../utils/formatters";
+import { MetricCardProps, UnitsState } from "../types/units";
+import { HourlyForecastCard } from "./HourlyForecastCard";
+import { DropDown } from "./DropDown";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
   const [weatherDaily, setWeatherDaily] = useState(daily);
   const [weatherHourly, setWeatherHourly] = useState(hourly);
+  const [units, setUnits] = useState<UnitsState>({
+    temperature: "°C",
+    windspeed: "km/h",
+    precipitation: "mm",
+  });
+  const todayKey = new Date().toISOString().split("T")[0];
+  const [currentDay, setCurrentDay] = useState<string>(todayKey);
+  const [showDropDown, setShowDrop] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
@@ -33,7 +50,6 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
       );
       const geoData = await geoRes.json();
-      console.log("Geo Data:", geoData);
       const city = geoData.city;
       const country = geoData.countryName;
 
@@ -47,35 +63,80 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
       });
       setWeatherDaily(dailyData);
       setWeatherHourly(hourlyData);
+      console.log("Hourly Data:", hourlyData);
     });
   }, []);
 
-  // temporary metrics data
-  const metricData: MetricType[] = [
-    {
-      label: "Feels Like",
-      value: `${weatherCurrent.feelsLike}°`,
+  const groupedHourly = weatherHourly.reduce<Record<string, ForecastHour[]>>(
+    (acc, hour) => {
+      const day = hour.time.slice(0, 10);
+      if (!acc[day]) acc[day] = [];
+      acc[day].push(hour);
+      return acc;
     },
+    {}
+  );
+
+  const currentHour = new Date().getHours();
+  const isToday = currentDay === todayKey;
+  const hoursToDisplay = groupedHourly[currentDay]?.filter((hour) => {
+    if (isToday) {
+      return new Date(hour.time).getHours() >= currentHour;
+    }
+    return true;
+  });
+
+  const apiDates = Object.keys(groupedHourly);
+  const dayOptions: DayOptions[] = apiDates.map((date) => {
+    const d = new Date(date);
+    return {
+      date,
+      label: d.toLocaleDateString("en-US", { weekday: "long" }),
+    };
+  });
+
+  const toggleDropDown = () => {
+    setShowDrop((prev) => !prev);
+  };
+
+  const updateCurrentDay = useCallback((newDay: string) => {
+    setCurrentDay(newDay);
+    toggleDropDown();
+  }, []);
+  const metricCards: MetricCardProps[] = [
     {
-      label: "Humidity",
-      value: `${weatherCurrent.humidity}%`,
+      label: "Temperature",
+      value: `${formatTemp(weatherCurrent.temp, units.temperature)}${
+        units.temperature
+      }`,
     },
     {
       label: "Wind",
-      value: `${weatherCurrent.windspeed} km/h`,
+      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)} ${
+        units.windspeed
+      }`,
     },
     {
       label: "Precipitation",
-      value: `${weatherCurrent.precipitation} mm`,
+      value: `${formatPrecip(
+        weatherCurrent.precipitation!,
+        units.precipitation
+      )} ${units.precipitation}`,
     },
+    { label: "Humidity", value: `${weatherCurrent.humidity ?? 0}%` },
   ];
+
+  const showOverflow = hoursToDisplay.length >= 7;
+
   return (
     <section className="w-full center flex-col!">
       <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 px-4 md:px-6">
+        {/* ............................................................................................ */}
+
         <div className="w-full lg:col-span-2">
           <WeatherOverviewCard data={weatherCurrent} />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-            {metricData.map((metric) => (
+            {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} />
             ))}
           </div>
@@ -91,9 +152,43 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
           </div>
         </div>
 
-        <div className="glass ">Hourly forecast card here</div>
+        {/* ............................................................................................ */}
+        <article
+          className={`glass scrollbar-thin w-full p-6 h-[660px] ${
+            showOverflow ? "overflow-y-auto" : ""
+          }`}
+        >
+          <header className="w-full flex items-center justify-between">
+            <h3>Hourly forecast</h3>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={toggleDropDown}
+                className="center gap-1.5 px-4 py-2 rounded-lg text-[var(--neutral-0)] bg-[var(--primary)]"
+              >
+                {formatDayOfWeek(currentDay, "long")}
+                <span>
+                  {showDropDown ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                </span>
+              </button>
+              {showDropDown && (
+                <DropDown
+                  data={dayOptions}
+                  onUpdate={updateCurrentDay}
+                  currentDay={currentDay}
+                />
+              )}
+            </div>
+          </header>
+          <ul className="w-full flex flex-col gap-4 mt-4 h-[693px]">
+            {hoursToDisplay?.map((hour) => (
+              <HourlyForecastCard key={hour.time} data={hour} units={units} />
+            ))}
+          </ul>
+        </article>
+        {/* ............................................................................................ */}
       </div>
-      <article className="center bg-[var(--bg-secondary)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
+      <article className="center bg-[var(--glass-inset)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
         <div className="max-w-screen-xl w-full">
           <header className="text-center">
             <h3 className="text-4xl font-bold">AI-Powered Insights</h3>
