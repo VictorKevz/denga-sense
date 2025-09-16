@@ -77,22 +77,23 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     {}
   );
 
-  const today = new Date();
-  const nextWeek = new Date();
-  nextWeek.setDate(today.getDate() + 7);
+  const currentHour = new Date().getHours();
+  const isToday = currentDay === todayKey;
+  const hoursToDisplay = groupedHourly[currentDay]?.filter((hour) => {
+    if (isToday) {
+      return new Date(hour.time).getHours() >= currentHour;
+    }
+    return true;
+  });
 
-  const dayOptions: DayOptions[] = Object.keys(groupedHourly)
-    .filter((date) => {
-      const d = new Date(date);
-      return d >= today && d <= nextWeek;
-    })
-    .map((date) => {
-      const d = new Date(date);
-      return {
-        date,
-        label: d.toLocaleDateString("en-US", { weekday: "long" }),
-      };
-    });
+  const apiDates = Object.keys(groupedHourly);
+  const dayOptions: DayOptions[] = apiDates.map((date) => {
+    const d = new Date(date);
+    return {
+      date,
+      label: d.toLocaleDateString("en-US", { weekday: "long" }),
+    };
+  });
 
   const toggleDropDown = () => {
     setShowDrop((prev) => !prev);
@@ -124,9 +125,14 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     },
     { label: "Humidity", value: `${weatherCurrent.humidity ?? 0}%` },
   ];
+
+  const showOverflow = hoursToDisplay.length >= 7;
+
   return (
     <section className="w-full center flex-col!">
       <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 px-4 md:px-6">
+        {/* ............................................................................................ */}
+
         <div className="w-full lg:col-span-2">
           <WeatherOverviewCard data={weatherCurrent} />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
@@ -146,7 +152,12 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
           </div>
         </div>
 
-        <article className="glass w-full p-6 max-h-[693px] overflow-auto">
+        {/* ............................................................................................ */}
+        <article
+          className={`glass scrollbar-thin w-full p-6 h-[660px] ${
+            showOverflow ? "overflow-y-auto" : ""
+          }`}
+        >
           <header className="w-full flex items-center justify-between">
             <h3>Hourly forecast</h3>
             <div className="relative">
@@ -170,11 +181,12 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
             </div>
           </header>
           <ul className="w-full flex flex-col gap-4 mt-4 h-[693px]">
-            {groupedHourly[currentDay]?.map((hour) => (
+            {hoursToDisplay?.map((hour) => (
               <HourlyForecastCard key={hour.time} data={hour} units={units} />
             ))}
           </ul>
         </article>
+        {/* ............................................................................................ */}
       </div>
       <article className="center bg-[var(--glass-inset)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
         <div className="max-w-screen-xl w-full">
