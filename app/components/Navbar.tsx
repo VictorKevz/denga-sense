@@ -8,7 +8,7 @@ export const Navbar = () => {
   const { resolvedTheme } = useTheme();
   if (!resolvedTheme) return null;
   return (
-    <header className="w-full flex items-center justify-between py-8 px-4 md:px-6 ">
+    <header className="max-w-screen-xl mx-auto w-full flex items-center justify-between pt-8 px-4 md:px-6 ">
       <div className="flex items-center gap-0.5">
         <img
           src={`/images/logo-${resolvedTheme}.webp`}

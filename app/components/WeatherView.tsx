@@ -19,6 +19,7 @@ import { MetricCardProps, UnitsState } from "../types/units";
 import { HourlyForecastCard } from "./HourlyForecastCard";
 import { DropDown } from "./DropDown";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { SearchBar } from "./SearchBar";
 
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
@@ -63,7 +64,6 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
       });
       setWeatherDaily(dailyData);
       setWeatherHourly(hourlyData);
-      console.log("Hourly Data:", hourlyData);
     });
   }, []);
 
@@ -129,8 +129,14 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const showOverflow = hoursToDisplay.length >= 7;
 
   return (
-    <section className="w-full center flex-col!">
-      <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 px-4 md:px-6">
+    <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-14 px-4 md:px-6 pb-8">
+      <header className="text-center">
+        <h1 className="text-5xl text-[var(--neutral-0)]">
+          How's the sky looking today?
+        </h1>
+        <SearchBar />
+      </header>
+      <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 ">
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
@@ -141,9 +147,9 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
             ))}
           </div>
           <div className="w-full mt-10">
-            <h3 className="text-xl text-[var(--text-primary)]">
+            <h2 className="text-xl text-[var(--text-primary)]">
               Daily Forecast
-            </h3>
+            </h2>
             <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
               {weatherDaily.map((day) => (
                 <DailyForecastCard key={day.date} data={day} />
@@ -188,11 +194,15 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         </article>
         {/* ............................................................................................ */}
       </div>
-      <article className="center bg-[var(--glass-inset)] w-full flex-col! mt-8 min-h-50 px-4 md:px-6">
-        <div className="max-w-screen-xl w-full">
+      <article
+        className="center bg-cover bg-no-repeat w-full flex-col! mt-8 min-h-50 px-4 md:px-6 rounded-xl"
+        style={{ backgroundImage: "url(/images/ai-bg.jpg)" }}
+      >
+        <div className="w-full">
           <header className="text-center">
             <h3 className="text-4xl font-bold">AI-Powered Insights</h3>
           </header>
+          <div></div>
         </div>
       </article>
     </section>

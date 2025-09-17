@@ -32,6 +32,17 @@ export interface ForecastHour {
   humidity?: number;
 }
 
+export interface CityResult {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  country_code: string;
+  timezone: string;
+  population?: number;
+  admin1?: string;
+}
 export type WeatherViewProps = {
   current: Weather;
   daily: ForecastDay[];
