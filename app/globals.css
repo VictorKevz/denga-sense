@@ -17,6 +17,8 @@
   --primary: hsl(212, 90%, 50%);
   --primary-dark: hsl(220, 80%, 35%);
   --accent: hsl(28, 100%, 52%);
+  --error: hsl(359, 96%, 49%);
+  --error-faded: hsla(359, 96%, 49%, 0.199);
   --info: rgb(203, 230, 252);
 
   --glass-inset: rgba(0, 191, 255, 0.289);
@@ -51,6 +53,7 @@
   --primary: hsl(233, 67%, 56%);
   --primary-dark: hsl(248, 70%, 36%);
   --accent: hsl(28, 100%, 52%);
+  --error: hsl(359, 91%, 58%);
   --info: hsl(234, 67%, 24%);
 
   --glass-inset: rgba(0, 0, 255, 0.233);

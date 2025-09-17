@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { searchCities } from "../lib/weather";
-import { CityResult } from "../types/weather";
+import { searchPlace } from "../lib/weather";
+import { PlaceResult } from "../types/weather";
 import { PulseLoader } from "react-spinners";
 import { Error, KeyboardArrowRight, Search } from "@mui/icons-material";
 
-export const SearchBar = () => {
+type FormProps = {
+  onWeatherUpdate: (lat: number, long: number) => Promise<void>;
+};
+export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
   const [query, setQuery] = useState("");
-  const [cityResults, setCityResults] = useState<CityResult[]>([]);
+  const [placeResults, setPlaceResults] = useState<PlaceResult[]>([]);
+  const [coords, setCoords] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [inputError, setInputError] = useState("");
 
   useEffect(() => {
     if (query.length < 2) {
-      setCityResults([]);
+      setPlaceResults([]);
       setLoading(false);
       return;
     }
@@ -20,17 +29,17 @@ export const SearchBar = () => {
     setLoading(true);
     const handler = setTimeout(async () => {
       try {
-        const cities: CityResult[] = await searchCities(query);
+        const cities: PlaceResult[] = await searchPlace(query);
         if (cities.length === 0) {
           setError("No results found.");
         } else {
           setError("");
         }
-        setCityResults(cities);
+        setPlaceResults(cities);
       } catch (err) {
         console.error("Error fetching cities:", err);
         setError("Something went wrong while fetching.");
-        setCityResults([]);
+        setPlaceResults([]);
       } finally {
         setLoading(false);
       }
@@ -41,14 +50,48 @@ export const SearchBar = () => {
     };
   }, [query]);
 
+  const updateCoords = (
+    latitude: number,
+    longitude: number,
+    city: string,
+    country: string
+  ) => {
+    setCoords({ latitude, longitude });
+    setQuery(`${city}, ${country}`);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
+    setInputError("");
   };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (
+      (!query && query.trim() === "") ||
+      query.length < 2 ||
+      placeResults.length === 0
+    ) {
+      setInputError("Please enter a valid place");
+      return;
+    }
+    onWeatherUpdate(coords.latitude, coords.longitude);
+    setPlaceResults([]);
+    setError("");
+    setInputError("");
+    setQuery("");
+  };
+
   return (
-    <form className="center relative w-full flex-col! md:flex-row! md:justify-between! gap-4 mt-12">
+    <form
+      onSubmit={handleSubmit}
+      className="center relative w-full flex-col! md:flex-row! md:justify-between! gap-4 mt-12"
+    >
       <label
         htmlFor="query"
-        className="glass center justify-start! w-full px-6 "
+        className={` center relative justify-start! w-full px-6 ${
+          inputError
+            ? "border border-[var(--error)]! bg-[var(--error-faded)]! rounded-xl"
+            : "glass"
+        }`}
       >
         <Search className="mr-3" />
 
@@ -61,6 +104,11 @@ export const SearchBar = () => {
           placeholder="Search for a place..."
           className="h-14 w-full text-lg text-[var(--text-primary)] placeholder:text-[var(--text-primary)]"
         />
+        {inputError && (
+          <span className="absolute top-full mt-1 left-4 text-[var(--error)]">
+            {inputError}
+          </span>
+        )}
       </label>
 
       <button
@@ -85,12 +133,20 @@ export const SearchBar = () => {
               <p className="text-xl! my-2">{error}</p>
             </div>
           )}
-          {!loading && cityResults.length > 0 && (
+          {!loading && placeResults.length > 0 && (
             <ul className="w-full flex flex-col gap-3">
-              {cityResults.map((city) => (
+              {placeResults.map((city) => (
                 <li key={city.id} className="w-full">
                   <button
                     type="button"
+                    onClick={() =>
+                      updateCoords(
+                        city.latitude,
+                        city.longitude,
+                        city.name,
+                        city.country!
+                      )
+                    }
                     className="center w-full justify-between! border border-[var(--border)] px-3 py-1 rounded-sm hover:border-transparent hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]"
                   >
                     {city.name}, {city.country}{" "}

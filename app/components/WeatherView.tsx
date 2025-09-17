@@ -35,35 +35,40 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [showDropDown, setShowDrop] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  async function updateWeatherData(latitude: number, longitude: number) {
+    const [currentData, dailyData, hourlyData] = await Promise.all([
+      getWeather(latitude, longitude),
+      getDailyForecast(latitude, longitude),
+      getHourlyForecast(latitude, longitude),
+    ]);
+
+    const geoRes = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
+    );
+    const geoData = await geoRes.json();
+    const city = geoData.city;
+    const country = geoData.countryName;
+
+    setWeatherCurrent({
+      ...currentData,
+      city,
+      country,
+      precipitation: hourlyData[0]?.precipitation,
+      humidity: hourlyData[0]?.humidity,
+      feelsLike: hourlyData[0]?.feelsLike,
+    });
+    setWeatherDaily(dailyData);
+    setWeatherHourly(hourlyData);
+  }
+
+  // Inside your component
   useEffect(() => {
-    // Inside this useEffect I am detecting the user's geo coordinates,
-    // I am using these coordinates to fetch the city, and country details using BigDataCloud API
     if (!navigator.geolocation) return;
 
-    navigator.geolocation.getCurrentPosition(async (pos) => {
+    navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
-      const [currentData, dailyData, hourlyData] = await Promise.all([
-        getWeather(latitude, longitude),
-        getDailyForecast(latitude, longitude),
-        getHourlyForecast(latitude, longitude),
-      ]);
-      const geoRes = await fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
-      );
-      const geoData = await geoRes.json();
-      const city = geoData.city;
-      const country = geoData.countryName;
-
-      setWeatherCurrent({
-        ...currentData,
-        city,
-        country,
-        precipitation: hourlyData[0]?.precipitation,
-        humidity: hourlyData[0]?.humidity,
-        feelsLike: hourly[0]?.feelsLike,
-      });
-      setWeatherDaily(dailyData);
-      setWeatherHourly(hourlyData);
+      updateWeatherData(latitude, longitude);
     });
   }, []);
 
@@ -134,7 +139,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         <h1 className="text-5xl text-[var(--neutral-0)]">
           How's the sky looking today?
         </h1>
-        <SearchBar />
+        <SearchBar onWeatherUpdate={updateWeatherData} />
       </header>
       <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 ">
         {/* ............................................................................................ */}

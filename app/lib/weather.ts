@@ -63,7 +63,7 @@ export async function getHourlyForecast(
   }));
 }
 
-export async function searchCities(query: string) {
+export async function searchPlace(query: string) {
   const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
     query
   )}&count=5&language=en&format=json`;
