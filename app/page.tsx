@@ -17,15 +17,15 @@ export default async function Home() {
           <Image
             src={"/images/logo-dark.webp"}
             alt="DengaSense's logo"
-            width={100}
-            height={100}
+            width={80}
+            height={80}
           />
         </figure>
         <h1 className="text-4xl ">DengaSense</h1>
         <p>AI-powered Weather App</p>
         <Link
-          href={"/dashboard/home"}
-          className="center h-12 w-full mt-12 px-4 bg-[var(--primary)] rounded-xl font-semibold border border-transparent hover:border-[var(--primary)] hover:bg-transparent"
+          href={"/dashboard/weather"}
+          className="center h-12 w-full mt-12 px-4 bg-[var(--primary)] text-[var(--neutral-0)] rounded-xl font-semibold border border-transparent hover:border-[var(--primary)] hover:bg-transparent hover:text-[var(--text-primary)]"
         >
           Get started
         </Link>

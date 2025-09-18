@@ -49,21 +49,21 @@ export const Navbar = () => {
 const navTabs = [
   {
     id: "1",
-    url: "/dashboard/home",
-    text: "Home",
+    url: "/dashboard/weather",
+    text: "Weather",
   },
   {
-    id: "4",
+    id: "2",
     url: "/dashboard/ai",
     text: "AI Insights",
   },
   {
-    id: "2",
-    url: "/dashboard/favorites",
-    text: "Favorites",
+    id: "3",
+    url: "/dashboard/places",
+    text: "Places",
   },
   {
-    id: "3",
+    id: "4",
     url: "/dashboard/settings",
     text: "Settings",
   },
