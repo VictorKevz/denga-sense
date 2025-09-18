@@ -83,7 +83,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="center relative w-full flex-col! md:flex-row! md:justify-between! gap-4 mt-12"
+      className="center relative w-full flex-col! md:flex-row! md:justify-between! gap-4 mt-12 z-5"
     >
       <label
         htmlFor="query"
@@ -101,6 +101,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
           name="query"
           value={query}
           onChange={handleChange}
+          autoComplete="off"
           placeholder="Search for a place..."
           className="h-14 w-full text-lg text-[var(--text-primary)] placeholder:text-[var(--text-primary)]"
         />
@@ -134,7 +135,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
             </div>
           )}
           {!loading && placeResults.length > 0 && (
-            <ul className="w-full flex flex-col gap-3">
+            <ul className="w-full flex flex-col gap-3 ">
               {placeResults.map((city) => (
                 <li key={city.id} className="w-full">
                   <button

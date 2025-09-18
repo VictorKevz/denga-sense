@@ -20,7 +20,7 @@ export const Navbar = () => {
         </span>
       </div>
 
-      <nav className="glass max-w-sm w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
+      <nav className="glass max-w-[30rem] w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
         {navTabs.map((tab) => {
           const isActive = tab.url === currentUrl;
           return (
@@ -51,6 +51,11 @@ const navTabs = [
     id: "1",
     url: "/dashboard/home",
     text: "Home",
+  },
+  {
+    id: "4",
+    url: "/dashboard/ai",
+    text: "AI Insights",
   },
   {
     id: "2",
