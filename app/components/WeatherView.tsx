@@ -37,32 +37,43 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [error, setError] = useState<string | null>(null);
 
   async function updateWeatherData(latitude: number, longitude: number) {
-    const [currentData, dailyData, hourlyData] = await Promise.all([
-      getWeather(latitude, longitude),
-      getDailyForecast(latitude, longitude),
-      getHourlyForecast(latitude, longitude),
-    ]);
+    try {
+      setLoading(true);
+      setError(null);
 
-    const geoRes = await fetch(
-      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
-    );
-    const geoData = await geoRes.json();
-    const city = geoData.city;
-    const country = geoData.countryName;
+      const [currentData, dailyData, hourlyData] = await Promise.all([
+        getWeather(latitude, longitude),
+        getDailyForecast(latitude, longitude),
+        getHourlyForecast(latitude, longitude),
+      ]);
 
-    setWeatherCurrent({
-      ...currentData,
-      city,
-      country,
-      precipitation: hourlyData[0]?.precipitation,
-      humidity: hourlyData[0]?.humidity,
-      feelsLike: hourlyData[0]?.feelsLike,
-    });
-    setWeatherDaily(dailyData);
-    setWeatherHourly(hourlyData);
+      const geoRes = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
+      );
+      if (!geoRes.ok) throw new Error("Failed to fetch location details");
+
+      const geoData = await geoRes.json();
+      const city = geoData.city;
+      const country = geoData.countryName;
+
+      setWeatherCurrent({
+        ...currentData,
+        city,
+        country,
+        precipitation: hourlyData[0]?.precipitation,
+        humidity: hourlyData[0]?.humidity,
+        feelsLike: hourlyData[0]?.feelsLike,
+      });
+      setWeatherDaily(dailyData);
+      setWeatherHourly(hourlyData);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load weather data.");
+    } finally {
+      setLoading(false);
+    }
   }
 
-  // Inside your component
   useEffect(() => {
     if (!navigator.geolocation) return;
 
@@ -141,14 +152,14 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         </h1>
         <SearchBar onWeatherUpdate={updateWeatherData} />
       </header>
-      <div className="w-full max-w-screen-xl grid md:grid-cols-2 lg:grid-cols-3 mt-10 gap-8 ">
+      <div className="w-full max-w-screen-xl grid lg:grid-cols-2 xl:grid-cols-3 mt-10 gap-8 ">
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
-          <WeatherOverviewCard data={weatherCurrent} />
+          <WeatherOverviewCard data={weatherCurrent} loading={loading} />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {metricCards.map((metric) => (
-              <MetricCard key={metric.label} data={metric} />
+              <MetricCard key={metric.label} data={metric} loading={loading} />
             ))}
           </div>
           <div className="w-full mt-10">
@@ -157,7 +168,11 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
             </h2>
             <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
               {weatherDaily.map((day) => (
-                <DailyForecastCard key={day.date} data={day} />
+                <DailyForecastCard
+                  key={day.date}
+                  data={day}
+                  loading={loading}
+                />
               ))}
             </div>
           </div>
@@ -165,17 +180,19 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
 
         {/* ............................................................................................ */}
         <article
-          className={`glass scrollbar-thin w-full p-6 h-[660px] ${
+          className={`glass scrollbar-thin w-full px-4 py-6 h-[660px] ${
             showOverflow ? "overflow-y-auto" : ""
           }`}
         >
           <header className="w-full flex items-center justify-between">
-            <h3>Hourly forecast</h3>
+            <h3 className="text-[var(--text-primary)] text-base md:text-xl font-semibold">
+              Hourly forecast
+            </h3>
             <div className="relative">
               <button
                 type="button"
                 onClick={toggleDropDown}
-                className="center gap-1.5 px-4 py-2 rounded-lg text-[var(--neutral-0)] bg-[var(--primary)]"
+                className="center gap-1.5 px-2 sm:px-4 py-2 rounded-lg text-[var(--neutral-0)] bg-[var(--primary)]"
               >
                 {formatDayOfWeek(currentDay, "long")}
                 <span>
@@ -193,23 +210,17 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
           </header>
           <ul className="w-full flex flex-col gap-4 mt-4 h-[693px]">
             {hoursToDisplay?.map((hour) => (
-              <HourlyForecastCard key={hour.time} data={hour} units={units} />
+              <HourlyForecastCard
+                key={hour.time}
+                data={hour}
+                units={units}
+                loading={loading}
+              />
             ))}
           </ul>
         </article>
         {/* ............................................................................................ */}
       </div>
-      <article
-        className="center bg-cover bg-no-repeat w-full flex-col! mt-8 min-h-50 px-4 md:px-6 rounded-xl"
-        style={{ backgroundImage: "url(/images/ai-bg.jpg)" }}
-      >
-        <div className="w-full">
-          <header className="text-center">
-            <h3 className="text-4xl font-bold">AI-Powered Insights</h3>
-          </header>
-          <div></div>
-        </div>
-      </article>
     </section>
   );
 };

@@ -113,7 +113,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
 
       <button
         type="submit"
-        className="center h-14 px-6 bg-[var(--primary)] text-[var(--neutral-0)] md:w-fit rounded-xl"
+        className="center w-full h-14 px-6 bg-[var(--primary)] text-[var(--neutral-0)] md:w-fit rounded-xl"
       >
         Search
       </button>
@@ -121,7 +121,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
         <div className="inset absolute top-full left-0 w-full bg-[var(--bg-secondary)] rounded-xl mt-3.5 px-5 py-6">
           {loading && (
             <PulseLoader
-              color="var(--primary)"
+              color="var(--accent)"
               margin={2}
               size={25}
               speedMultiplier={1}
