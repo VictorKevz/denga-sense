@@ -9,7 +9,7 @@ export const Navbar = () => {
   if (!resolvedTheme) return null;
   return (
     <header className="max-w-screen-xl mx-auto w-full flex items-center justify-between pt-8 px-4 md:px-6 ">
-      <div className="flex items-center gap-0.5">
+      <Link href={"/"} className="flex items-center gap-0.5">
         <img
           src={`/images/logo-${resolvedTheme}.webp`}
           alt="Company's logo"
@@ -18,7 +18,7 @@ export const Navbar = () => {
         <span className="font-bold text-xl text-[var(--neutral-0)]">
           DengaSense
         </span>
-      </div>
+      </Link>
 
       <nav className="glass max-w-[30rem] w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
         {navTabs.map((tab) => {
