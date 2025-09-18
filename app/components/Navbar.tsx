@@ -8,7 +8,7 @@ export const Navbar = () => {
   const { resolvedTheme } = useTheme();
   if (!resolvedTheme) return null;
   return (
-    <header className="w-full flex items-center justify-between py-8 px-4 md:px-6 ">
+    <header className="max-w-screen-xl mx-auto w-full flex items-center justify-between pt-8 px-4 md:px-6 ">
       <div className="flex items-center gap-0.5">
         <img
           src={`/images/logo-${resolvedTheme}.webp`}
@@ -20,7 +20,7 @@ export const Navbar = () => {
         </span>
       </div>
 
-      <nav className="glass max-w-sm w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
+      <nav className="glass max-w-[30rem] w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
         {navTabs.map((tab) => {
           const isActive = tab.url === currentUrl;
           return (
@@ -51,6 +51,11 @@ const navTabs = [
     id: "1",
     url: "/dashboard/home",
     text: "Home",
+  },
+  {
+    id: "4",
+    url: "/dashboard/ai",
+    text: "AI Insights",
   },
   {
     id: "2",

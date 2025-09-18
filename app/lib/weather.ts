@@ -62,3 +62,13 @@ export async function getHourlyForecast(
     weatherCode: data.hourly.weathercode?.[idx],
   }));
 }
+
+export async function searchPlace(query: string) {
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+    query
+  )}&count=5&language=en&format=json`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch cities");
+  const data = await res.json();
+  return data.results || [];
+}

@@ -26,6 +26,14 @@ export function formatHour(isoTime: string): string {
     hour12: true,
   }).format(new Date(isoTime));
 }
+// export function formatTime(isoTime: string) {
+//   const date = new Date(isoTime);
+//   return date.toLocaleTimeString([], {
+//     hour: "numeric",
+//     minute: "2-digit",
+//     hour12: true,
+//   });
+// }
 export function formatTemp(value: number, unit: TemperatureUnit) {
   return unit === "°C" ? value : (value * 9) / 5 + 32;
 }

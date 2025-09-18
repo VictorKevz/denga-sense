@@ -32,6 +32,13 @@ export interface ForecastHour {
   humidity?: number;
 }
 
+export type PlaceResult = Pick<
+  Weather,
+  "latitude" | "longitude" | "country"
+> & {
+  id: number;
+  name: string;
+};
 export type WeatherViewProps = {
   current: Weather;
   daily: ForecastDay[];
