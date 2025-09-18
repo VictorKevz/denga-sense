@@ -9,7 +9,6 @@ import { formatFullDate, formatHour } from "../utils/formatters";
 import { WeatherIcon } from "./WeatherIcon";
 import { PropagateLoader } from "react-spinners";
 import { VideoBackground } from "./VideoBackground";
-import { getBackdropUtilityClass } from "@mui/material";
 import { getBackgroundClass } from "../data/backgrounds";
 interface WeatherOverviewCardProps {
   data: Weather;
