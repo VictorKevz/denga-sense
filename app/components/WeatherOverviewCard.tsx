@@ -35,11 +35,11 @@ export const WeatherOverviewCard = ({
       ) : (
         <>
           <div className="flex flex-col">
-            <h3 className="text-2xl font-bold text-[var(--neutral-0)]">
+            <h3 className="text-2xl font-bold text-[var(--text-primary)]">
               {data.city}, {data.country}
             </h3>
 
-            <time dateTime={data.time} className="text-[var(--neutral-0)]">
+            <time dateTime={data.time} className="text-[var(--text-secondary)]">
               {formatFullDate(data.time!)}
             </time>
             <time
@@ -53,8 +53,8 @@ export const WeatherOverviewCard = ({
             <figure className="mt-3">
               <WeatherIcon code={data.weatherCode!} size={2.5} />
             </figure>
-            <span className="text-7xl text-[var(--neutral-0)] font-semibold italic">
-              {data.temp}°
+            <span className="text-7xl text-[var(--text-primary)] font-semibold italic">
+              {Math.round(data.temp)}°
             </span>
           </div>
         </>

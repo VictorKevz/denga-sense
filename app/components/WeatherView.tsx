@@ -28,7 +28,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [units, setUnits] = useState<UnitsState>({
     temperature: "°C",
     windspeed: "km/h",
-    precipitation: "mm",
+    precipitation: "Millimeters",
   });
   const todayKey = new Date().toISOString().split("T")[0];
   const [currentDay, setCurrentDay] = useState<string>(todayKey);

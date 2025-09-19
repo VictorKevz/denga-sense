@@ -43,5 +43,5 @@ export function formatWind(value: number, unit: WindUnit) {
 }
 
 export function formatPrecip(value: number, unit: PrecipitationUnit) {
-  return unit === "mm" ? value : value / 25.4;
+  return unit === "Millimeters" ? value : value / 25.4;
 }
