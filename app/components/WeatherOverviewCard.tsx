@@ -23,7 +23,7 @@ export const WeatherOverviewCard = ({
 
   const bgUrl = getBackgroundClass(data.weatherCode!, isDay);
   return (
-    <div className="w-full glass relative min-h-[17rem] flex flex-col md:flex-row items-center justify-between gap-4 px-5 py-10.5 sm:py-20 rounded-3xl border border-[var(--glass-border)]">
+    <div className="w-full relative min-h-[17rem] flex flex-col md:flex-row items-center justify-between gap-4 px-5 py-10.5 sm:py-20 rounded-3xl border border-[var(--glass-border)]">
       {loading ? (
         <div className="w-full center">
           <PropagateLoader
@@ -33,7 +33,7 @@ export const WeatherOverviewCard = ({
           />
         </div>
       ) : (
-        <>
+        <div className="w-full center justify-between! z-5">
           <div className="flex flex-col">
             <h3 className="text-2xl font-bold text-[var(--text-primary)]">
               {data.city}, {data.country}
@@ -57,7 +57,7 @@ export const WeatherOverviewCard = ({
               {Math.round(data.temp)}°
             </span>
           </div>
-        </>
+        </div>
       )}
       <VideoBackground src={bgUrl} />
     </div>

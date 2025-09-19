@@ -21,9 +21,8 @@
   --error-faded: hsla(359, 96%, 49%, 0.199);
   --info: rgb(203, 230, 252);
 
-  --glass-inset: rgba(0, 191, 255, 0.289);
-  --glass-end: rgba(249, 249, 252, 0.401);
-  --glass-secondary: rgb(174, 252, 193);
+  --glass-inset: rgba(198, 212, 242, 0.336);
+  --glass-end: rgba(255, 255, 255, 0.143);
   /* Text */
   --text-primary: var(--neutral-800);
   --text-secondary: var(--neutral-700);
@@ -32,11 +31,11 @@
   --bg-primary: var(--neutral-50);
   --bg-secondary: var(--info);
   --main-bg: url("/images/main-bg-light.webp");
-  --overlay: rgba(132, 130, 250, 0.403);
+  --overlay: rgba(112, 205, 255, 0.358);
 
   /* Borders & dividers */
   --border: rgb(153, 172, 177);
-  --glass-border: rgba(250, 249, 249, 0.312);
+  --glass-border: rgba(255, 255, 255, 0.618);
 }
 
 /* Dark mode Palette */
@@ -56,7 +55,7 @@
   --error: hsl(359, 91%, 58%);
   --info: hsl(234, 67%, 24%);
 
-  --glass-inset: rgba(0, 0, 255, 0.233);
+  --glass-inset: rgba(48, 4, 248, 0.128);
   --glass-end: rgba(0, 0, 0, 0.241);
   /* Text */
   --text-primary: var(--neutral-0);
@@ -66,7 +65,7 @@
   --bg-primary: var(--neutral-900);
   --bg-secondary: var(--info);
   --main-bg: url("/images/main-bg-dark.webp");
-  --overlay: rgba(3, 5, 19, 0.608);
+  --overlay: rgba(3, 5, 19, 0.038);
 
   /* Borders & dividers */
   --border: hsl(234, 44%, 38%);
@@ -104,8 +103,8 @@ input:focus {
 }
 
 .glass {
-  backdrop-filter: blur(15px) saturate(150%);
-  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   background-color: var(--glass-end);
   border: 1px solid var(--glass-border);
   border-radius: 0.75rem;
@@ -121,8 +120,8 @@ input:focus {
   width: 100%;
   height: 100%;
   background-color: var(--overlay);
-  backdrop-filter: blur(5px) saturate(150%);
-  -webkit-backdrop-filter: blur(2px) saturate(150%);
+  /* backdrop-filter: blur(120%);
+  -webkit-backdrop-filter: blur(35px); */
   pointer-events: none;
   z-index: -1;
 }

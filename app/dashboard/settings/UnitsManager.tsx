@@ -33,7 +33,9 @@ export const UnitsManager = () => {
       {unitsData.map((unit) => {
         return (
           <div key={unit.id} className="w-full">
-            <h2>{unit.heading}</h2>
+            <h2 className="text-[var(--text-secondary)] text-xl my-1">
+              {unit.heading}
+            </h2>
             <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-lg px-1 py-0.5">
               {unit.values.map((value) => {
                 const isActive = units[unit.id] === value;

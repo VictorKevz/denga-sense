@@ -5,7 +5,7 @@ interface VideoBackgroundProps {
 }
 export const VideoBackground = ({ src }: VideoBackgroundProps) => {
   return (
-    <div className="absolute inset-0 overflow-hidden  rounded-xl -z-1">
+    <div className="absolute inset-0 overflow-hidden  rounded-3xl z-1">
       <video
         className="w-full h-full object-cover"
         src={src}
