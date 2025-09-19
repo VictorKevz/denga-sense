@@ -15,27 +15,26 @@ import {
   formatTemp,
   formatWind,
 } from "../utils/formatters";
-import { MetricCardProps, UnitsState } from "../types/units";
 import { HourlyForecastCard } from "./HourlyForecastCard";
 import { DropDown } from "./DropDown";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { SearchBar } from "./SearchBar";
-
+import { useSettings } from "../context/SettingsContext";
+export interface MetricCardProps {
+  label: string;
+  value: string;
+}
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
   const [weatherDaily, setWeatherDaily] = useState(daily);
   const [weatherHourly, setWeatherHourly] = useState(hourly);
-  const [units, setUnits] = useState<UnitsState>({
-    temperature: "°C",
-    windspeed: "km/h",
-    precipitation: "Millimeters",
-  });
+
   const todayKey = new Date().toISOString().split("T")[0];
   const [currentDay, setCurrentDay] = useState<string>(todayKey);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const { units } = useSettings();
   async function updateWeatherData(latitude: number, longitude: number) {
     try {
       setLoading(true);
@@ -119,25 +118,22 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     setCurrentDay(newDay);
     toggleDropDown();
   }, []);
+
   const metricCards: MetricCardProps[] = [
     {
       label: "Temperature",
-      value: `${formatTemp(weatherCurrent.temp, units.temperature)}${
-        units.temperature
-      }`,
+      value: formatTemp(weatherCurrent.temp, units.temperature),
     },
     {
       label: "Wind",
-      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)} ${
-        units.windspeed
-      }`,
+      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)}`,
     },
     {
       label: "Precipitation",
       value: `${formatPrecip(
         weatherCurrent.precipitation!,
         units.precipitation
-      )} ${units.precipitation}`,
+      )}`,
     },
     { label: "Humidity", value: `${weatherCurrent.humidity ?? 0}%` },
   ];
@@ -213,7 +209,6 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
               <HourlyForecastCard
                 key={hour.time}
                 data={hour}
-                units={units}
                 loading={loading}
               />
             ))}

@@ -1,4 +1,8 @@
-import { PrecipitationUnit, TemperatureUnit, WindUnit } from "../types/units";
+import {
+  PrecipitationUnit,
+  TemperatureUnit,
+  WindUnit,
+} from "../types/settings";
 
 export function formatFullDate(dateString: string): string {
   const date = new Date(dateString);
@@ -35,13 +39,22 @@ export function formatHour(isoTime: string): string {
 //   });
 // }
 export function formatTemp(value: number, unit: TemperatureUnit) {
-  return unit === "°C" ? value : (value * 9) / 5 + 32;
+  const answer =
+    unit === "Celcius" ? Math.round(value) : Math.round((value * 9) / 5 + 32);
+
+  return `${answer}°`;
 }
 
 export function formatWind(value: number, unit: WindUnit) {
-  return unit === "km/h" ? value : value * 0.621371;
+  const answer =
+    unit === "km/h" ? Math.round(value) : Math.round(value * 0.621371);
+  const currentUnit = unit === "km/h" ? "km/h" : "mph";
+
+  return `${answer} ${currentUnit}`;
 }
 
 export function formatPrecip(value: number, unit: PrecipitationUnit) {
-  return unit === "Millimeters" ? value : value / 25.4;
+  const answer = unit === "Millimeters" ? value : value / 25.4;
+  const currentUnit = unit === "Millimeters" ? "mm" : "in";
+  return `${answer} ${currentUnit}`;
 }

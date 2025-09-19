@@ -15,7 +15,7 @@ export default function DashboardLayout({
         <Navbar />
         <div className="w-full">{children}</div>
       </SettingsProvider>
-      <div className="overlay backdrop-blur-[0.25rem]"></div>
+      <div className="overlay backdrop-blur-[5px] backdrop-saturate-110"></div>
     </div>
   );
 }

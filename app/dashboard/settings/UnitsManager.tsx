@@ -29,18 +29,19 @@ export const UnitsManager = () => {
     },
   ];
   return (
-    <article className="glass center max-w-2xl w-full flex-col! gap-6 px-4 py-8">
+    <article className="glass center max-w-2xl w-full flex-col! gap-7 px-4 py-8">
       {unitsData.map((unit) => {
         return (
           <div key={unit.id} className="w-full">
-            <h2 className="text-[var(--text-secondary)] text-xl my-1">
+            <h2 className="text-[var(--text-secondary)] text-xl my-1.5">
               {unit.heading}
             </h2>
-            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-lg px-1 py-0.5">
+            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-lg px-0.5 py-0.5">
               {unit.values.map((value) => {
                 const isActive = units[unit.id] === value;
                 return (
                   <li
+                    key={value}
                     className={`w-full center ${
                       isActive
                         ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-md"

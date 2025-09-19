@@ -5,11 +5,12 @@
 
 import React from "react";
 import { Weather } from "../types/weather";
-import { formatFullDate, formatHour } from "../utils/formatters";
+import { formatFullDate, formatHour, formatTemp } from "../utils/formatters";
 import { WeatherIcon } from "./WeatherIcon";
 import { PropagateLoader } from "react-spinners";
 import { VideoBackground } from "./VideoBackground";
 import { getBackgroundClass } from "../data/backgrounds";
+import { useSettings } from "../context/SettingsContext";
 interface WeatherOverviewCardProps {
   data: Weather;
   loading: boolean;
@@ -18,6 +19,7 @@ export const WeatherOverviewCard = ({
   data,
   loading,
 }: WeatherOverviewCardProps) => {
+  const { units } = useSettings();
   const localHour = new Date(data.time!).getHours();
   const isDay = localHour >= 6 && localHour < 18;
 
@@ -54,7 +56,7 @@ export const WeatherOverviewCard = ({
               <WeatherIcon code={data.weatherCode!} size={2.5} />
             </figure>
             <span className="text-7xl text-[var(--text-primary)] font-semibold italic">
-              {Math.round(data.temp)}°
+              {formatTemp(data.temp!, units.temperature)}
             </span>
           </div>
         </div>
