@@ -30,7 +30,7 @@ export default function DashboardLayout({
             </span>
           </Link>
         </header>
-        <div className="w-full center fixed bottom-4 px-4">
+        <div className="w-full center fixed bottom-4 px-4 z-20">
           <Navbar />
         </div>
 
