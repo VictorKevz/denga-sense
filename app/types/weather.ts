@@ -1,5 +1,6 @@
 // Current weather for a location
 export interface Weather {
+  id: string;
   latitude: number;
   longitude: number;
   temp: number;
@@ -12,7 +13,20 @@ export interface Weather {
   country?: string;
   weatherCode?: number;
 }
-
+export const EmptyPlace: Weather = {
+  id: "",
+  latitude: 0,
+  longitude: 0,
+  temp: 0,
+  feelsLike: 0,
+  windspeed: 0,
+  humidity: 0,
+  precipitation: 0,
+  time: "",
+  city: "",
+  country: "",
+  weatherCode: 0,
+};
 // Single day in the 7-day forecast
 export interface ForecastDay {
   date: string;

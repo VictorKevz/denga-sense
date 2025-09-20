@@ -1,10 +1,5 @@
-// WeatherOverviewCard
-// A presentational (dumb) component that only renders the props it's given.
-// Displays high-level weather info like city, country, date, and temperature.
-// Keeps no internal state, reusable across views.
-
-import React from "react";
-import { Weather } from "../types/weather";
+import React, { useState } from "react";
+import { EmptyPlace, Weather } from "../types/weather";
 import { formatFullDate, formatHour, formatTemp } from "../utils/formatters";
 import { WeatherIcon } from "./WeatherIcon";
 import { PropagateLoader } from "react-spinners";
@@ -12,7 +7,7 @@ import { VideoBackground } from "./VideoBackground";
 import { getBackgroundClass } from "../data/backgrounds";
 import { useSettings } from "../context/SettingsContext";
 import { weatherCodeMap } from "../data/weatherIcons";
-import { BookmarkAdd, Navigation } from "@mui/icons-material";
+import { Bookmark, BookmarkAdd, Navigation } from "@mui/icons-material";
 interface WeatherOverviewCardProps {
   data: Weather;
   loading: boolean;
@@ -21,13 +16,24 @@ export const WeatherOverviewCard = ({
   data,
   loading,
 }: WeatherOverviewCardProps) => {
+  const [places, setPlaces] = useState<Weather[]>([]);
+
   const { units, localization } = useSettings();
   const localHour = new Date(data.time!).getHours();
   const isDay = localHour >= 6 && localHour < 18;
 
   const bgUrl = getBackgroundClass(data.weatherCode!, isDay);
   const info = weatherCodeMap[data.weatherCode!];
-
+  const updatePlace = (newPlace: Weather) => {
+    setPlaces((prev) => {
+      const isSaved = prev.some((p: Weather) => p.id === newPlace.id);
+      if (isSaved) {
+        return prev.filter((p) => p.id !== newPlace.id);
+      }
+      return [...prev, newPlace];
+    });
+  };
+  const isSaved = places.some((p) => p.id === data.id);
   return (
     <div className="w-full relative min-h-[17rem] center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]">
       {loading && (
@@ -54,9 +60,12 @@ export const WeatherOverviewCard = ({
         <div className="flex flex-col sm:items-end">
           <button
             type="button"
-            className="glass inset w-12 h-12 rounded-full! backdrop-blur-2xl! mb-4"
+            onClick={() => updatePlace(data)}
+            className={`w-12 h-12 rounded-full! backdrop-blur-2xl! mb-4 text-[var(--neutral-0)] hover:bg-[var(--primary)]! border border-[var(--glass-border)] ${
+              isSaved ? "bg-[var(--primary)]" : "glass inset"
+            }`}
           >
-            <BookmarkAdd className="" />
+            {isSaved ? <Bookmark className="" /> : <BookmarkAdd />}
           </button>
           <div className="flex flex-col sm:items-end">
             <time

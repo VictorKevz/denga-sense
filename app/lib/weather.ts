@@ -10,8 +10,8 @@ export async function getWeather(
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
-  console.log("Weather Data", data);
   return {
+    id: `${data.latitude},${data.longitude}`,
     latitude: data.latitude,
     longitude: data.longitude,
     temp: data.current_weather.temperature,
