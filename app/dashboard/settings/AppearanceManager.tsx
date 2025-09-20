@@ -62,7 +62,7 @@ export const AppearanceManager = () => {
             <h3 className="text-[var(--text-secondary)] text-xl my-1.5">
               {obj.title}
             </h3>
-            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-lg px-0.5 py-0.5">
+            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
               {obj.options.map((option) => {
                 const isActive = appearance[obj.id] === option.value;
                 return (
@@ -70,7 +70,7 @@ export const AppearanceManager = () => {
                     key={option.label}
                     className={`w-full center ${
                       isActive
-                        ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-md"
+                        ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-full"
                         : ""
                     }`}
                   >

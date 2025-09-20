@@ -33,7 +33,7 @@ export default function DashboardLayout({
 
         <div className="w-full">{children}</div>
       </SettingsProvider>
-      <div className="overlay backdrop-blur-[5px] backdrop-saturate-110"></div>
+      <div className="overlay backdrop-blur-[15px]! backdrop-saturate-150! backdrop-brightness-90 bg-black/30!"></div>
     </div>
   );
 }

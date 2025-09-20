@@ -29,7 +29,7 @@ export const UnitsManager = () => {
     },
   ];
   return (
-    <article className="glass col-span-2 flex w-full flex-col! gap-7 px-4 pt-5 pb-8">
+    <article className="glass col-span-2 flex w-full flex-col! justify-between gap-4 px-4 pt-5 pb-8">
       {/* <h2 className="text-2xl font-bold">Units</h2> */}
       {unitsData.map((unit) => {
         return (
@@ -37,7 +37,7 @@ export const UnitsManager = () => {
             <h3 className="text-[var(--text-secondary)] text-xl my-1.5">
               {unit.heading}
             </h3>
-            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-lg px-0.5 py-0.5">
+            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
               {unit.values.map((value) => {
                 const isActive = units[unit.id] === value;
                 return (
@@ -45,7 +45,7 @@ export const UnitsManager = () => {
                     key={value}
                     className={`w-full center ${
                       isActive
-                        ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-md"
+                        ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-full"
                         : ""
                     }`}
                   >

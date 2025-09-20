@@ -5,7 +5,7 @@ export const Navbar = () => {
   const [currentUrl, setCurrentUrl] = useState<string>("/dashboard/home");
 
   return (
-    <nav className="glass backdrop-blur-[5px] shadow-blue-500/20! shadow-2xl!  max-w-[30rem] w-full h-[3.5rem] flex items-center justify-between gap-8 px-0.5 rounded-full!">
+    <nav className="glass backdrop-blur-[5px] shadow-blue-500/40! shadow-2xl!  max-w-[30rem] w-full h-[3.5rem] flex items-center justify-between gap-8 px-0.5 rounded-full!">
       {navTabs.map((tab) => {
         const isActive = tab.url === currentUrl;
         return (

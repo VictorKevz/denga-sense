@@ -13,8 +13,11 @@ import {
   AppearanceValues,
   ChildrenProps,
   defaultAppearance,
+  defaultLocalization,
   defaultUnits,
+  LocalizationState,
   SettingsContextType,
+  TimeFormat,
   UnitsKey,
   UnitsState,
   UnitValue,
@@ -42,7 +45,9 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
   const [appearance, setAppearance] = useState<AppearanceState>(() =>
     loadFromStorage<AppearanceState>("appearance", defaultAppearance)
   );
-
+  const [localization, setLocalization] = useState<LocalizationState>(() => {
+    return loadFromStorage("localization", defaultLocalization);
+  });
   const updateUnits = useCallback((key: UnitsKey, value: UnitValue) => {
     setUnits((prev) => {
       return { ...prev, [key]: value };
@@ -69,6 +74,14 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
     },
     [setTheme]
   );
+  const updateLocalization = useCallback(
+    (key: keyof LocalizationState, value: TimeFormat) => {
+      setLocalization((prev) => {
+        return { ...prev, [key]: value };
+      });
+    },
+    []
+  );
   useEffect(() => {
     const html = document.documentElement;
     html.classList.remove("font-sans-custom", "font-serif-custom");
@@ -81,7 +94,8 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
   useEffect(() => {
     localStorage.setItem("units", JSON.stringify(units));
     localStorage.setItem("appearance", JSON.stringify(appearance));
-  }, [units, appearance]);
+    localStorage.setItem("localization", JSON.stringify(localization));
+  }, [units, appearance, localization]);
   return (
     <SettingsContext.Provider
       value={{
@@ -89,6 +103,8 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
         onUnitUpdate: updateUnits,
         appearance,
         onAppearanceUpdate: updateAppearance,
+        localization,
+        onLocalizationUpdate: updateLocalization,
       }}
     >
       {children}

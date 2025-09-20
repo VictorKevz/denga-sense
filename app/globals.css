@@ -21,7 +21,7 @@
   --error-faded: hsla(359, 96%, 49%, 0.199);
   --info: rgb(203, 230, 252);
 
-  --glass-inset: rgba(138, 226, 250, 0.336);
+  --glass-inset: rgba(199, 238, 249, 0.183);
   --glass-end: rgba(255, 255, 255, 0.143);
   /* Text */
   --text-primary: var(--neutral-800);

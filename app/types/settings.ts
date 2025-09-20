@@ -32,11 +32,27 @@ export const defaultAppearance: AppearanceState = {
   theme: "system",
   font: "sans-serif",
 };
+// Localization..........
+export type TimeFormat = "12h" | "24h";
+
+export interface LocalizationState {
+  timeFormat: TimeFormat;
+}
+
+export const defaultLocalization: LocalizationState = {
+  timeFormat: "24h",
+};
+
 export interface SettingsContextType {
   units: UnitsState;
   onUnitUpdate: (key: UnitsKey, value: UnitValue) => void;
   appearance: AppearanceState;
   onAppearanceUpdate: (key: AppearanceKey, value: AppearanceValues) => void;
+  localization: LocalizationState;
+  onLocalizationUpdate: (
+    key: keyof LocalizationState,
+    value: TimeFormat
+  ) => void;
 }
 export interface ChildrenProps {
   children: React.ReactNode;
