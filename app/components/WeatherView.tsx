@@ -15,27 +15,26 @@ import {
   formatTemp,
   formatWind,
 } from "../utils/formatters";
-import { MetricCardProps, UnitsState } from "../types/units";
 import { HourlyForecastCard } from "./HourlyForecastCard";
 import { DropDown } from "./DropDown";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { SearchBar } from "./SearchBar";
-
+import { useSettings } from "../context/SettingsContext";
+export interface MetricCardProps {
+  label: string;
+  value: string;
+}
 export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const [weatherCurrent, setWeatherCurrent] = useState(current);
   const [weatherDaily, setWeatherDaily] = useState(daily);
   const [weatherHourly, setWeatherHourly] = useState(hourly);
-  const [units, setUnits] = useState<UnitsState>({
-    temperature: "°C",
-    windspeed: "km/h",
-    precipitation: "mm",
-  });
+
   const todayKey = new Date().toISOString().split("T")[0];
   const [currentDay, setCurrentDay] = useState<string>(todayKey);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const { units } = useSettings();
   async function updateWeatherData(latitude: number, longitude: number) {
     try {
       setLoading(true);
@@ -119,25 +118,22 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     setCurrentDay(newDay);
     toggleDropDown();
   }, []);
+
   const metricCards: MetricCardProps[] = [
     {
       label: "Temperature",
-      value: `${formatTemp(weatherCurrent.temp, units.temperature)}${
-        units.temperature
-      }`,
+      value: formatTemp(weatherCurrent.temp, units.temperature),
     },
     {
       label: "Wind",
-      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)} ${
-        units.windspeed
-      }`,
+      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)}`,
     },
     {
       label: "Precipitation",
       value: `${formatPrecip(
         weatherCurrent.precipitation!,
         units.precipitation
-      )} ${units.precipitation}`,
+      )}`,
     },
     { label: "Humidity", value: `${weatherCurrent.humidity ?? 0}%` },
   ];
@@ -145,7 +141,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const showOverflow = hoursToDisplay.length >= 7;
 
   return (
-    <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-14 px-4 md:px-6 pb-8">
+    <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]">
       <header className="text-center">
         <h1 className="text-5xl text-[var(--neutral-0)]">
           How's the sky looking today?
@@ -179,11 +175,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         </div>
 
         {/* ............................................................................................ */}
-        <article
-          className={`glass scrollbar-thin w-full px-4 py-6 h-[660px] ${
-            showOverflow ? "overflow-y-auto" : ""
-          }`}
-        >
+        <article className={`glass inset w-full px-4 py-6 h-auto  `}>
           <header className="w-full flex items-center justify-between">
             <h3 className="text-[var(--text-primary)] text-base md:text-xl font-semibold">
               Hourly forecast
@@ -208,12 +200,17 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
               )}
             </div>
           </header>
-          <ul className="w-full flex flex-col gap-4 mt-4 h-[693px]">
+          <ul
+            className={`scrollbar-thin w-full  flex flex-col gap-4 mt-4 ${
+              showOverflow
+                ? "overflow-y-auto h-[35.25rem]"
+                : "overflow-hidden h-full"
+            }`}
+          >
             {hoursToDisplay?.map((hour) => (
               <HourlyForecastCard
                 key={hour.time}
                 data={hour}
-                units={units}
                 loading={loading}
               />
             ))}
