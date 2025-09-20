@@ -25,7 +25,7 @@ export const WeatherOverviewCard = ({
 
   const bgUrl = getBackgroundClass(data.weatherCode!, isDay);
   return (
-    <div className="w-full relative min-h-[17rem] flex flex-col md:flex-row items-center justify-between gap-4 px-5 py-10.5 sm:py-20 rounded-3xl border border-[var(--glass-border)]">
+    <div className="w-full relative min-h-[17rem] flex flex-col md:flex-row items-center justify-between gap-4 px-6 py-10.5 sm:py-20 rounded-3xl border border-[var(--glass-border)]">
       {loading ? (
         <div className="w-full center">
           <PropagateLoader
@@ -35,18 +35,21 @@ export const WeatherOverviewCard = ({
           />
         </div>
       ) : (
-        <div className="w-full center justify-between! z-5">
+        <div className="w-full flex flex-col-reverse md:flex-row justify-between! z-5">
           <div className="flex flex-col">
-            <h3 className="text-2xl font-bold text-[var(--text-primary)]">
+            <h3 className="text-3xl font-bold text-[var(--neutral-0)]">
               {data.city}, {data.country}
             </h3>
 
-            <time dateTime={data.time} className="text-[var(--text-secondary)]">
+            <time
+              dateTime={data.time}
+              className="text-[var(--neutral-0)] font-bold"
+            >
               {formatFullDate(data.time!)}
             </time>
             <time
               dateTime={data.time}
-              className="text-[var(--primary)] text-3xl mt-2 font-semibold"
+              className="text-[var(--neutral-0)] text-3xl mt-2 font-semibold"
             >
               {formatHour(data.time!)}
             </time>
@@ -55,7 +58,7 @@ export const WeatherOverviewCard = ({
             <figure className="mt-3">
               <WeatherIcon code={data.weatherCode!} size={2.5} />
             </figure>
-            <span className="text-7xl text-[var(--text-primary)] font-semibold italic">
+            <span className="text-7xl text-[var(--neutral-0)] font-semibold italic">
               {formatTemp(data.temp!, units.temperature)}
             </span>
           </div>

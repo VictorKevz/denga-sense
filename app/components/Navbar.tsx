@@ -1,48 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeButton";
-import { useTheme } from "next-themes";
 export const Navbar = () => {
   const [currentUrl, setCurrentUrl] = useState<string>("/dashboard/home");
-  const { resolvedTheme } = useTheme();
-  if (!resolvedTheme) return null;
-  return (
-    <header className="max-w-screen-xl mx-auto w-full flex items-center justify-between pt-8 px-4 md:px-6 ">
-      <Link href={"/"} className="flex items-center gap-0.5">
-        <img
-          src={`/images/logo-${resolvedTheme}.webp`}
-          alt="Company's logo"
-          className="w-[4rem] h-auto"
-        />
-        <span className="font-bold text-xl text-[var(--neutral-0)]">
-          DengaSense
-        </span>
-      </Link>
 
-      <nav className="glass max-w-[30rem] w-full h-[3rem] flex items-center justify-between gap-8 px-5 ">
-        {navTabs.map((tab) => {
-          const isActive = tab.url === currentUrl;
-          return (
-            <Link
-              key={tab.id}
-              href={tab.url}
-              onClick={() => setCurrentUrl(tab.url)}
-              className={`text-[var(--text-primary)] text-lg ${
-                isActive
-                  ? "bg-[var(--primary)] text-[var(--neutral-0)]! px-3 rounded-sm"
-                  : ""
-              }`}
-            >
-              {tab.text}
-            </Link>
-          );
-        })}
-      </nav>
-      <div>
-        <ThemeToggle />
-      </div>
-    </header>
+  return (
+    <nav className="glass backdrop-blur-[5px] shadow-blue-500/20! shadow-2xl!  max-w-[30rem] w-full h-[3.5rem] flex items-center justify-between gap-8 px-0.5 rounded-full!">
+      {navTabs.map((tab) => {
+        const isActive = tab.url === currentUrl;
+        return (
+          <Link
+            key={tab.id}
+            href={tab.url}
+            onClick={() => setCurrentUrl(tab.url)}
+            className={`w-full center text-[var(--text-primary)] text-lg font-medium ${
+              isActive
+                ? " bg-[var(--primary)] text-[var(--neutral-0)]! px-4 h-[3rem] rounded-full"
+                : ""
+            }`}
+          >
+            {tab.text}
+          </Link>
+        );
+      })}
+    </nav>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client";
-import { SettingsContext, useSettings } from "@/app/context/SettingsContext";
-import { UnitsKey, UnitsState, UnitValue } from "@/app/types/settings";
+import { useSettings } from "@/app/context/SettingsContext";
+import { UnitsKey, UnitValue } from "@/app/types/settings";
 import React from "react";
 
 export const UnitsManager = () => {
@@ -29,13 +29,14 @@ export const UnitsManager = () => {
     },
   ];
   return (
-    <article className="glass center max-w-2xl w-full flex-col! gap-7 px-4 py-8">
+    <article className="glass col-span-2 flex w-full flex-col! gap-7 px-4 pt-5 pb-8">
+      {/* <h2 className="text-2xl font-bold">Units</h2> */}
       {unitsData.map((unit) => {
         return (
           <div key={unit.id} className="w-full">
-            <h2 className="text-[var(--text-secondary)] text-xl my-1.5">
+            <h3 className="text-[var(--text-secondary)] text-xl my-1.5">
               {unit.heading}
-            </h2>
+            </h3>
             <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-lg px-0.5 py-0.5">
               {unit.values.map((value) => {
                 const isActive = units[unit.id] === value;

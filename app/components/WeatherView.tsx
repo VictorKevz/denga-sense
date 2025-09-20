@@ -141,7 +141,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const showOverflow = hoursToDisplay.length >= 7;
 
   return (
-    <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-14 px-4 md:px-6 pb-8">
+    <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]">
       <header className="text-center">
         <h1 className="text-5xl text-[var(--neutral-0)]">
           How's the sky looking today?
