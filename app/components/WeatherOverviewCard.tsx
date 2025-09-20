@@ -56,7 +56,7 @@ export const WeatherOverviewCard = ({
           </div>
           <div className="flex items-center gap-8">
             <figure className="mt-3">
-              <WeatherIcon code={data.weatherCode!} size={2.5} />
+              <WeatherIcon code={data.weatherCode!} size={100} />
             </figure>
             <span className="text-7xl text-[var(--neutral-0)] font-semibold italic">
               {formatTemp(data.temp!, units.temperature)}
