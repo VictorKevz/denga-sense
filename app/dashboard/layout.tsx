@@ -11,7 +11,10 @@ export default function DashboardLayout({
   return (
     <div
       className="w-full min-h-dvh relative flex flex-col bg-center bg-cover bg-no-repeat object-cover z-10"
-      style={{ backgroundImage: "var(--main-bg)" }}
+      style={{
+        backgroundImage: "var(--main-bg)",
+        backgroundAttachment: "fixed",
+      }}
     >
       <SettingsProvider>
         <header className="center w-full mt-2">
@@ -33,7 +36,7 @@ export default function DashboardLayout({
 
         <div className="w-full">{children}</div>
       </SettingsProvider>
-      <div className="overlay backdrop-blur-[2.5px]! backdrop-saturate-150! backdrop-brightness-80 bg-black/20!"></div>
+      <div className="overlay backdrop-blur-[2.5px]! backdrop-saturate-150! backdrop-brightness-85 bg-black/30!"></div>
     </div>
   );
 }

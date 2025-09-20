@@ -11,7 +11,7 @@ export const DailyForecastCard = ({ data, loading }: DailyForecastProps) => {
   const { date, weatherCode, tempMax, tempMin } = data;
   return (
     <div
-      className={`glass w-full px-2.5 py-4  flex flex-col items-center justify-between last:col-span-3 md:last:col-span-1`}
+      className={`glass inset w-full px-2.5 py-4  flex flex-col items-center justify-between last:col-span-3 md:last:col-span-1`}
     >
       {loading ? (
         <div className="w-full center py-4">

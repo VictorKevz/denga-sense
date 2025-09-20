@@ -43,12 +43,12 @@ export const AppearanceManager = () => {
       options: [
         {
           value: "sans-serif",
-          label: "DM Sans",
+          label: "Modern",
           icon: "",
         },
         {
           value: "serif",
-          label: "EB Garamond",
+          label: "Classic",
           icon: "",
         },
       ],
@@ -57,6 +57,7 @@ export const AppearanceManager = () => {
   return (
     <article className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset">
       {appearanceData.map((obj) => {
+        const isFont = obj.id === "font";
         return (
           <div key={obj.id} className="w-full">
             <h3 className="text-[var(--text-secondary)] text-xl my-1.5">
@@ -65,6 +66,7 @@ export const AppearanceManager = () => {
             <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
               {obj.options.map((option) => {
                 const isActive = appearance[obj.id] === option.value;
+                const isModern = option.label === "Modern";
                 return (
                   <li
                     key={option.label}
@@ -72,7 +74,16 @@ export const AppearanceManager = () => {
                       isActive
                         ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-full"
                         : ""
-                    }`}
+                    } ${isFont ? "text-xl" : ""}`}
+                    style={{
+                      fontFamily: `${
+                        isFont
+                          ? isModern
+                            ? "'DM Sans', sans-serif"
+                            : "'EB Garamond',serif"
+                          : ""
+                      }`,
+                    }}
                   >
                     <button
                       type="button"
