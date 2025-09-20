@@ -29,8 +29,7 @@ export const UnitsManager = () => {
     },
   ];
   return (
-    <article className="glass col-span-2 flex w-full flex-col! justify-between gap-4 px-4 pt-5 pb-8">
-      {/* <h2 className="text-2xl font-bold">Units</h2> */}
+    <article className="glass flex w-full h-full flex-col! justify-between gap-4 px-4 pt-5 pb-8">
       {unitsData.map((unit) => {
         return (
           <div key={unit.id} className="w-full">

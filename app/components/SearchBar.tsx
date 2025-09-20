@@ -83,7 +83,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="center relative w-full flex-col! md:flex-row! md:justify-between! gap-4 mt-12 z-5"
+      className="center relative w-full flex-col! md:flex-row! md:justify-between! gap-4 mt-12 z-10"
     >
       <label
         htmlFor="query"
@@ -119,7 +119,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
         Search
       </button>
       {query && (
-        <div className="inset absolute top-full left-0 w-full bg-[var(--bg-secondary)] rounded-xl mt-3.5 px-5 py-6">
+        <div className="glass backdrop-blur-xl backdrop-saturate-150 backdrop-brightness-70 absolute top-full left-0 w-full rounded-xl mt-3.5 px-5 py-6">
           {loading && (
             <PulseLoader
               color="var(--accent)"
@@ -148,7 +148,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
                         city.country!
                       )
                     }
-                    className="center w-full justify-between! border border-[var(--border)] px-3 py-1 rounded-sm hover:border-transparent hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]"
+                    className="center w-full justify-between! border border-[var(--glass-border)] px-3 py-1 rounded-sm hover:border-transparent hover:bg-[var(--primary)] text-[var(--neutral-0)]"
                   >
                     {city.name}, {city.country}{" "}
                     <span>

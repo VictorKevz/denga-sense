@@ -19,7 +19,7 @@ export const WeatherOverviewCard = ({
   data,
   loading,
 }: WeatherOverviewCardProps) => {
-  const { units } = useSettings();
+  const { units, localization } = useSettings();
   const localHour = new Date(data.time!).getHours();
   const isDay = localHour >= 6 && localHour < 18;
 
@@ -51,7 +51,7 @@ export const WeatherOverviewCard = ({
               dateTime={data.time}
               className="text-[var(--neutral-0)] text-3xl mt-2 font-semibold"
             >
-              {formatHour(data.time!)}
+              {formatHour(data.time!, localization.timeFormat)}
             </time>
           </div>
           <div className="flex items-center gap-8">

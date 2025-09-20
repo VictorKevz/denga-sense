@@ -27,13 +27,13 @@ export default function DashboardLayout({
             </span>
           </Link>
         </header>
-        <div className="w-full center fixed bottom-4">
+        <div className="w-full center fixed bottom-4 px-4">
           <Navbar />
         </div>
 
         <div className="w-full">{children}</div>
       </SettingsProvider>
-      <div className="overlay backdrop-blur-[15px]! backdrop-saturate-150! backdrop-brightness-90 bg-black/30!"></div>
+      <div className="overlay backdrop-blur-[2.5px]! backdrop-saturate-150! backdrop-brightness-80 bg-black/20!"></div>
     </div>
   );
 }

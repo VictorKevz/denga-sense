@@ -175,11 +175,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         </div>
 
         {/* ............................................................................................ */}
-        <article
-          className={`glass scrollbar-thin w-full px-4 py-6 h-[660px] ${
-            showOverflow ? "overflow-y-auto" : ""
-          }`}
-        >
+        <article className={`glass inset w-full px-4 py-6 h-auto  `}>
           <header className="w-full flex items-center justify-between">
             <h3 className="text-[var(--text-primary)] text-base md:text-xl font-semibold">
               Hourly forecast
@@ -204,7 +200,13 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
               )}
             </div>
           </header>
-          <ul className="w-full flex flex-col gap-4 mt-4 h-[693px]">
+          <ul
+            className={`scrollbar-thin w-full  flex flex-col gap-4 mt-4 ${
+              showOverflow
+                ? "overflow-y-auto h-[35.25rem]"
+                : "overflow-hidden h-full"
+            }`}
+          >
             {hoursToDisplay?.map((hour) => (
               <HourlyForecastCard
                 key={hour.time}

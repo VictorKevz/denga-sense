@@ -9,7 +9,7 @@ interface HourlyForecastProps {
   loading: boolean;
 }
 export const HourlyForecastCard = ({ data, loading }: HourlyForecastProps) => {
-  const { units } = useSettings();
+  const { units, localization } = useSettings();
 
   return (
     <li className="glass w-full flex items-center justify-between rounded-lg! px-4 h-15">
@@ -25,7 +25,7 @@ export const HourlyForecastCard = ({ data, loading }: HourlyForecastProps) => {
               dateTime={data.time}
               className="text-[var(--text-primary)] text-lg"
             >
-              {formatHour(data.time)}
+              {formatHour(data.time, localization.timeFormat)}
             </time>
           </div>
           <p className="text-base!">

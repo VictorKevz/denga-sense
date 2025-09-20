@@ -1,6 +1,7 @@
 import {
   PrecipitationUnit,
   TemperatureUnit,
+  TimeFormat,
   WindUnit,
 } from "../types/settings";
 
@@ -24,20 +25,15 @@ export function formatDayOfWeek(
   }).format(date);
 }
 
-export function formatHour(isoTime: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    hour12: true,
-  }).format(new Date(isoTime));
+export function formatHour(isoTime: string, timeFormat: TimeFormat): string {
+  const options: Intl.DateTimeFormatOptions =
+    timeFormat === "12h"
+      ? { hour: "numeric", minute: "2-digit", hour12: true }
+      : { hour: "2-digit", minute: "2-digit", hour12: false };
+
+  return new Intl.DateTimeFormat("en-US", options).format(new Date(isoTime));
 }
-// export function formatTime(isoTime: string) {
-//   const date = new Date(isoTime);
-//   return date.toLocaleTimeString([], {
-//     hour: "numeric",
-//     minute: "2-digit",
-//     hour12: true,
-//   });
-// }
+
 export function formatTemp(value: number, unit: TemperatureUnit) {
   const answer =
     unit === "Celcius" ? Math.round(value) : Math.round((value * 9) / 5 + 32);

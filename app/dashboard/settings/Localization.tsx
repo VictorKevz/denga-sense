@@ -6,7 +6,7 @@ import React from "react";
 export const Localization = () => {
   const { localization, onLocalizationUpdate } = useSettings();
   return (
-    <div className="w-full glass px-4 py-6">
+    <div className="inset glass w-full  px-4 py-6">
       <h3 className="text-[var(--text-secondary)] text-xl mb-1.5">
         Time Format
       </h3>

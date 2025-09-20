@@ -55,7 +55,7 @@ export const AppearanceManager = () => {
     },
   ];
   return (
-    <article className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8">
+    <article className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset">
       {appearanceData.map((obj) => {
         return (
           <div key={obj.id} className="w-full">
