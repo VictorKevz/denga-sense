@@ -20,6 +20,7 @@ import { DropDown } from "./DropDown";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
+import { useWeatherData } from "../hooks/useWeatherData";
 export interface MetricCardProps {
   label: string;
   value: string;
@@ -32,55 +33,38 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const todayKey = new Date().toISOString().split("T")[0];
   const [currentDay, setCurrentDay] = useState<string>(todayKey);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
   const { units } = useSettings();
-  async function updateWeatherData(latitude: number, longitude: number) {
-    try {
-      setLoading(true);
-      setError(null);
+  const { fetchWeather, loading, error } = useWeatherData();
 
-      const [currentData, dailyData, hourlyData] = await Promise.all([
-        getWeather(latitude, longitude),
-        getDailyForecast(latitude, longitude),
-        getHourlyForecast(latitude, longitude),
-      ]);
+  const updateWeatherData = useCallback(
+    async (latitude: number, longitude: number) => {
+      const data = await fetchWeather(latitude, longitude);
+      if (!data) return;
 
-      const geoRes = await fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`
-      );
-      if (!geoRes.ok) throw new Error("Failed to fetch location details");
-
-      const geoData = await geoRes.json();
-      const city = geoData.city;
-      const country = geoData.countryName;
-
-      setWeatherCurrent({
-        ...currentData,
-        city,
-        country,
-        precipitation: hourlyData[0]?.precipitation,
-        humidity: hourlyData[0]?.humidity,
-        feelsLike: hourlyData[0]?.feelsLike,
-      });
-      setWeatherDaily(dailyData);
-      setWeatherHourly(hourlyData);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load weather data.");
-    } finally {
-      setLoading(false);
-    }
-  }
+      setWeatherCurrent(data.current);
+      setWeatherDaily(data.daily);
+      setWeatherHourly(data.hourly);
+    },
+    [fetchWeather]
+  );
 
   useEffect(() => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      updateWeatherData(60.1699, 24.9384);
+      return;
+    }
 
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const { latitude, longitude } = pos.coords;
-      updateWeatherData(latitude, longitude);
-    });
-  }, []);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        updateWeatherData(pos.coords.latitude, pos.coords.longitude);
+      },
+      () => {
+        // permission denied or error → fallback
+        updateWeatherData(60.1699, 24.9384);
+      }
+    );
+  }, [updateWeatherData]);
 
   const groupedHourly = weatherHourly.reduce<Record<string, ForecastHour[]>>(
     (acc, hour) => {
@@ -152,7 +136,11 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
-          <WeatherOverviewCard data={weatherCurrent} loading={loading} />
+          <WeatherOverviewCard
+            data={weatherCurrent}
+            loading={loading}
+            height={17}
+          />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} loading={loading} />

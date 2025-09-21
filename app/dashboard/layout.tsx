@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Navbar } from "../components/Navbar";
 import { SettingsProvider } from "../context/SettingsContext";
 import Link from "next/link";
+import { PlacesProvider } from "../context/PlacesContext";
 
 export default function DashboardLayout({
   children,
@@ -33,8 +34,9 @@ export default function DashboardLayout({
         <div className="w-full center fixed bottom-4 px-4 z-20">
           <Navbar />
         </div>
-
-        <div className="w-full">{children}</div>
+        <PlacesProvider>
+          <div className="w-full">{children}</div>
+        </PlacesProvider>
       </SettingsProvider>
       <div className="overlay backdrop-blur-[2.5px]! backdrop-saturate-150! backdrop-brightness-85 bg-black/30!"></div>
     </div>

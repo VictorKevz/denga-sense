@@ -1,3 +1,8 @@
+export type WeatherDataResult = {
+  current: Weather;
+  daily: ForecastDay[];
+  hourly: ForecastHour[];
+};
 // Current weather for a location
 export interface Weather {
   id: string;
