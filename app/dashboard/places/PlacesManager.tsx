@@ -23,10 +23,9 @@ export const PlacesManager = () => {
   }, []);
 
   return (
-    <div className="max-w-screen-xl w-full grid lg:grid-cols-5 gap-10">
-      <section className="w-full lg:col-span-2">
-        <h2 className="text-3xl sm:text-5xl">Places</h2>
-        <div className="flex flex-col gap-8">
+    <div className="max-w-screen-xl w-full mt-10">
+      <section className="w-full">
+        <div className="w-full grid xl:grid-cols-2 gap-8">
           {places.map((place) => (
             <WeatherOverviewCard
               key={place.id}
@@ -37,7 +36,6 @@ export const PlacesManager = () => {
           ))}
         </div>
       </section>
-      <section className="w-full lg:col-span-3 h-full glass"></section>
     </div>
   );
 };

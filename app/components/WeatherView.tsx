@@ -1,10 +1,5 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  getWeather,
-  getDailyForecast,
-  getHourlyForecast,
-} from "../lib/weather";
 import { DayOptions, ForecastHour, WeatherViewProps } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
 import { MetricCard } from "./MetricCard";
@@ -21,6 +16,7 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
 import { useWeatherData } from "../hooks/useWeatherData";
+import { useSearchParams } from "next/navigation";
 export interface MetricCardProps {
   label: string;
   value: string;
@@ -48,24 +44,36 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     },
     [fetchWeather]
   );
+  const searchParams = useSearchParams();
+  const lat = Number(searchParams.get("lat"));
+  const lon = Number(searchParams.get("lon"));
 
+  useEffect(() => {
+    if (lat && lon) updateWeatherData(lat, lon);
+  }, [lat, lon, updateWeatherData]);
   useEffect(() => {
     if (!navigator.geolocation) {
       updateWeatherData(60.1699, 24.9384);
       return;
     }
-
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         updateWeatherData(pos.coords.latitude, pos.coords.longitude);
       },
       () => {
-        // permission denied or error → fallback
         updateWeatherData(60.1699, 24.9384);
       }
     );
   }, [updateWeatherData]);
 
+  const toggleDropDown = () => {
+    setShowDrop((prev) => !prev);
+  };
+
+  const updateCurrentDay = useCallback((newDay: string) => {
+    setCurrentDay(newDay);
+    toggleDropDown();
+  }, []);
   const groupedHourly = weatherHourly.reduce<Record<string, ForecastHour[]>>(
     (acc, hour) => {
       const day = hour.time.slice(0, 10);
@@ -94,15 +102,6 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     };
   });
 
-  const toggleDropDown = () => {
-    setShowDrop((prev) => !prev);
-  };
-
-  const updateCurrentDay = useCallback((newDay: string) => {
-    setCurrentDay(newDay);
-    toggleDropDown();
-  }, []);
-
   const metricCards: MetricCardProps[] = [
     {
       label: "Temperature",
@@ -123,7 +122,14 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   ];
 
   const showOverflow = hoursToDisplay.length >= 7;
-
+  if (error) {
+    return (
+      <div className="center flex-col! w-full px-6">
+        <h1 className="text-4xl">An error occurred!</h1>
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]">
       <header className="text-center">

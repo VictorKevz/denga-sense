@@ -14,7 +14,7 @@ export async function getWeather(
     id: `${data.latitude},${data.longitude}`,
     latitude: data.latitude,
     longitude: data.longitude,
-    temp: data.current_weather.temperature,
+    temp: data?.current_weather?.temperature,
     windspeed: data.current_weather.windspeed,
     time: data.current_weather.time,
     weatherCode: data.current_weather.weathercode,
@@ -52,7 +52,7 @@ export async function getHourlyForecast(
   const res = await fetch(url, { cache: "no-store" });
   const data = await res.json();
 
-  return data.hourly.time.map((t: string, idx: number) => ({
+  return data?.hourly?.time?.map((t: string, idx: number) => ({
     time: t,
     temp: data.hourly.temperature_2m[idx],
     feelsLike: data.hourly.apparent_temperature[idx],

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { EmptyPlace, Weather } from "../types/weather";
+import { Weather } from "../types/weather";
 import { formatFullDate, formatHour, formatTemp } from "../utils/formatters";
 import { WeatherIcon } from "./WeatherIcon";
 import { PropagateLoader } from "react-spinners";
@@ -9,6 +8,7 @@ import { useSettings } from "../context/SettingsContext";
 import { weatherCodeMap } from "../data/weatherIcons";
 import { Bookmark, BookmarkAdd, Navigation } from "@mui/icons-material";
 import { usePlaces } from "../context/PlacesContext";
+import { usePathname, useRouter } from "next/navigation";
 interface WeatherOverviewCardProps {
   data: Weather;
   loading: boolean;
@@ -20,6 +20,7 @@ export const WeatherOverviewCard = ({
   height = 17,
 }: WeatherOverviewCardProps) => {
   const { isSaved, togglePlace } = usePlaces();
+  const router = useRouter();
 
   const { units, localization } = useSettings();
   const localHour = new Date(data.time!).getHours();
@@ -27,7 +28,14 @@ export const WeatherOverviewCard = ({
 
   const bgUrl = getBackgroundClass(data.weatherCode!, isDay);
   const info = weatherCodeMap[data.weatherCode!];
+  const pathname = usePathname();
+  const showLink = pathname === "/dashboard/places";
 
+  const handleViewClick = () => {
+    router.push(
+      `/dashboard/weather?lat=${data.latitude}&lon=${data.longitude}`
+    );
+  };
   return (
     <div
       className={`w-full relative min-h-[${height}rem] center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
@@ -81,15 +89,25 @@ export const WeatherOverviewCard = ({
               </div>
             </div>
           </header>
-
-          <div className="flex items-center gap-2 mt-4 self-start">
-            <div className="glass inset rounded-full!">
-              <WeatherIcon code={data.weatherCode!} size={100} />
-            </div>{" "}
-            <span className="text-6xl sm:text-8xl text-[var(--neutral-0)] font-semibold italic">
-              {formatTemp(data.temp!, units.temperature)}
-            </span>
-          </div>
+          <footer className="w-full flex justify-between items-baseline mt-4">
+            <div className="flex items-center gap-2  ">
+              <div className="glass inset rounded-full!">
+                <WeatherIcon code={data.weatherCode!} size={100} />
+              </div>{" "}
+              <span className="text-6xl sm:text-8xl text-[var(--neutral-0)] font-semibold italic">
+                {formatTemp(data.temp!, units.temperature)}
+              </span>
+            </div>
+            {showLink && (
+              <button
+                type="button"
+                onClick={handleViewClick}
+                className="center h-12 w-fit px-5 bg-[var(--primary)] text-[var(--neutral-0)] rounded-full"
+              >
+                View
+              </button>
+            )}
+          </footer>
         </>
       )}
 
