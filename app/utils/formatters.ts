@@ -28,8 +28,8 @@ export function formatDayOfWeek(
 export function formatHour(isoTime: string, timeFormat: TimeFormat): string {
   const options: Intl.DateTimeFormatOptions =
     timeFormat === "12h"
-      ? { hour: "numeric", minute: "2-digit", hour12: true }
-      : { hour: "2-digit", minute: "2-digit", hour12: false };
+      ? { hour: "numeric", hour12: true }
+      : { hour: "2-digit", hour12: false };
 
   return new Intl.DateTimeFormat("en-US", options).format(new Date(isoTime));
 }

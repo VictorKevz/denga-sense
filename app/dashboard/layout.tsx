@@ -18,17 +18,15 @@ export default function DashboardLayout({
       }}
     >
       <SettingsProvider>
-        <header className="center w-full mt-2">
-          <Link href={"/"} className="flex items-center -gap-0.5">
+        <header className="center w-full mt-6">
+          <Link href={"/"}>
             <Image
               src={`/images/logo-dark.webp`}
               width={70}
               height={100}
               alt="Company's logo"
+              className="glass inset rounded-full! p-1"
             />
-            <span className="font-bold text-2xl text-[var(--neutral-0)]">
-              DengaSense
-            </span>
           </Link>
         </header>
         <div className="w-full center fixed bottom-4 px-4 z-20">

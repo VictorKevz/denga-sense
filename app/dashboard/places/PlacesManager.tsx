@@ -2,6 +2,7 @@
 import { WeatherOverviewCard } from "@/app/components/WeatherOverviewCard";
 import { usePlaces } from "@/app/context/PlacesContext";
 import { useWeatherData } from "@/app/hooks/useWeatherData";
+import Image from "next/image";
 import React, { useEffect } from "react";
 
 export const PlacesManager = () => {
@@ -21,7 +22,25 @@ export const PlacesManager = () => {
       }
     });
   }, []);
-
+  if (places.length === 0) {
+    return (
+      <div className="w-full center flex-col!">
+        <Image
+          src="/images/empty-places.svg"
+          alt=""
+          width={300}
+          height={350}
+          className="bg-[var(--neutral-50)] p-5 rounded-2xl"
+        />
+        <h2 className="text-4xl text-[var(--neutral-0)] mt-8 font-semibold">
+          No Places Saved (0)
+        </h2>
+        <p className="text-[var(--neutral-200)]! mt-1">
+          Your saved places will appear here
+        </p>
+      </div>
+    );
+  }
   return (
     <div className="max-w-screen-xl w-full mt-10">
       <section className="w-full">

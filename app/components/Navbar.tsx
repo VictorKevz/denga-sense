@@ -48,16 +48,17 @@ const navTabs = [
   },
   {
     id: "2",
-    url: "/dashboard/insights",
-    text: "Insights",
-    icon: InsightsRounded,
-  },
-  {
-    id: "3",
     url: "/dashboard/places",
     text: "Places",
     icon: MapRounded,
   },
+  {
+    id: "3",
+    url: "/dashboard/insights",
+    text: "Insights",
+    icon: InsightsRounded,
+  },
+
   {
     id: "4",
     url: "/dashboard/settings",

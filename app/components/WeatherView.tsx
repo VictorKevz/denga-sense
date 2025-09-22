@@ -48,9 +48,10 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const lat = Number(searchParams.get("lat"));
   const lon = Number(searchParams.get("lon"));
 
-  useEffect(() => {
-    if (lat && lon) updateWeatherData(lat, lon);
-  }, [lat, lon, updateWeatherData]);
+  // useEffect(() => {
+  //   if (lat && lon) updateWeatherData(lat, lon);
+  // }, [lat, lon, updateWeatherData]);
+
   useEffect(() => {
     if (!navigator.geolocation) {
       updateWeatherData(60.1699, 24.9384);
@@ -124,7 +125,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const showOverflow = hoursToDisplay.length >= 7;
   if (error) {
     return (
-      <div className="center flex-col! w-full px-6">
+      <div className="center flex-col! w-full min-h-[80dvh] px-6">
         <h1 className="text-4xl">An error occurred!</h1>
         <p>{error}</p>
       </div>
