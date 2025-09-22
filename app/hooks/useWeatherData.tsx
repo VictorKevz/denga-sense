@@ -29,7 +29,7 @@ export function useWeatherData() {
         );
         if (!geoRes.ok) throw new Error("Failed to fetch location details");
         const geoData = await geoRes.json();
-
+        console.log("Country Data:", geoData);
         return {
           current: {
             ...currentData,

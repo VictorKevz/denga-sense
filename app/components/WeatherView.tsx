@@ -17,6 +17,7 @@ import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
 import { useWeatherData } from "../hooks/useWeatherData";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 export interface MetricCardProps {
   label: string;
   value: string;
@@ -128,6 +129,12 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
       <div className="center flex-col! w-full min-h-[80dvh] px-6">
         <h1 className="text-4xl">An error occurred!</h1>
         <p>{error}</p>
+        <Link
+          href={`/dashboard/weather`}
+          className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
+        >
+          Try again
+        </Link>
       </div>
     );
   }
@@ -143,11 +150,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
-          <WeatherOverviewCard
-            data={weatherCurrent}
-            loading={loading}
-            height={17}
-          />
+          <WeatherOverviewCard data={weatherCurrent} loading={loading} />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} loading={loading} />
@@ -196,7 +199,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
             </div>
           </header>
           <ul
-            className={`scrollbar-thin w-full  flex flex-col gap-4 mt-4 ${
+            className={`scrollbar-thin w-full flex flex-col gap-4 mt-4 ${
               showOverflow
                 ? "overflow-y-auto h-[35.25rem]"
                 : "overflow-hidden h-full"

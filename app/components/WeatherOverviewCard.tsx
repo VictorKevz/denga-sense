@@ -12,12 +12,10 @@ import { usePathname, useRouter } from "next/navigation";
 interface WeatherOverviewCardProps {
   data: Weather;
   loading: boolean;
-  height: number;
 }
 export const WeatherOverviewCard = ({
   data,
   loading,
-  height = 17,
 }: WeatherOverviewCardProps) => {
   const { isSaved, togglePlace } = usePlaces();
   const router = useRouter();
@@ -29,7 +27,7 @@ export const WeatherOverviewCard = ({
   const bgUrl = getBackgroundClass(data.weatherCode!, isDay);
   const info = weatherCodeMap[data.weatherCode!];
   const pathname = usePathname();
-  const showLink = pathname === "/dashboard/places";
+  const isPlaces = pathname === "/dashboard/places";
 
   const handleViewClick = () => {
     router.push(
@@ -38,7 +36,9 @@ export const WeatherOverviewCard = ({
   };
   return (
     <div
-      className={`w-full relative min-h-[${height}rem] center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
+      className={`w-full relative ${
+        isPlaces ? "min-h-fit" : "min-h-[17rem]"
+      } center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
     >
       {loading && (
         <div className="w-full center">
@@ -53,7 +53,7 @@ export const WeatherOverviewCard = ({
         <>
           <header className="w-full flex flex-col-reverse sm:flex-row items-start justify-between gap-4">
             <div className="">
-              <h3 className="text-lg sm:text-2xl font-bold text-[var(--neutral-0)]">
+              <h3 className="text-lg sm:text-xl font-bold text-[var(--neutral-0)]">
                 {data.city}, {data.country}{" "}
                 <span className="">
                   <Navigation fontSize="small" className="rotate-40 mb-2" />
@@ -63,7 +63,7 @@ export const WeatherOverviewCard = ({
                 {info.label}
               </p>
             </div>
-            <div className="flex flex-col sm:items-end">
+            <div className="flex flex-col sm:items-end min-w-max">
               <button
                 type="button"
                 onClick={() => togglePlace(data)}
@@ -92,13 +92,20 @@ export const WeatherOverviewCard = ({
           <footer className="w-full flex justify-between items-baseline mt-4">
             <div className="flex items-center gap-2  ">
               <div className="glass inset rounded-full!">
-                <WeatherIcon code={data.weatherCode!} size={100} />
+                <WeatherIcon
+                  code={data.weatherCode!}
+                  size={Number(`${isPlaces ? 50 : 80}`)}
+                />
               </div>{" "}
-              <span className="text-6xl sm:text-8xl text-[var(--neutral-0)] font-semibold italic">
+              <span
+                className={`${
+                  isPlaces ? "text-4xl sm:text-6xl" : "text-6xl sm:text-8xl"
+                } text-[var(--neutral-0)] font-semibold italic`}
+              >
                 {formatTemp(data.temp!, units.temperature)}
               </span>
             </div>
-            {showLink && (
+            {isPlaces && (
               <button
                 type="button"
                 onClick={handleViewClick}

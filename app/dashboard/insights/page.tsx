@@ -12,8 +12,8 @@ export default function Insights() {
           height={350}
           className="bg-[var(--neutral-50)] p-5 rounded-2xl"
         />
-        <h2 className="text-4xl text-[var(--neutral-0)] mt-8 font-semibold">
-          AI-Powered Weather Insights
+        <h2 className="text-4xl sm:text-6xl text-[var(--neutral-0)] mt-8 font-medium tracking-[0.5rem] uppercase">
+          Coming Soon
         </h2>
         <p className="max-w-xl w-[80%] text-[var(--neutral-200)]! mt-1 text-center">
           Smart AI insights from your local weather data help you plan better
@@ -21,7 +21,7 @@ export default function Insights() {
         </p>
         <Link
           href={`/dashboard/weather`}
-          className="center h-14 max-w-[15rem] w-full bg-[var(--primary)] text-[var(--neutral-0)] text-xl font-semibold px-4 mt-8 rounded-full"
+          className="center h-14 max-w-[15rem] w-full bg-[var(--primary)]  text-[var(--neutral-0)] text-xl font-semibold px-4 mt-8 rounded-full"
         >
           View Weather
         </Link>

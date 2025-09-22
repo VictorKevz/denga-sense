@@ -87,10 +87,10 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
     >
       <label
         htmlFor="query"
-        className={` center relative justify-start! w-full px-6 ${
+        className={` center relative justify-start! w-full px-6 shadow-2xl ${
           inputError
-            ? "border border-[var(--error)]! bg-[var(--error-faded)]! rounded-xl"
-            : "glass"
+            ? "border border-[var(--error)]! bg-[var(--error-faded)]! rounded-full!"
+            : "glass rounded-full! focus-within:bg-transparent! hover:bg-transparent!"
         }`}
       >
         <Search className="mr-3" />
@@ -114,7 +114,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
 
       <button
         type="submit"
-        className="center w-full h-14 px-6 bg-[var(--primary)] text-[var(--neutral-0)] md:w-fit rounded-xl"
+        className="center w-full h-14 px-6 bg-[var(--primary)] border border-[var(--glass-border)] text-[var(--neutral-0)] md:w-fit rounded-full hover:bg-transparent"
       >
         Search
       </button>

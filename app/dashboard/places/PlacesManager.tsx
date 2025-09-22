@@ -50,7 +50,6 @@ export const PlacesManager = () => {
               key={place.id}
               data={place}
               loading={loading}
-              height={10}
             />
           ))}
         </div>

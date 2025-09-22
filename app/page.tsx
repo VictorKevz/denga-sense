@@ -24,7 +24,7 @@ export default async function Home() {
         <p>Introducing a smart way to view weather</p>
         <Link
           href={"/dashboard/weather"}
-          className="center h-12 max-w-lg w-full mt-12 px-4 bg-[var(--primary)] text-[var(--neutral-0)] rounded-full font-semibold border border-transparent hover:border-[var(--primary)] hover:bg-transparent hover:text-[var(--text-primary)]"
+          className="center h-12 max-w-lg w-full mt-12 px-4 bg-[var(--primary)] text-[var(--neutral-0)] rounded-full font-semibold border border-[var(--glass-border)] hover:text-[var(--text-primary)] hover:bg-transparent"
         >
           Get started
         </Link>
