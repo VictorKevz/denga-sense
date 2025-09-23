@@ -63,7 +63,7 @@ export const AppearanceManager = () => {
             <h3 className="text-[var(--text-secondary)] text-xl my-1.5">
               {obj.title}
             </h3>
-            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
+            <ul className="w-full center gap-3 justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
               {obj.options.map((option) => {
                 const isActive = appearance[obj.id] === option.value;
                 const isModern = option.label === "Modern";
@@ -73,7 +73,7 @@ export const AppearanceManager = () => {
                     className={`w-full center ${
                       isActive
                         ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-full"
-                        : ""
+                        : "hover:bg-[var(--primary)] hover:text-[var(--neutral-0)] hover:rounded-full"
                     } ${isFont ? "text-xl" : ""}`}
                     style={{
                       fontFamily: `${

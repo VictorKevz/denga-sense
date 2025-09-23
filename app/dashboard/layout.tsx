@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Navbar } from "../components/Navbar";
 import { SettingsProvider } from "../context/SettingsContext";
 import Link from "next/link";
+import { PlacesProvider } from "../context/PlacesContext";
 
 export default function DashboardLayout({
   children,
@@ -17,26 +18,25 @@ export default function DashboardLayout({
       }}
     >
       <SettingsProvider>
-        <header className="center w-full mt-2">
-          <Link href={"/"} className="flex items-center -gap-0.5">
+        <header className="center w-full mt-6">
+          <Link href={"/"}>
             <Image
               src={`/images/logo-dark.webp`}
               width={70}
               height={100}
               alt="Company's logo"
+              className="glass inset rounded-full! p-1"
             />
-            <span className="font-bold text-2xl text-[var(--neutral-0)]">
-              DengaSense
-            </span>
           </Link>
         </header>
-        <div className="w-full center fixed bottom-4 px-4">
+        <div className="w-full center fixed bottom-4 px-4 z-20">
           <Navbar />
         </div>
-
-        <div className="w-full">{children}</div>
+        <PlacesProvider>
+          <div className="w-full">{children}</div>
+        </PlacesProvider>
       </SettingsProvider>
-      <div className="overlay backdrop-blur-[2.5px]! backdrop-saturate-150! backdrop-brightness-85 bg-black/30!"></div>
+      <div className="overlay backdrop-blur-[0.15rem]! backdrop-saturate-150! backdrop-brightness-85 bg-black/30!"></div>
     </div>
   );
 }

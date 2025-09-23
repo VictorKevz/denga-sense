@@ -14,7 +14,7 @@ export const VideoBackground = ({ src }: VideoBackgroundProps) => {
         muted
         playsInline
       />
-      <div className="absolute left-0 top-0 w-full h-full inset-0 bg-[var(--overlay)] backdrop-brightness-60 backdrop-saturate-150" />
+      <div className="absolute left-0 top-0 w-full h-full inset-0 bg-white/20 backdrop-blur-[0.15rem] backdrop-brightness-70! backdrop-saturate-150!" />
     </div>
   );
 };
