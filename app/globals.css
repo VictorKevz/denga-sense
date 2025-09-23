@@ -107,8 +107,6 @@ input:focus {
 }
 
 .glass {
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
   background-color: var(--glass-end);
   border: 1px solid var(--glass-border);
   border-radius: 0.75rem;
