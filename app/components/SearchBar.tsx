@@ -119,7 +119,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
         Search
       </button>
       {query && (
-        <div className="glass backdrop-blur-xl backdrop-saturate-150 backdrop-brightness-70 absolute top-full left-0 w-full rounded-xl mt-3.5 px-5 py-6">
+        <div className="glass backdrop-blur-xl backdrop-saturate-150 backdrop-brightness-80 absolute top-full left-0 w-full rounded-3xl mt-3.5 px-5 py-6">
           {loading && (
             <PulseLoader
               color="var(--accent)"
@@ -148,7 +148,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
                         city.country!
                       )
                     }
-                    className="center w-full justify-between! border border-[var(--glass-border)] px-3 py-1 rounded-sm hover:border-transparent hover:bg-[var(--primary)] text-[var(--neutral-0)]"
+                    className="center inset w-full justify-between! border border-[var(--glass-border)] px-3 py-1 rounded-full hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]"
                   >
                     {city.name}, {city.country}{" "}
                     <span>

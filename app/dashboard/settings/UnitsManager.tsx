@@ -36,22 +36,22 @@ export const UnitsManager = () => {
             <h3 className="text-[var(--text-secondary)] text-xl my-1.5">
               {unit.heading}
             </h3>
-            <ul className="w-full center justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
+            <ul className="w-full center gap-4 justify-between! border border-[var(--glass-border)] rounded-full px-0.5 py-0.5">
               {unit.values.map((value) => {
                 const isActive = units[unit.id] === value;
                 return (
                   <li
                     key={value}
-                    className={`w-full center ${
+                    className={`w-full center gap-4  ${
                       isActive
                         ? "bg-[var(--primary)] text-[var(--neutral-0)] rounded-full"
-                        : ""
+                        : "hover:bg-[var(--primary)] hover:text-[var(--neutral-0)] hover:rounded-full"
                     }`}
                   >
                     <button
                       type="button"
                       onClick={() => onUnitUpdate(unit.id, value)}
-                      className="w-full h-full py-1.5"
+                      className="w-full h-full py-1.5 "
                     >
                       {value}
                     </button>

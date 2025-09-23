@@ -175,14 +175,14 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         {/* ............................................................................................ */}
         <article className={`glass inset w-full px-4 py-6 h-auto  `}>
           <header className="w-full flex items-center justify-between">
-            <h3 className="text-[var(--text-primary)] text-base md:text-xl font-semibold">
+            <h3 className="text-[var(--text-primary)] text-base md:text-lg font-semibold">
               Hourly forecast
             </h3>
             <div className="relative">
               <button
                 type="button"
                 onClick={toggleDropDown}
-                className="center gap-1.5 px-2 sm:px-4 py-2 rounded-lg text-[var(--neutral-0)] bg-[var(--primary)]"
+                className="center h-11 gap-1.5 px-2 sm:px-4 rounded-full text-[var(--neutral-0)] bg-[var(--primary)] border border-[var(--glass-border)]"
               >
                 {formatDayOfWeek(currentDay, "long")}
                 <span>

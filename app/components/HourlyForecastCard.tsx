@@ -12,7 +12,7 @@ export const HourlyForecastCard = ({ data, loading }: HourlyForecastProps) => {
   const { units, localization } = useSettings();
 
   return (
-    <li className="glass w-full flex items-center justify-between rounded-xl! px-4 h-15">
+    <li className="glass w-full flex items-center justify-between rounded-full! px-4 h-15">
       {loading ? (
         <div className="w-full center py-4">
           <PulseLoader size={20} color="var(--accent)" />

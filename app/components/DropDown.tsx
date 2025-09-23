@@ -8,22 +8,22 @@ interface DropDownProps {
 }
 export const DropDown = ({ data, onUpdate, currentDay }: DropDownProps) => {
   return (
-    <ul className="absolute right-0 top-full mt-1 min-w-[13.5rem] w-full flex flex-col gap-3 bg-[var(--bg-secondary)] p-4 rounded-lg shadow-2xl border border-[var(--glass-border)]">
+    <ul className="glass absolute right-0 top-full mt-1 min-w-[14rem] w-full flex flex-col gap-3  px-3 py-5 rounded-3xl backdrop-blur-[0.35rem] backdrop-saturate-150 border border-[var(--glass-border)]">
       {data.map((day) => {
         const isActive = currentDay === day.date;
         return (
           <li key={day.date} className="w-full">
             <button
               type="button"
-              className={`center group w-full h-10 justify-between! px-4 rounded-sm hover:bg-[var(--primary)] hover:text-[var(--neutral-0)] hover:border-0 ${
+              className={`center group w-full h-10 justify-between! px-3 rounded-full hover:bg-[var(--primary)] hover:text-[var(--neutral-0)] hover:border-0 ${
                 isActive
-                  ? "bg-[var(--primary)] text-[var(--neutral-0)]"
-                  : "bg-[var(--bg-primary)] border border-[var(--border)]"
+                  ? "bg-[var(--primary)] text-[var(--neutral-0)] border border-[var(--glass-border)]"
+                  : "glass inset border border-[var(--border)] hover:bg-[var(--primary)]!"
               }`}
               onClick={() => onUpdate(day.date)}
             >
               {day.label}
-              <span className="group-hover:translate-x-4">
+              <span className="group-hover:translate-x-3">
                 <KeyboardArrowRight />
               </span>
             </button>

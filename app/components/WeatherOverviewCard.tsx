@@ -36,7 +36,7 @@ export const WeatherOverviewCard = ({
   };
   return (
     <div
-      className={`w-full relative ${
+      className={`w-full relative  ${
         isPlaces ? "min-h-fit" : "min-h-[17rem]"
       } center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
     >
@@ -51,7 +51,7 @@ export const WeatherOverviewCard = ({
       )}
       {!loading && data && (
         <>
-          <header className="w-full flex flex-col-reverse sm:flex-row items-start justify-between gap-4">
+          <header className="w-full flex flex-col-reverse sm:flex-row items-start justify-between gap-4 z-5">
             <div className="">
               <h3 className="text-lg sm:text-xl font-bold text-[var(--neutral-0)]">
                 {data.city}, {data.country}{" "}
@@ -89,7 +89,7 @@ export const WeatherOverviewCard = ({
               </div>
             </div>
           </header>
-          <footer className="w-full flex justify-between items-baseline mt-4">
+          <footer className="w-full flex justify-between items-baseline mt-4 z-5">
             <div className="flex items-center gap-2  ">
               <div className="glass inset rounded-full!">
                 <WeatherIcon
