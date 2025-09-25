@@ -47,8 +47,10 @@ export const WeatherProvider = ({
           });
           setSelectedPlace({ ...data.current, isSSR: false });
         }
-      } catch (err: any) {
-        setError(err?.message || "Failed to fetch weather data");
+      } catch (err: unknown) {
+        setError(
+          err instanceof Error ? err?.message : "Failed to fetch weather data"
+        );
       } finally {
         setLoading(false);
       }

@@ -41,7 +41,6 @@ export interface ForecastDay {
   tempMin: number;
   weatherCode?: number;
 }
-
 export interface ForecastHour {
   time: string;
   temp: number;

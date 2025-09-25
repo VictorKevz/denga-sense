@@ -28,8 +28,11 @@ export const WeatherView = () => {
   const { units } = useSettings();
   const { lat, long } = DefaultCoords;
 
-  const todayKey = new Date().toISOString().split("T")[0];
-  const [currentDay, setCurrentDay] = useState<string>(todayKey);
+  // Use the fetched location's local date if available, else fallback to browser's local date
+  const locationDate = weather.current.time
+    ? new Date(weather.current.time).toISOString().split("T")[0]
+    : new Date().toISOString().split("T")[0];
+  const [currentDay, setCurrentDay] = useState<string>(locationDate);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
 
   useEffect(() => {
@@ -68,12 +71,14 @@ export const WeatherView = () => {
     {}
   );
 
-  const currentHour = new Date().getHours();
-  const isToday = currentDay === todayKey;
+  const locationHour = weather.current.time
+    ? new Date(weather.current.time).getHours()
+    : new Date().getHours();
+  const isToday = currentDay === locationDate;
   const hoursToDisplay =
     groupedHourly[currentDay]?.filter((hour) => {
       if (isToday) {
-        return new Date(hour.time).getHours() >= currentHour;
+        return new Date(hour.time).getHours() >= locationHour;
       }
       return true;
     }) || [];
