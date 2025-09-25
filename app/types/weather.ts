@@ -17,7 +17,9 @@ export interface Weather {
   city?: string;
   country?: string;
   weatherCode?: number;
+  isSSR?: boolean;
 }
+
 export const EmptyPlace: Weather = {
   id: "",
   latitude: 0,
@@ -31,8 +33,8 @@ export const EmptyPlace: Weather = {
   city: "",
   country: "",
   weatherCode: 0,
+  isSSR: false,
 };
-// Single day in the 7-day forecast
 export interface ForecastDay {
   date: string;
   tempMax: number;
@@ -40,7 +42,6 @@ export interface ForecastDay {
   weatherCode?: number;
 }
 
-// Single hour in the hourly forecast
 export interface ForecastHour {
   time: string;
   temp: number;
@@ -88,6 +89,7 @@ export const DefaultWeatherState: WeatherState = {
     id: "default",
     latitude: DefaultCoords.lat,
     longitude: DefaultCoords.long,
+    isSSR: true,
   },
   daily: [],
   hourly: [],

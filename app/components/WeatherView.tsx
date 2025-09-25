@@ -1,5 +1,4 @@
 "use client";
-// ...existing code...
 import React, { useCallback, useEffect, useState } from "react";
 import { DayOptions, DefaultCoords, ForecastHour } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
@@ -34,8 +33,7 @@ export const WeatherView = () => {
   const [showDropDown, setShowDrop] = useState<boolean>(false);
 
   useEffect(() => {
-    // Only fetch if weather.current is still default
-    if (weather.current.id === "default") {
+    if (typeof window !== "undefined" && weather.current.isSSR) {
       if (!navigator.geolocation) {
         updateWeatherData(lat, long);
         return;
@@ -51,7 +49,6 @@ export const WeatherView = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const toggleDropDown = () => {
     setShowDrop((prev) => !prev);
   };

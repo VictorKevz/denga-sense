@@ -41,11 +41,11 @@ export const WeatherProvider = ({
         );
         if (data) {
           setWeather({
-            current: data.current,
+            current: { ...data.current, isSSR: false },
             daily: data.daily,
             hourly: data.hourly,
           });
-          setSelectedPlace(data.current);
+          setSelectedPlace({ ...data.current, isSSR: false });
         }
       } catch (err: any) {
         setError(err?.message || "Failed to fetch weather data");

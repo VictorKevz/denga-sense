@@ -25,6 +25,7 @@ export default async function DashboardLayout({
       city: current.city || "Oulu",
       country: current.country || "Finland",
       precipitation: current.precipitation ?? 0,
+      isSSR: true,
     },
     daily,
     hourly,
