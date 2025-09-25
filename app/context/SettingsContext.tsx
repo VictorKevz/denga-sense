@@ -19,7 +19,6 @@ import {
   LocalizationState,
   LocalizationValues,
   SettingsContextType,
-  TimeFormat,
   UnitsKey,
   UnitsState,
   UnitValue,

@@ -1,12 +1,14 @@
 "use client";
 import { WeatherOverviewCard } from "@/app/components/WeatherOverviewCard";
 import { usePlaces } from "@/app/context/PlacesContext";
+import { useWeatherContext } from "@/app/context/WeatherContext";
 import { useWeatherData } from "@/app/hooks/useWeatherData";
 import Image from "next/image";
 import React, { useEffect } from "react";
 
 export const PlacesManager = () => {
   const { places, refreshPlace } = usePlaces();
+  const { updateWeatherData } = useWeatherContext();
   const { fetchWeather, loading } = useWeatherData();
 
   // Refresh saved places on mount
@@ -50,6 +52,7 @@ export const PlacesManager = () => {
               key={place.id}
               data={place}
               loading={loading}
+              onWeatherUpdate={updateWeatherData}
             />
           ))}
         </div>

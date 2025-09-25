@@ -71,3 +71,35 @@ export interface DayOptions {
   date: string;
   label: string;
 }
+
+export const DefaultCoords = {
+  lat: 60.1699,
+  long: 24.9384,
+};
+export type WeatherState = {
+  current: Weather;
+  daily: ForecastDay[];
+  hourly: ForecastHour[];
+};
+
+export const DefaultWeatherState: WeatherState = {
+  current: {
+    ...EmptyPlace,
+    id: "default",
+    latitude: DefaultCoords.lat,
+    longitude: DefaultCoords.long,
+  },
+  daily: [],
+  hourly: [],
+};
+export interface WeatherContextType {
+  weather: {
+    current: Weather;
+    daily: ForecastDay[];
+    hourly: ForecastHour[];
+  };
+  selectedPlace: Weather | null;
+  updateWeatherData: (latitude: number, longitude: number) => Promise<void>;
+  loading: boolean;
+  error: string | null;
+}
