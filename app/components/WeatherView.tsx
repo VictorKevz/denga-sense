@@ -45,9 +45,9 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     },
     [fetchWeather]
   );
-  const searchParams = useSearchParams();
-  const lat = Number(searchParams.get("lat"));
-  const lon = Number(searchParams.get("lon"));
+  // const searchParams = useSearchParams();
+  // const lat = Number(searchParams.get("lat"));
+  // const lon = Number(searchParams.get("lon"));
 
   // useEffect(() => {
   //   if (lat && lon) updateWeatherData(lat, lon);

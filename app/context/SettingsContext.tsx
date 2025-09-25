@@ -15,7 +15,9 @@ import {
   defaultAppearance,
   defaultLocalization,
   defaultUnits,
+  LocalizationKey,
   LocalizationState,
+  LocalizationValues,
   SettingsContextType,
   TimeFormat,
   UnitsKey,
@@ -75,7 +77,7 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
     [setTheme]
   );
   const updateLocalization = useCallback(
-    (key: keyof LocalizationState, value: TimeFormat) => {
+    (key: LocalizationKey, value: LocalizationValues) => {
       setLocalization((prev) => {
         return { ...prev, [key]: value };
       });
