@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { DayOptions, ForecastHour, WeatherViewProps } from "../types/weather";
+import { DayOptions, DefaultCoords, ForecastHour } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
 import { MetricCard } from "./MetricCard";
 import { DailyForecastCard } from "./DailyForecastCard";
@@ -15,59 +15,43 @@ import { DropDown } from "./DropDown";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
-import { useWeatherData } from "../hooks/useWeatherData";
-import { useSearchParams } from "next/navigation";
+import { useWeatherContext } from "../context/WeatherContext";
 import Link from "next/link";
+
 export interface MetricCardProps {
   label: string;
   value: string;
 }
-export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
-  const [weatherCurrent, setWeatherCurrent] = useState(current);
-  const [weatherDaily, setWeatherDaily] = useState(daily);
-  const [weatherHourly, setWeatherHourly] = useState(hourly);
 
-  const todayKey = new Date().toISOString().split("T")[0];
-  const [currentDay, setCurrentDay] = useState<string>(todayKey);
+export const WeatherView = () => {
+  const { weather, updateWeatherData, loading, error } = useWeatherContext();
+  const { units } = useSettings();
+  const { lat, long } = DefaultCoords;
+
+  // Use the fetched location's local date if available, else fallback to browser's local date
+  const locationDate = weather.current.time
+    ? new Date(weather.current.time).toISOString().split("T")[0]
+    : new Date().toISOString().split("T")[0];
+  const [currentDay, setCurrentDay] = useState<string>(locationDate);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
 
-  const { units } = useSettings();
-  const { fetchWeather, loading, error } = useWeatherData();
-
-  const updateWeatherData = useCallback(
-    async (latitude: number, longitude: number) => {
-      const data = await fetchWeather(latitude, longitude);
-      if (!data) return;
-
-      setWeatherCurrent(data.current);
-      setWeatherDaily(data.daily);
-      setWeatherHourly(data.hourly);
-    },
-    [fetchWeather]
-  );
-  const searchParams = useSearchParams();
-  const lat = Number(searchParams.get("lat"));
-  const lon = Number(searchParams.get("lon"));
-
-  // useEffect(() => {
-  //   if (lat && lon) updateWeatherData(lat, lon);
-  // }, [lat, lon, updateWeatherData]);
-
   useEffect(() => {
-    if (!navigator.geolocation) {
-      updateWeatherData(60.1699, 24.9384);
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        updateWeatherData(pos.coords.latitude, pos.coords.longitude);
-      },
-      () => {
-        updateWeatherData(60.1699, 24.9384);
+    if (typeof window !== "undefined" && weather.current.isSSR) {
+      if (!navigator.geolocation) {
+        updateWeatherData(lat, long);
+        return;
       }
-    );
-  }, [updateWeatherData]);
-
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          updateWeatherData(pos.coords.latitude, pos.coords.longitude);
+        },
+        () => {
+          updateWeatherData(lat, long);
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const toggleDropDown = () => {
     setShowDrop((prev) => !prev);
   };
@@ -76,7 +60,8 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     setCurrentDay(newDay);
     toggleDropDown();
   }, []);
-  const groupedHourly = weatherHourly.reduce<Record<string, ForecastHour[]>>(
+
+  const groupedHourly = weather.hourly.reduce<Record<string, ForecastHour[]>>(
     (acc, hour) => {
       const day = hour.time.slice(0, 10);
       if (!acc[day]) acc[day] = [];
@@ -86,14 +71,17 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
     {}
   );
 
-  const currentHour = new Date().getHours();
-  const isToday = currentDay === todayKey;
-  const hoursToDisplay = groupedHourly[currentDay]?.filter((hour) => {
-    if (isToday) {
-      return new Date(hour.time).getHours() >= currentHour;
-    }
-    return true;
-  });
+  const locationHour = weather.current.time
+    ? new Date(weather.current.time).getHours()
+    : new Date().getHours();
+  const isToday = currentDay === locationDate;
+  const hoursToDisplay =
+    groupedHourly[currentDay]?.filter((hour) => {
+      if (isToday) {
+        return new Date(hour.time).getHours() >= locationHour;
+      }
+      return true;
+    }) || [];
 
   const apiDates = Object.keys(groupedHourly);
   const dayOptions: DayOptions[] = apiDates.map((date) => {
@@ -107,30 +95,31 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
   const metricCards: MetricCardProps[] = [
     {
       label: "Temperature",
-      value: formatTemp(weatherCurrent.temp, units.temperature),
+      value: formatTemp(weather.current.temp, units.temperature),
     },
     {
       label: "Wind",
-      value: `${formatWind(weatherCurrent.windspeed!, units.windspeed)}`,
+      value: `${formatWind(weather.current.windspeed!, units.windspeed)}`,
     },
     {
       label: "Precipitation",
       value: `${formatPrecip(
-        weatherCurrent.precipitation!,
+        weather.current.precipitation!,
         units.precipitation
       )}`,
     },
-    { label: "Humidity", value: `${weatherCurrent.humidity ?? 0}%` },
+    { label: "Humidity", value: `${weather.current.humidity ?? 0}%` },
   ];
 
   const showOverflow = hoursToDisplay.length >= 7;
+
   if (error) {
     return (
       <div className="center flex-col! w-full min-h-[80dvh] px-6">
         <h1 className="text-4xl">An error occurred!</h1>
         <p>{error}</p>
         <Link
-          href={`/dashboard/weather`}
+          href={`/`}
           className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
         >
           Try again
@@ -150,7 +139,11 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
-          <WeatherOverviewCard data={weatherCurrent} loading={loading} />
+          <WeatherOverviewCard
+            data={weather.current}
+            loading={loading}
+            onWeatherUpdate={updateWeatherData}
+          />
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} loading={loading} />
@@ -161,7 +154,7 @@ export const WeatherView = ({ current, daily, hourly }: WeatherViewProps) => {
               Daily Forecast
             </h2>
             <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
-              {weatherDaily.map((day) => (
+              {weather.daily.map((day) => (
                 <DailyForecastCard
                   key={day.date}
                   data={day}

@@ -12,10 +12,12 @@ import { usePathname, useRouter } from "next/navigation";
 interface WeatherOverviewCardProps {
   data: Weather;
   loading: boolean;
+  onWeatherUpdate: (lat: number, lon: number) => Promise<void>;
 }
 export const WeatherOverviewCard = ({
   data,
   loading,
+  onWeatherUpdate,
 }: WeatherOverviewCardProps) => {
   const { isSaved, togglePlace } = usePlaces();
   const router = useRouter();
@@ -30,9 +32,8 @@ export const WeatherOverviewCard = ({
   const isPlaces = pathname === "/dashboard/places";
 
   const handleViewClick = () => {
-    router.push(
-      `/dashboard/weather?lat=${data.latitude}&lon=${data.longitude}`
-    );
+    onWeatherUpdate(data.latitude, data.longitude);
+    router.push(`/dashboard/weather`);
   };
   return (
     <div

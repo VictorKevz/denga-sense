@@ -17,7 +17,9 @@ export interface Weather {
   city?: string;
   country?: string;
   weatherCode?: number;
+  isSSR?: boolean;
 }
+
 export const EmptyPlace: Weather = {
   id: "",
   latitude: 0,
@@ -31,16 +33,14 @@ export const EmptyPlace: Weather = {
   city: "",
   country: "",
   weatherCode: 0,
+  isSSR: false,
 };
-// Single day in the 7-day forecast
 export interface ForecastDay {
   date: string;
   tempMax: number;
   tempMin: number;
   weatherCode?: number;
 }
-
-// Single hour in the hourly forecast
 export interface ForecastHour {
   time: string;
   temp: number;
@@ -50,7 +50,12 @@ export interface ForecastHour {
   weatherCode?: number;
   humidity?: number;
 }
-
+export type WeatherViewProps = {
+  current: Weather;
+  daily: ForecastDay[];
+  hourly: ForecastHour[];
+};
+// Type used in SearchBar component!
 export type PlaceResult = Pick<
   Weather,
   "latitude" | "longitude" | "country"
@@ -58,11 +63,7 @@ export type PlaceResult = Pick<
   id: number;
   name: string;
 };
-export type WeatherViewProps = {
-  current: Weather;
-  daily: ForecastDay[];
-  hourly: ForecastHour[];
-};
+
 export type MetricType = {
   label: string;
   value: string;
@@ -70,4 +71,37 @@ export type MetricType = {
 export interface DayOptions {
   date: string;
   label: string;
+}
+
+export const DefaultCoords = {
+  lat: 60.1699,
+  long: 24.9384,
+};
+export type WeatherState = {
+  current: Weather;
+  daily: ForecastDay[];
+  hourly: ForecastHour[];
+};
+
+export const DefaultWeatherState: WeatherState = {
+  current: {
+    ...EmptyPlace,
+    id: "default",
+    latitude: DefaultCoords.lat,
+    longitude: DefaultCoords.long,
+    isSSR: true,
+  },
+  daily: [],
+  hourly: [],
+};
+export interface WeatherContextType {
+  weather: {
+    current: Weather;
+    daily: ForecastDay[];
+    hourly: ForecastHour[];
+  };
+  selectedPlace: Weather | null;
+  updateWeatherData: (latitude: number, longitude: number) => Promise<void>;
+  loading: boolean;
+  error: string | null;
 }

@@ -1,24 +1,41 @@
 "use client";
 import { WeatherOverviewCard } from "@/app/components/WeatherOverviewCard";
 import { usePlaces } from "@/app/context/PlacesContext";
+import { useWeatherContext } from "@/app/context/WeatherContext";
 import { useWeatherData } from "@/app/hooks/useWeatherData";
 import Image from "next/image";
 import React, { useEffect } from "react";
 
 export const PlacesManager = () => {
   const { places, refreshPlace } = usePlaces();
+  const { updateWeatherData } = useWeatherContext();
   const { fetchWeather, loading } = useWeatherData();
 
-  // Refresh saved places on mount
+  /**
+   * Stale Data Refresh Logic:
+   * - On mount, refresh each saved place only if its weather data is older than 15 minutes.
+   * - Uses the `time` field from the Weather type, which is an ISO UTC string from the API.
+   * - Compares UTC timestamps: both `Date.now()` and `Date.parse(place.time)` are in UTC.
+   * - This ensures freshness checks are accurate regardless of the user's or place's local timezone.
+   */
   useEffect(() => {
+    const STALE_THRESHOLD_MINUTES = 15;
+    const nowUtc = Date.now();
     places.forEach(async (place) => {
-      try {
-        const updatedRaw = await fetchWeather(place.latitude, place.longitude);
-        if (updatedRaw) {
-          refreshPlace(updatedRaw.current);
+      const lastFetched = place.time ? Date.parse(place.time) : 0;
+      const minutesSinceFetch = (nowUtc - lastFetched) / (1000 * 60);
+      if (minutesSinceFetch > STALE_THRESHOLD_MINUTES) {
+        try {
+          const updatedRaw = await fetchWeather(
+            place.latitude,
+            place.longitude
+          );
+          if (updatedRaw) {
+            refreshPlace(updatedRaw.current);
+          }
+        } catch (err) {
+          console.error(`Failed to refresh ${place.city}:`, err);
         }
-      } catch (err) {
-        console.error(`Failed to refresh ${place.city}:`, err);
       }
     });
   }, []);
@@ -50,6 +67,7 @@ export const PlacesManager = () => {
               key={place.id}
               data={place}
               loading={loading}
+              onWeatherUpdate={updateWeatherData}
             />
           ))}
         </div>

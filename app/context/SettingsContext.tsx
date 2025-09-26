@@ -15,9 +15,10 @@ import {
   defaultAppearance,
   defaultLocalization,
   defaultUnits,
+  LocalizationKey,
   LocalizationState,
+  LocalizationValues,
   SettingsContextType,
-  TimeFormat,
   UnitsKey,
   UnitsState,
   UnitValue,
@@ -75,7 +76,7 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
     [setTheme]
   );
   const updateLocalization = useCallback(
-    (key: keyof LocalizationState, value: TimeFormat) => {
+    (key: LocalizationKey, value: LocalizationValues) => {
       setLocalization((prev) => {
         return { ...prev, [key]: value };
       });
@@ -86,9 +87,11 @@ export const SettingsProvider = ({ children }: ChildrenProps) => {
     const html = document.documentElement;
     html.classList.remove("font-sans-custom", "font-serif-custom");
 
-    appearance.font === "serif"
-      ? html.classList.add("font-serif-custom")
-      : html.classList.add("font-sans-custom");
+    if (appearance.font === "serif") {
+      html.classList.add("font-serif-custom");
+    } else {
+      html.classList.add("font-sans-custom");
+    }
   }, [appearance.font]);
 
   useEffect(() => {
