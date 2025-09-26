@@ -1,6 +1,5 @@
 import { SvgIconTypeMap } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
-import { Localization } from "../dashboard/settings/LocalizationManager";
 
 export type TemperatureUnit = "Celcius" | "Fahrenheit";
 export type WindUnit = "km/h" | "mph";
@@ -10,7 +9,9 @@ export interface SelectorOption<T = string> {
   value: T;
   label: string;
   icon?:
-    | (OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string })
+    | (OverridableComponent<SvgIconTypeMap<object, "svg">> & {
+        muiName: string;
+      })
     | string;
 }
 

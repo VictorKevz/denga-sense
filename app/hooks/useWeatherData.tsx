@@ -6,14 +6,14 @@ import {
   getDailyForecast,
   getHourlyForecast,
 } from "@/app/lib/weather";
-import { WeatherDataResult } from "@/app/types/weather";
+import { WeatherViewProps } from "@/app/types/weather";
 
 export function useWeatherData() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchWeather = useCallback(
-    async (lat: number, lon: number): Promise<WeatherDataResult | null> => {
+    async (lat: number, lon: number): Promise<WeatherViewProps | null> => {
       try {
         setLoading(true);
         setError(null);

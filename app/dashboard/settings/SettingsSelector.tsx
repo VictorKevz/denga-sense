@@ -1,5 +1,6 @@
 import React from "react";
 import { SelectorProps } from "@/app/types/settings";
+import Image from "next/image";
 
 export function SettingsSelector<T = string>({
   label,
@@ -8,6 +9,7 @@ export function SettingsSelector<T = string>({
   onSelect,
   className,
 }: SelectorProps<T>) {
+  const isFont = label === "Font Style";
   return (
     <fieldset className={className || "w-full"}>
       <legend className="sr-only">{label}</legend>
@@ -38,9 +40,22 @@ export function SettingsSelector<T = string>({
               >
                 {option.icon &&
                   (typeof option.icon === "string" ? (
-                    <img src={option.icon} alt="" className="w-8 mr-0.5" />
+                    <Image
+                      width={32}
+                      height={32}
+                      src={option.icon}
+                      alt=""
+                      className={`${
+                        isFont
+                          ? "w-7! h-7! glass rounded-lg! p-1 backdrop-saturate-150 backdrop-brightness-30 mr-1.5"
+                          : "w-8 mr-0.5"
+                      }`}
+                    />
                   ) : (
-                    <option.icon fontSize="small" className="mr-0.5 mt-0.5" />
+                    <option.icon
+                      fontSize="small"
+                      className={` ${isFont ? "" : "mr-0.5 mt-0.5"}`}
+                    />
                   ))}
                 {option.label}
               </button>

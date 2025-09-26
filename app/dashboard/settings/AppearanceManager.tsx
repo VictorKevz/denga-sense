@@ -30,15 +30,18 @@ export const AppearanceManager = () => {
       id: "font",
       heading: "Font Style",
       options: [
-        { value: "sans-serif", label: "Modern" },
-        { value: "serif", label: "Classic" },
+        {
+          value: "sans-serif",
+          label: "Modern",
+          icon: "/images/font-modern.png",
+        },
+        { value: "serif", label: "Classic", icon: "/images/font-classic.png" },
       ],
     },
   ];
   return (
     <article className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset">
       {appearanceData.map((obj) => {
-        const isFont = obj.id === "font";
         return (
           <SettingsSelector
             key={obj.id}

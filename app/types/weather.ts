@@ -50,7 +50,12 @@ export interface ForecastHour {
   weatherCode?: number;
   humidity?: number;
 }
-
+export type WeatherViewProps = {
+  current: Weather;
+  daily: ForecastDay[];
+  hourly: ForecastHour[];
+};
+// Type used in SearchBar component!
 export type PlaceResult = Pick<
   Weather,
   "latitude" | "longitude" | "country"
@@ -58,11 +63,7 @@ export type PlaceResult = Pick<
   id: number;
   name: string;
 };
-export type WeatherViewProps = {
-  current: Weather;
-  daily: ForecastDay[];
-  hourly: ForecastHour[];
-};
+
 export type MetricType = {
   label: string;
   value: string;
