@@ -1,30 +1,20 @@
-import Image from "next/image";
-import Link from "next/link";
+import { InsightsView } from "./InsightsView";
 
 export default function Insights() {
   return (
-    <div className="center w-full min-h-[80dvh]">
-      <div className="max-w-screen-xl w-full center flex-col!">
-        <Image
-          src="/images/insights-placeholder.svg"
-          alt=""
-          width={300}
-          height={350}
-          className="bg-[var(--neutral-50)] p-5 rounded-2xl"
-        />
-        <h2 className="text-4xl sm:text-6xl text-[var(--neutral-0)] mt-8 font-medium tracking-[0.5rem] uppercase">
-          Coming Soon
-        </h2>
-        <p className="max-w-xl w-[80%] text-[var(--neutral-200)]! mt-1 text-center">
-          Smart AI insights from your local weather data help you plan better
-          and stay ahead of changing conditions.
-        </p>
-        <Link
-          href={`/dashboard/weather`}
-          className="center h-14 max-w-[15rem] w-full bg-[var(--primary)]  text-[var(--neutral-0)] text-xl font-semibold px-4 mt-8 rounded-full"
-        >
-          View Weather
-        </Link>
+    <div className="center items-start! w-full min-h-[80dvh] pb-[8rem]">
+      <div className="center flex-col! w-full max-w-screen-xl  px-4">
+        <header className="center flex-col! w-full mx-auto rounded-3xl! py-6 px-4 mt-10">
+          <h1 className="text-4xl sm:text-7xl font-bold bg-gradient-to-r from-[#00d0ff] to-[#eddbff] text-transparent bg-clip-text">
+            Smart AI Insights
+          </h1>
+
+          <p className="mt-3 text-center text-[var(--text-secondary)] max-w-2xl">
+            Get personalized weather insights powered by AI, helping you plan
+            your day, stay prepared, and make smarter decisions at a glance.
+          </p>
+        </header>
+        <InsightsView />
       </div>
     </div>
   );

@@ -4,15 +4,13 @@ import { OverridableComponent } from "@mui/material/OverridableComponent";
 export type TemperatureUnit = "Celcius" | "Fahrenheit";
 export type WindUnit = "km/h" | "mph";
 export type PrecipitationUnit = "Millimeters" | "Inches";
-
+export type MUIIcon = OverridableComponent<SvgIconTypeMap<object, "svg">> & {
+  muiName: string;
+};
 export interface SelectorOption<T = string> {
   value: T;
   label: string;
-  icon?:
-    | (OverridableComponent<SvgIconTypeMap<object, "svg">> & {
-        muiName: string;
-      })
-    | string;
+  icon?: MUIIcon | string;
 }
 
 export interface SelectorProps<T = string> {

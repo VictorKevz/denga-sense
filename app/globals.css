@@ -25,7 +25,7 @@
   --glass-end: rgba(255, 255, 255, 0.143);
   /* Text */
   --text-primary: var(--neutral-800);
-  --text-secondary: var(--neutral-700);
+  --text-secondary: var(--neutral-200);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-50);

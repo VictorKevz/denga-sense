@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState, useCallback } from "react";
 import {
   WeatherContextType,
   Weather,
-  WeatherDataResult,
   WeatherState,
   DefaultWeatherState,
 } from "@/app/types/weather";
@@ -35,7 +34,7 @@ export const WeatherProvider = ({
       setLoading(true);
       setError(null);
       try {
-        const data: WeatherDataResult | null = await fetchWeather(
+        const data: WeatherState | null = await fetchWeather(
           latitude,
           longitude
         );
