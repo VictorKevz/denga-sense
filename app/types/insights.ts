@@ -1,5 +1,7 @@
 export interface Insight {
   id: number;
   title: string;
-  description: string;
+  summary: string;
+  features: [];
+  subTitle: string;
 }

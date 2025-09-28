@@ -18,6 +18,7 @@ export function useInsights() {
         });
         if (!res.ok) throw new Error("Failed to fetch insights");
         const data: Insight[] = await res.json();
+        console.log("AI Data:", data);
         setInsights(data);
       } catch (err) {
         setError((err as Error).message);
