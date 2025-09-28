@@ -7,17 +7,34 @@ export async function getWeather(
   latitude = FALLBACK.latitude,
   longitude = FALLBACK.longitude
 ): Promise<Weather> {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
-  const res = await fetch(url, { cache: "no-store" });
-  const data = await res.json();
+  // I fetch current weather here.
+  const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation,windspeed_10m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`;
+  const weatherRes = await fetch(weatherUrl, { cache: "no-store" });
+  const weatherData = await weatherRes.json();
+
+  // I fetch reverse geocoding for city and country here (Nominatim)
+  const geoUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+  const geoRes = await fetch(geoUrl, {
+    headers: { "User-Agent": "denga-sense-app/1.0" },
+  });
+  const geoData = await geoRes.json();
+  const address = geoData.address || {};
+  const countryRaw = address.country || "";
+  const country = countryRaw.includes("/")
+    ? countryRaw.split("/")[1].trim()
+    : countryRaw.trim();
+  const city = address.city || "";
+
   return {
-    id: `${data.latitude},${data.longitude}`,
-    latitude: data.latitude,
-    longitude: data.longitude,
-    temp: data?.current_weather?.temperature,
-    windspeed: data.current_weather.windspeed,
-    time: data.current_weather.time,
-    weatherCode: data.current_weather.weathercode,
+    id: `${weatherData.latitude},${weatherData.longitude}`,
+    latitude: weatherData.latitude,
+    longitude: weatherData.longitude,
+    temp: weatherData?.current_weather?.temperature,
+    windspeed: weatherData.current_weather.windspeed,
+    time: weatherData.current_weather.time,
+    weatherCode: weatherData.current_weather.weathercode,
+    city,
+    country,
   };
 }
 

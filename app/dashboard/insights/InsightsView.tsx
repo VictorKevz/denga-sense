@@ -10,11 +10,11 @@ import {
   Timeline,
 } from "@mui/icons-material";
 import React from "react";
+import { PulseLoader } from "react-spinners";
 
 export const InsightsView = () => {
   const { insights, loading, error } = useInsights();
 
-  if (loading) return <p>Loading insights...</p>;
   if (error) return <p>Error: {error}</p>;
 
   const icons: { icon: MUIIcon; color: string }[] = [
@@ -33,6 +33,7 @@ export const InsightsView = () => {
             insight={insight}
             Icon={icons[i].icon}
             color={icons[i].color}
+            loading={loading}
           />
         ))}
       </ul>
@@ -44,21 +45,28 @@ interface InsightCard {
   insight: Insight;
   Icon: MUIIcon;
   color: string;
+  loading: boolean;
 }
 
-export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
+export const InsightCard = ({ insight, Icon, color, loading }: InsightCard) => {
   return (
-    <li className="glass inset w-full h-full first:col-span-2 px-4 py-6 backdrop-brightness-95!">
+    <li className="glass inset w-full first:col-span-2 px-4 py-5 backdrop-brightness-95!">
       <span
         className={`glass center h-12 w-12 text-[var(--neutral-900)] rounded-full`}
         style={{ background: `${color}` }}
       >
         <Icon />
       </span>
-      <h3 className="text-xl font-semibold text-[var(--neutral-0)] tracking-wider">
+      <h3 className="text-xl font-semibold text-[var(--neutral-0)] tracking-wider mt-2">
         {insight.title}
       </h3>
-      <p className="text-lg max-w-xl">{insight.description}</p>
+      {loading ? (
+        <div className="my-4">
+          <PulseLoader color="var(--primary)" />
+        </div>
+      ) : (
+        <p className="text-base max-w-xl">{insight.description}</p>
+      )}
     </li>
   );
 };
