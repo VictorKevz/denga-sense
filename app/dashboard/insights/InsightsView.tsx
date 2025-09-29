@@ -1,5 +1,4 @@
 "use client";
-import { useWeatherContext } from "@/app/context/WeatherContext";
 import { useInsights } from "@/app/hooks/useInsights";
 import { Insight } from "@/app/types/insights";
 import { MUIIcon } from "@/app/types/settings";
@@ -62,8 +61,6 @@ interface InsightCard {
 }
 
 export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
-  const { weather } = useWeatherContext();
-  const { country, city } = weather.current;
   const isOverview = insight.id === 1;
   return (
     <article className="glass inset-ai w-full flex flex-col justify-between lg:first:col-span-2 px-4 py-5 backdrop-brightness-95!">
@@ -75,14 +72,12 @@ export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
           <Icon />
         </span>
         <h3
-          className={`w-full text-xl font-semibold tracking-wider mt-2 uppercase ${
-            isOverview ? "" : ""
-          }`}
+          className={`w-full text-xl font-semibold tracking-wider mt-2 uppercase `}
         >
           {insight.title}
         </h3>
 
-        <p className="text-base max-w-2xl">{insight.summary}</p>
+        <p className="text-base xl:max-w-3xl">{insight.summary}</p>
       </header>
       <ul className="glass rounded-2xl! w-full flex flex-col gap-2 mt-4 px-3 py-5">
         <li>

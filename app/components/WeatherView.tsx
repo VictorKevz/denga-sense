@@ -1,6 +1,6 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { DayOptions, DefaultCoords, ForecastHour } from "../types/weather";
+import React, { useCallback, useState } from "react";
+import { DayOptions, ForecastHour } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
 import { MetricCard } from "./MetricCard";
 import { DailyForecastCard } from "./DailyForecastCard";
@@ -26,7 +26,6 @@ export interface MetricCardProps {
 export const WeatherView = () => {
   const { weather, updateWeatherData, loading, error } = useWeatherContext();
   const { units } = useSettings();
-  const { lat, long } = DefaultCoords;
 
   // Use the fetched location's local date if available, else fallback to browser's local date
   const locationDate = weather.current.time
@@ -35,23 +34,6 @@ export const WeatherView = () => {
   const [currentDay, setCurrentDay] = useState<string>(locationDate);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && weather.current.isSSR) {
-      if (!navigator.geolocation) {
-        updateWeatherData(lat, long);
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          updateWeatherData(pos.coords.latitude, pos.coords.longitude);
-        },
-        () => {
-          updateWeatherData(lat, long);
-        }
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const toggleDropDown = () => {
     setShowDrop((prev) => !prev);
   };
