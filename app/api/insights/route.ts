@@ -28,7 +28,7 @@ ${JSON.stringify(minimalWeather, null, 2)}
 
 Generate an array of 5 objects in JSON format. Each object must have:
 - id (1-5)
-- title (fixed from this list: ["Today’s Weather Overview", "Forecast Outlook", "Activity Outlook", "Comfort & Conditions", "Fun Vibes"])
+- title (fixed from this list except for the first one where you should insert the location in the format city, country - ["Weather Overview", "Forecast Outlook", "Activity Outlook", "Comfort & Conditions", "Fun Vibes"])
 - summary: for the first object ("Today’s Weather Overview"), provide a concise summary of at least 3 sentences. For all other objects, provide a one-sentence natural-language summary of the card based on the weather data
 - features: an array of 3 concise bullet points (8-12 words each) giving additional insights, tips, or related details specific to the weather data.
 - subTitle: a 1 or 2-word title that matches the features in the array of each object, for example "Games" for the "Fun Vibes" object
@@ -36,6 +36,7 @@ Only change the summary, subTitle and features based on the data. Titles and ids
 
     const result = streamText({
       model: groq("llama-3.3-70b-versatile"),
+      temperature: 0.9,
       messages: [
         {
           role: "system",

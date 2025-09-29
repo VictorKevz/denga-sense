@@ -1,4 +1,5 @@
 "use client";
+import { useWeatherContext } from "@/app/context/WeatherContext";
 import { useInsights } from "@/app/hooks/useInsights";
 import { Insight } from "@/app/types/insights";
 import { MUIIcon } from "@/app/types/settings";
@@ -21,7 +22,10 @@ export const InsightsView = () => {
     return (
       <div className="max-w-screen-xl mx-auto w-full grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="glass center w-full my-4 min-h-[10rem]">
+          <div
+            key={i}
+            className="glass center w-full my-4 min-h-[15rem] lg:first:col-span-2"
+          >
             <PulseLoader color="var(--primary)" />
           </div>
         ))}
@@ -30,10 +34,10 @@ export const InsightsView = () => {
   }
   const icons: { icon: MUIIcon; color: string }[] = [
     { icon: Cloud, color: "#24A0ED" },
-    { icon: Timeline, color: "#F0FFBA" },
+    { icon: Timeline, color: "#F7C8DE" },
     { icon: SportsHandball, color: "#FFD6A5" },
     { icon: HealthAndSafety, color: "#C1C9FB" },
-    { icon: AddReaction, color: "#F7C8DE" },
+    { icon: AddReaction, color: "#F0FFBA " },
   ];
   return (
     <section className="center w-full relative mt-10 z-5">
@@ -58,9 +62,11 @@ interface InsightCard {
 }
 
 export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
+  const { weather } = useWeatherContext();
+  const { country, city } = weather.current;
   const isOverview = insight.id === 1;
   return (
-    <article className="glass w-full flex flex-col justify-between lg:first:col-span-2 px-4 py-5 backdrop-brightness-95!">
+    <article className="glass inset-ai w-full flex flex-col justify-between lg:first:col-span-2 px-4 py-5 backdrop-brightness-95!">
       <header className="w-full">
         <span
           className={`glass center h-12 w-12 text-[var(--neutral-900)] rounded-full`}
@@ -68,16 +74,20 @@ export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
         >
           <Icon />
         </span>
-        <h3 className="text-xl font-semibold text-[var(--neutral-0)] tracking-wider mt-2">
+        <h3
+          className={`w-full text-xl font-semibold tracking-wider mt-2 uppercase ${
+            isOverview ? "" : ""
+          }`}
+        >
           {insight.title}
         </h3>
 
         <p className="text-base max-w-2xl">{insight.summary}</p>
       </header>
-      <ul className="glass ai-inset rounded-2xl! w-full flex flex-col gap-2 mt-4 px-3 py-5">
+      <ul className="glass rounded-2xl! w-full flex flex-col gap-2 mt-4 px-3 py-5">
         <li>
           <h4
-            className="glass center font-bold text-lg w-fit px-4 h-8 rounded-lg!"
+            className="glass center font-normal text-lg w-fit px-4 h-8 rounded-lg! uppercase"
             style={{ border: `1px solid ${color}` }}
           >
             {insight.subTitle}
@@ -86,7 +96,7 @@ export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
         {insight.features.map((feature) => (
           <li
             key={feature}
-            className="flex items-center text-[var(--neutral-200)]"
+            className="flex items-center text-[var(--text-secondary)] opacity-90"
           >
             <ArrowRight className="-ml-2" /> {feature}
           </li>

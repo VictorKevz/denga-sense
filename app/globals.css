@@ -24,8 +24,8 @@
   --glass-inset: rgba(199, 238, 249, 0.183);
   --glass-end: rgba(255, 255, 255, 0.143);
   /* Text */
-  --text-primary: var(--neutral-800);
-  --text-secondary: var(--neutral-200);
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-800);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-50);
@@ -90,7 +90,6 @@ p {
   color: var(--text-secondary);
 }
 button,
-li,
 a {
   cursor: pointer;
 }
