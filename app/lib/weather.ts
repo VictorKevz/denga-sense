@@ -87,5 +87,6 @@ export async function searchPlace(query: string) {
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch cities");
   const data = await res.json();
+  console.log("Search Data:", data);
   return data.results || [];
 }

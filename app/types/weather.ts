@@ -1,3 +1,14 @@
+// Used for previewing recommended places with minimal weather info
+export type PlacePreview = {
+  id: number;
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  weatherCode?: number;
+  temperature?: number;
+  time?: string;
+};
 export interface Weather {
   id: string;
   latitude: number;
@@ -54,10 +65,10 @@ export type WeatherState = {
   daily: ForecastDay[];
   hourly: ForecastHour[];
 };
-// Type used in SearchBar component!
+// Type used in SearchBar component and also search History!
 export type PlaceResult = Pick<
   Weather,
-  "latitude" | "longitude" | "country"
+  "latitude" | "longitude" | "country" | "city"
 > & {
   id: number;
   name: string;

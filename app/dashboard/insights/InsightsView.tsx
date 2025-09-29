@@ -61,7 +61,6 @@ interface InsightCard {
 }
 
 export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
-  const isOverview = insight.id === 1;
   return (
     <article className="glass inset-ai w-full flex flex-col justify-between lg:first:col-span-2 px-4 py-5 backdrop-brightness-95!">
       <header className="w-full">

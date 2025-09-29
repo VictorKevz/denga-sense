@@ -7,22 +7,28 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { Weather } from "../types/weather";
+import { PlaceResult, Weather } from "../types/weather";
 import { loadFromStorage } from "./SettingsContext";
 
-// ...existing code...
 export interface PlacesContextType {
   places: Weather[];
   togglePlace: (place: Weather) => void;
   refreshPlace: (place: Weather) => void;
   isSaved: (id: string) => boolean;
+  searchHistory: PlaceResult[];
+  onHistoryUpdate: (newSearch: PlaceResult) => void;
 }
 
 const PlacesContext = createContext<PlacesContextType | undefined>(undefined);
 
 export const PlacesProvider = ({ children }: { children: React.ReactNode }) => {
+  // This state holds all places saved
   const [places, setPlaces] = useState<Weather[]>(() =>
     loadFromStorage<Weather[]>("places", [])
+  );
+
+  const [searchHistory, setSearchHistory] = useState<PlaceResult[]>(() =>
+    loadFromStorage<PlaceResult[]>("searchHistory", [])
   );
 
   const togglePlace = useCallback((place: Weather) => {
@@ -30,6 +36,14 @@ export const PlacesProvider = ({ children }: { children: React.ReactNode }) => {
       const exists = prev.some((p) => p.id === place.id);
       if (exists) return prev.filter((p) => p.id !== place.id);
       return [...prev, place];
+    });
+  }, []);
+
+  const updateSearchHistory = useCallback((newSearch: PlaceResult) => {
+    setSearchHistory((prev) => {
+      const exists = prev.some((p) => p.id === newSearch.id);
+      if (exists) return prev;
+      return [...prev, newSearch];
     });
   }, []);
 
@@ -48,7 +62,14 @@ export const PlacesProvider = ({ children }: { children: React.ReactNode }) => {
   }, [places]);
   return (
     <PlacesContext.Provider
-      value={{ places, togglePlace, refreshPlace, isSaved }}
+      value={{
+        places,
+        togglePlace,
+        refreshPlace,
+        isSaved,
+        searchHistory,
+        onHistoryUpdate: updateSearchHistory,
+      }}
     >
       {children}
     </PlacesContext.Provider>

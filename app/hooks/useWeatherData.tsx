@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import {
-  getWeather,
-  getDailyForecast,
-  getHourlyForecast,
-} from "@/app/lib/weather";
+
 import { WeatherViewProps } from "@/app/types/weather";
 
 export function useWeatherData() {
