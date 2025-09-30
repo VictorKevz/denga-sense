@@ -23,8 +23,8 @@ export async function getWeather(
   const country = countryRaw.includes("/")
     ? countryRaw.split("/")[1].trim()
     : countryRaw.trim();
-  const city = address.city || "";
-
+  const city =
+    address.city || address.town || address.village || address.state || "";
   return {
     id: `${weatherData.latitude},${weatherData.longitude}`,
     latitude: weatherData.latitude,

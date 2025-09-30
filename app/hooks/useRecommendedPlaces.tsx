@@ -72,7 +72,9 @@ export function useRecommendedPlaces() {
         setLoading(false);
       }
     };
-    fetchPreviews();
+    if (places.length !== 0) {
+      fetchPreviews();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

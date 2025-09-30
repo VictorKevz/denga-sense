@@ -24,8 +24,12 @@ export async function POST(req: NextRequest) {
       hourly: hourlyData,
     });
   } catch (err) {
+    console.error("/api/weather error:", err);
     return NextResponse.json(
-      { error: "Failed to load weather data." },
+      {
+        error: "Failed to load weather data.",
+        details: (err as Error)?.message || String(err),
+      },
       { status: 500 }
     );
   }

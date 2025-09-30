@@ -40,7 +40,7 @@ export const WeatherOverviewCard = ({
     router.push(`/dashboard/weather`);
   };
   return (
-    <div
+    <article
       className={`w-full relative  ${
         isPlaces ? "min-h-fit" : "min-h-[17rem]"
       } center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
@@ -114,6 +114,6 @@ export const WeatherOverviewCard = ({
       </footer>
 
       <VideoBackground src={bgUrl} />
-    </div>
+    </article>
   );
 };

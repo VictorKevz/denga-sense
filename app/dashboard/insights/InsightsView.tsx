@@ -1,4 +1,5 @@
 "use client";
+import { ErroUI } from "@/app/components/ui/ErroUI";
 import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
 import { useInsights } from "@/app/hooks/useInsights";
 import { Insight } from "@/app/types/insights";
@@ -18,20 +19,7 @@ import { PropagateLoader } from "react-spinners";
 export const InsightsView = () => {
   const { insights, loading, error } = useInsights();
 
-  if (error) {
-    return (
-      <div className="center flex-col! w-full min-h-[80dvh] px-6">
-        <h1 className="text-4xl">An error occurred!</h1>
-        <p>{error}</p>
-        <Link
-          href={`/`}
-          className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
-        >
-          Try again
-        </Link>
-      </div>
-    );
-  }
+  if (error) <ErroUI error={error} />;
   if (loading) {
     return (
       <LoadingGrid

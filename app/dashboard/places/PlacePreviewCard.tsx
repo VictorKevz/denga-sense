@@ -30,7 +30,7 @@ export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
   };
 
   return (
-    <article className="glass w-full relative z-5 px-4 py-5">
+    <article className="glass ai-inset w-full relative  px-4 py-5">
       <header className="w-full center flex-col! ">
         <span className="glass inset rounded-full!">
           <WeatherIcon code={weatherCode!} size={80} />
@@ -44,7 +44,7 @@ export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
       </header>
       <button
         type="button"
-        className="center justify-between! gap-1 h-12 w-full mx-auto mt-5 px-6 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-semibold text-[var(--neutral-0)] text-lg"
+        className="center justify-between! gap-1 h-12 max-w-[15rem] w-full mx-auto mt-5 px-6 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-semibold text-[var(--neutral-0)] text-lg"
         onClick={handleViewClick}
       >
         View Place
@@ -52,7 +52,6 @@ export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
           <ArrowForward className="-rotate-20" />
         </span>
       </button>
-
       <VideoBackground src={bgUrl} />
     </article>
   );
