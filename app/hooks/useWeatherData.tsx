@@ -1,11 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import {
-  getWeather,
-  getDailyForecast,
-  getHourlyForecast,
-} from "@/app/lib/weather";
+
 import { WeatherViewProps } from "@/app/types/weather";
 
 export function useWeatherData() {
@@ -18,30 +14,14 @@ export function useWeatherData() {
         setLoading(true);
         setError(null);
 
-        const [currentData, dailyData, hourlyData] = await Promise.all([
-          getWeather(lat, lon),
-          getDailyForecast(lat, lon),
-          getHourlyForecast(lat, lon),
-        ]);
-
-        const geoRes = await fetch(
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}`
-        );
-        if (!geoRes.ok) throw new Error("Failed to fetch location details");
-        const geoData = await geoRes.json();
-        console.log("Country Data:", geoData);
-        return {
-          current: {
-            ...currentData,
-            city: geoData.city,
-            country: geoData.countryName,
-            precipitation: hourlyData[0]?.precipitation,
-            humidity: hourlyData[0]?.humidity,
-            feelsLike: hourlyData[0]?.feelsLike,
-          },
-          daily: dailyData,
-          hourly: hourlyData,
-        };
+        const res = await fetch("/api/weather", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lat, lon }),
+        });
+        if (!res.ok) throw new Error("Failed to fetch weather data");
+        const data = await res.json();
+        return data;
       } catch (err) {
         console.error(err);
         setError("Failed to load weather data.");

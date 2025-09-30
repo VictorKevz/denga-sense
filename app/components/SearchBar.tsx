@@ -3,6 +3,7 @@ import { searchPlace } from "../lib/weather";
 import { PlaceResult } from "../types/weather";
 import { PulseLoader } from "react-spinners";
 import { Error, KeyboardArrowRight, Search } from "@mui/icons-material";
+import { usePlaces } from "../context/PlacesContext";
 
 type FormProps = {
   onWeatherUpdate: (lat: number, long: number) => Promise<void>;
@@ -10,15 +11,11 @@ type FormProps = {
 export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
   const [query, setQuery] = useState("");
   const [placeResults, setPlaceResults] = useState<PlaceResult[]>([]);
-  const [coords, setCoords] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
-
+  const [selectedPlace, setSelectedPlace] = useState<PlaceResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [inputError, setInputError] = useState("");
-
+  const { onHistoryUpdate } = usePlaces();
   useEffect(() => {
     if (query.length < 2) {
       setPlaceResults([]);
@@ -50,14 +47,9 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
     };
   }, [query]);
 
-  const updateCoords = (
-    latitude: number,
-    longitude: number,
-    city: string,
-    country: string
-  ) => {
-    setCoords({ latitude, longitude });
-    setQuery(`${city}, ${country}`);
+  const updateCoords = (city: PlaceResult) => {
+    setQuery(`${city.name}, ${city.country}`);
+    setSelectedPlace(city);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -73,7 +65,10 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
       setInputError("Please enter a valid place");
       return;
     }
-    onWeatherUpdate(coords.latitude, coords.longitude);
+    if (selectedPlace) {
+      onHistoryUpdate(selectedPlace);
+      onWeatherUpdate(selectedPlace.latitude, selectedPlace.longitude);
+    }
     setPlaceResults([]);
     setError("");
     setInputError("");
@@ -140,14 +135,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
                 <li key={city.id} className="w-full">
                   <button
                     type="button"
-                    onClick={() =>
-                      updateCoords(
-                        city.latitude,
-                        city.longitude,
-                        city.name,
-                        city.country!
-                      )
-                    }
+                    onClick={() => updateCoords(city)}
                     className="center inset w-full justify-between! border border-[var(--glass-border)] px-3 py-1 rounded-full hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]"
                   >
                     {city.name}, {city.country}{" "}

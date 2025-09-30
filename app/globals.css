@@ -24,8 +24,8 @@
   --glass-inset: rgba(199, 238, 249, 0.183);
   --glass-end: rgba(255, 255, 255, 0.143);
   /* Text */
-  --text-primary: var(--neutral-800);
-  --text-secondary: var(--neutral-700);
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-800);
 
   /* Backgrounds */
   --bg-primary: var(--neutral-50);
@@ -49,7 +49,7 @@
   --neutral-200: hsl(250, 6%, 84%);
 
   /* Semantic colors */
-  --primary: hsl(233, 72%, 56%);
+  --primary: hsl(223, 81%, 50%);
   --primary-dark: hsl(248, 70%, 36%);
   --accent: hsl(28, 100%, 52%);
   --error: hsl(359, 91%, 58%);
@@ -82,15 +82,17 @@ html.font-sans-custom {
 html.font-serif-custom {
   font-family: "EB Garamond", serif;
 }
-h1 {
-  font-weight: bold;
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
 }
 p {
   font-size: 1.125rem;
   color: var(--text-secondary);
 }
 button,
-li,
 a {
   cursor: pointer;
 }
@@ -114,6 +116,9 @@ input:focus {
 }
 .inset {
   box-shadow: inset 0 0 0.5rem 0.25rem var(--overlay);
+}
+.ai-inset {
+  box-shadow: inset 0 0 0.5rem 0.25rem #0786f42a;
 }
 .overlay {
   position: absolute;

@@ -1,9 +1,14 @@
-export type WeatherDataResult = {
-  current: Weather;
-  daily: ForecastDay[];
-  hourly: ForecastHour[];
+// Used for previewing recommended places with minimal weather info
+export type PlacePreview = {
+  id: number;
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  weatherCode?: number;
+  temperature?: number;
+  time?: string;
 };
-// Current weather for a location
 export interface Weather {
   id: string;
   latitude: number;
@@ -55,10 +60,15 @@ export type WeatherViewProps = {
   daily: ForecastDay[];
   hourly: ForecastHour[];
 };
-// Type used in SearchBar component!
+export type WeatherState = {
+  current: Weather;
+  daily: ForecastDay[];
+  hourly: ForecastHour[];
+};
+// Type used in SearchBar component and also search History!
 export type PlaceResult = Pick<
   Weather,
-  "latitude" | "longitude" | "country"
+  "latitude" | "longitude" | "country" | "city"
 > & {
   id: number;
   name: string;
@@ -76,11 +86,6 @@ export interface DayOptions {
 export const DefaultCoords = {
   lat: 60.1699,
   long: 24.9384,
-};
-export type WeatherState = {
-  current: Weather;
-  daily: ForecastDay[];
-  hourly: ForecastHour[];
 };
 
 export const DefaultWeatherState: WeatherState = {

@@ -1,6 +1,6 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
-import { DayOptions, DefaultCoords, ForecastHour } from "../types/weather";
+import React, { useCallback, useState } from "react";
+import { DayOptions, ForecastHour } from "../types/weather";
 import { WeatherOverviewCard } from "./WeatherOverviewCard";
 import { MetricCard } from "./MetricCard";
 import { DailyForecastCard } from "./DailyForecastCard";
@@ -17,6 +17,8 @@ import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
 import { useWeatherContext } from "../context/WeatherContext";
 import Link from "next/link";
+import { LoadingGrid } from "./ui/LoadingGrid";
+import { PropagateLoader } from "react-spinners";
 
 export interface MetricCardProps {
   label: string;
@@ -26,7 +28,6 @@ export interface MetricCardProps {
 export const WeatherView = () => {
   const { weather, updateWeatherData, loading, error } = useWeatherContext();
   const { units } = useSettings();
-  const { lat, long } = DefaultCoords;
 
   // Use the fetched location's local date if available, else fallback to browser's local date
   const locationDate = weather.current.time
@@ -35,23 +36,6 @@ export const WeatherView = () => {
   const [currentDay, setCurrentDay] = useState<string>(locationDate);
   const [showDropDown, setShowDrop] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && weather.current.isSSR) {
-      if (!navigator.geolocation) {
-        updateWeatherData(lat, long);
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          updateWeatherData(pos.coords.latitude, pos.coords.longitude);
-        },
-        () => {
-          updateWeatherData(lat, long);
-        }
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const toggleDropDown = () => {
     setShowDrop((prev) => !prev);
   };
@@ -128,22 +112,33 @@ export const WeatherView = () => {
     );
   }
   return (
-    <section className="max-w-screen-xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]">
+    <section className="max-w-screen-2xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]">
       <header className="text-center">
         <h1 className="text-5xl text-[var(--neutral-0)]">
           How's the sky looking today?
         </h1>
         <SearchBar onWeatherUpdate={updateWeatherData} />
       </header>
-      <div className="w-full max-w-screen-xl grid lg:grid-cols-2 xl:grid-cols-3 mt-10 gap-8 ">
+      <div className="w-full grid lg:grid-cols-2 xl:grid-cols-3 mt-10 gap-8 ">
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
-          <WeatherOverviewCard
-            data={weather.current}
-            loading={loading}
-            onWeatherUpdate={updateWeatherData}
-          />
+          {loading ? (
+            <LoadingGrid className="mx-auto mt-8" length={1}>
+              <PropagateLoader
+                color="var(--accent)"
+                size={20}
+                speedMultiplier={1.5}
+              />
+            </LoadingGrid>
+          ) : (
+            <WeatherOverviewCard
+              data={weather.current}
+              loading={loading}
+              onWeatherUpdate={updateWeatherData}
+            />
+          )}
+
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} loading={loading} />

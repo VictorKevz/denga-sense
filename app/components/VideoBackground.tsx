@@ -5,7 +5,7 @@ interface VideoBackgroundProps {
 }
 export const VideoBackground = ({ src }: VideoBackgroundProps) => {
   return (
-    <div className="absolute inset-0 overflow-hidden rounded-3xl z-1">
+    <div className="absolute inset-0 overflow-hidden rounded-3xl -z-1">
       <video
         className="w-full h-full object-cover"
         src={src}
@@ -14,7 +14,6 @@ export const VideoBackground = ({ src }: VideoBackgroundProps) => {
         muted
         playsInline
       />
-      <div className="absolute left-0 top-0 w-full h-full inset-0 bg-white/20 backdrop-blur-[0.15rem] backdrop-brightness-70! backdrop-saturate-150!" />
     </div>
   );
 };

@@ -2,22 +2,24 @@
 import { WeatherOverviewCard } from "@/app/components/WeatherOverviewCard";
 import { usePlaces } from "@/app/context/PlacesContext";
 import { useWeatherContext } from "@/app/context/WeatherContext";
+import { useRecommendedPlaces } from "@/app/hooks/useRecommendedPlaces";
 import { useWeatherData } from "@/app/hooks/useWeatherData";
 import Image from "next/image";
 import React, { useEffect } from "react";
+import { PlacePreviewCard } from "./PlacePreviewCard";
+import { PulseLoader } from "react-spinners";
+import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
 
 export const PlacesManager = () => {
   const { places, refreshPlace } = usePlaces();
   const { updateWeatherData } = useWeatherContext();
-  const { fetchWeather, loading } = useWeatherData();
+  const { fetchWeather, loading, error } = useWeatherData();
+  const {
+    placePreviews,
+    loading: loadingRecommended,
+    error: errorRecommended,
+  } = useRecommendedPlaces();
 
-  /**
-   * Stale Data Refresh Logic:
-   * - On mount, refresh each saved place only if its weather data is older than 15 minutes.
-   * - Uses the `time` field from the Weather type, which is an ISO UTC string from the API.
-   * - Compares UTC timestamps: both `Date.now()` and `Date.parse(place.time)` are in UTC.
-   * - This ensures freshness checks are accurate regardless of the user's or place's local timezone.
-   */
   useEffect(() => {
     const STALE_THRESHOLD_MINUTES = 15;
     const nowUtc = Date.now();
@@ -59,18 +61,59 @@ export const PlacesManager = () => {
     );
   }
   return (
-    <div className="max-w-screen-xl w-full mt-10">
-      <section className="w-full">
-        <div className="w-full grid xl:grid-cols-2 gap-8">
-          {places.map((place) => (
-            <WeatherOverviewCard
-              key={place.id}
-              data={place}
-              loading={loading}
-              onWeatherUpdate={updateWeatherData}
-            />
-          ))}
-        </div>
+    <div className="max-w-screen-2xl w-full mt-10">
+      <section className="w-full glass px-5 py-6">
+        <h3 className="text-2xl sm:text-4xl text-[var(--text-primary)]">
+          Your Saved Places ({places.length})
+        </h3>
+        <p className="text-xl! max-w-4xl">
+          Here you can view and manage all the places you have saved. Stay
+          updated with the latest weather information for each location. To
+          remove a place, simply click on the bookmark icon.
+        </p>
+        {loading ? (
+          <LoadingGrid
+            className="mx-auto mt-8 max-w-screen-xl w-full grid gap-8 md:grid-cols-2 xl:grid-cols-4"
+            length={4}
+          />
+        ) : (
+          <div className="w-full grid xl:grid-cols-2 gap-8 mt-8">
+            {places.map((place) => (
+              <WeatherOverviewCard
+                key={place.id}
+                data={place}
+                loading={loading}
+                onWeatherUpdate={updateWeatherData}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="w-full glass px-5 py-6 mt-8">
+        <header>
+          <h3 className="text-2xl sm:text-4xl text-[var(--text-primary)]">
+            Smart Recommendations
+          </h3>
+          <p className="max-w-4xl text-xl! mt-1.5">
+            Personalized suggestions, just for you. These AI-powered
+            recommendations use your saved places and recent searches to
+            highlight destinations you might enjoy complete with live weather
+            snapshots.
+          </p>
+        </header>
+        {loadingRecommended ? (
+          <LoadingGrid
+            className="max-w-screen-xl w-full grid gap-8 md:grid-cols-2 xl:grid-cols-4 mx-auto mt-8"
+            length={4}
+          />
+        ) : (
+          <div className="w-full grid gap-8 md:grid-cols-2 xl:grid-cols-4 mt-8">
+            {placePreviews.map((place) => (
+              <PlacePreviewCard key={place.id} data={place} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

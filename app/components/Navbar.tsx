@@ -20,7 +20,7 @@ export const Navbar = () => {
             href={tab.url}
             className={`group w-full center text-[var(--neutral-0)] md:text-sm font-medium hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]! hover:px-4 hover:h-[3.5rem] hover:rounded-full ${
               isActive
-                ? " bg-[var(--primary)] text-[var(--neutral-0)]! px-4 h-[3.5rem] rounded-full"
+                ? " bg-[var(--primary)] text-[var(--neutral-0)]! px-4 h-[3.5rem] rounded-full border border-[var(--glass-border)]"
                 : ""
             }`}
           >
