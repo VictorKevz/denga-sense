@@ -17,6 +17,8 @@ import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
 import { useWeatherContext } from "../context/WeatherContext";
 import Link from "next/link";
+import { LoadingGrid } from "./ui/LoadingGrid";
+import { PropagateLoader } from "react-spinners";
 
 export interface MetricCardProps {
   label: string;
@@ -121,11 +123,22 @@ export const WeatherView = () => {
         {/* ............................................................................................ */}
 
         <div className="w-full lg:col-span-2">
-          <WeatherOverviewCard
-            data={weather.current}
-            loading={loading}
-            onWeatherUpdate={updateWeatherData}
-          />
+          {loading ? (
+            <LoadingGrid className="mx-auto mt-8" length={1}>
+              <PropagateLoader
+                color="var(--accent)"
+                size={20}
+                speedMultiplier={1.5}
+              />
+            </LoadingGrid>
+          ) : (
+            <WeatherOverviewCard
+              data={weather.current}
+              loading={loading}
+              onWeatherUpdate={updateWeatherData}
+            />
+          )}
+
           <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
             {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} loading={loading} />

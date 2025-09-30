@@ -1,4 +1,5 @@
 "use client";
+import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
 import { useInsights } from "@/app/hooks/useInsights";
 import { Insight } from "@/app/types/insights";
 import { MUIIcon } from "@/app/types/settings";
@@ -10,25 +11,40 @@ import {
   SportsHandball,
   Timeline,
 } from "@mui/icons-material";
+import Link from "next/link";
 import React from "react";
-import { PulseLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 
 export const InsightsView = () => {
   const { insights, loading, error } = useInsights();
 
-  if (error) return <p>Error: {error}</p>;
+  if (error) {
+    return (
+      <div className="center flex-col! w-full min-h-[80dvh] px-6">
+        <h1 className="text-4xl">An error occurred!</h1>
+        <p>{error}</p>
+        <Link
+          href={`/`}
+          className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
+        >
+          Try again
+        </Link>
+      </div>
+    );
+  }
   if (loading) {
     return (
-      <div className="max-w-screen-xl mx-auto w-full grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <div
-            key={i}
-            className="glass center w-full my-4 min-h-[15rem] lg:first:col-span-2"
-          >
-            <PulseLoader color="var(--primary)" />
-          </div>
-        ))}
-      </div>
+      <LoadingGrid
+        className="grid max-w-screen-xl mx-auto w-full gap-8 lg:grid-cols-2 xl:grid-cols-3"
+        length={5}
+        loaderClassName="glass center lg:first:col-span-2 my-4 min-h-[15rem]"
+      >
+        <PropagateLoader
+          color="var(--primary)"
+          size={20}
+          speedMultiplier={1.5}
+        />
+      </LoadingGrid>
     );
   }
   const icons: { icon: MUIIcon; color: string }[] = [

@@ -8,13 +8,13 @@ import { getBackgroundClass } from "@/app/data/backgrounds";
 import { useWeatherContext } from "@/app/context/WeatherContext";
 import { useRouter } from "next/navigation";
 import { VideoBackground } from "@/app/components/VideoBackground";
+import { ArrowForward } from "@mui/icons-material";
 
 interface PlacePreviewProps {
   data: PlacePreview;
-  loading: boolean;
 }
 
-export const PlacePreviewCard = ({ data, loading }: PlacePreviewProps) => {
+export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
   const { name, country, weatherCode, time, temperature } = data;
   const { units } = useSettings();
   const { updateWeatherData } = useWeatherContext();
@@ -29,20 +29,13 @@ export const PlacePreviewCard = ({ data, loading }: PlacePreviewProps) => {
     router.push(`/dashboard/weather`);
   };
 
-  if (loading) {
-    return (
-      <div>
-        <p>loading.....</p>
-      </div>
-    );
-  }
   return (
     <article className="glass w-full relative z-5 px-4 py-5">
       <header className="w-full center flex-col! ">
         <span className="glass inset rounded-full!">
           <WeatherIcon code={weatherCode!} size={80} />
         </span>
-        <p className="text-3xl! sm:text-5xl! font-bold mt-2 text-[var(--neutral-200)]!">
+        <p className="text-3xl! sm:text-5xl! font-bold mt-3.5 ml-2 text-[var(--neutral-200)]!">
           {formatTemp(temperature!, units.temperature)}
         </p>
         <p className=" text-[var(--neutral-200)]!">
@@ -51,10 +44,13 @@ export const PlacePreviewCard = ({ data, loading }: PlacePreviewProps) => {
       </header>
       <button
         type="button"
-        className="center h-12 w-full mx-auto mt-4 px-4 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-semibold text-[var(--neutral-0)] text-xl"
+        className="center justify-between! gap-1 h-12 w-full mx-auto mt-5 px-6 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-semibold text-[var(--neutral-0)] text-lg"
         onClick={handleViewClick}
       >
-        View place
+        View Place
+        <span className="center h-8 w-8 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]">
+          <ArrowForward className="-rotate-20" />
+        </span>
       </button>
 
       <VideoBackground src={bgUrl} />
