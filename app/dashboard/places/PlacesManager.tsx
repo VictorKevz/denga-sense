@@ -124,7 +124,10 @@ export const PlacesManager = () => {
             snapshots.
           </p>
         </header>
-        {loadingRecommended ? (
+        {errorRecommended && (
+          <ErroUI error={errorRecommended} action="goHome" />
+        )}
+        {loadingRecommended && !errorRecommended ? (
           <LoadingGrid
             className="max-w-screen-xl w-full grid gap-8 md:grid-cols-2 xl:grid-cols-4 mx-auto mt-8"
             length={4}

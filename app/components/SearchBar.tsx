@@ -111,7 +111,6 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
           aria-invalid={Boolean(inputError)}
           aria-describedby={inputError ? "query-error" : undefined}
           aria-controls="place-results-list"
-          aria-expanded={Boolean(query && placeResults.length > 0)}
           enterKeyHint="search"
         />
         {inputError && (

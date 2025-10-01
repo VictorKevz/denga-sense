@@ -55,6 +55,7 @@ export const InsightsView = () => {
       >
         {insights.map((insight, i) => (
           <InsightCard
+            key={insight.id}
             insight={insight}
             Icon={icons[i].icon}
             color={icons[i].color}

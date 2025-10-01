@@ -52,7 +52,7 @@ Only change the summary, subTitle, and features based on the data. Titles and id
     let insights;
     try {
       insights = JSON.parse(text);
-    } catch (e) {
+    } catch {
       return NextResponse.json(
         { error: "Model did not return valid JSON." },
         { status: 500 }
@@ -60,7 +60,7 @@ Only change the summary, subTitle, and features based on the data. Titles and id
     }
 
     return NextResponse.json(insights);
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to generate insights" },
       { status: 500 }

@@ -16,7 +16,6 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { SearchBar } from "./SearchBar";
 import { useSettings } from "../context/SettingsContext";
 import { useWeatherContext } from "../context/WeatherContext";
-import Link from "next/link";
 import { LoadingGrid } from "./ui/LoadingGrid";
 import { PropagateLoader } from "react-spinners";
 import { ErroUI } from "./ui/ErroUI";
