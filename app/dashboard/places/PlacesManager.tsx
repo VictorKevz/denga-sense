@@ -8,6 +8,7 @@ import Image from "next/image";
 import React, { useEffect } from "react";
 import { PlacePreviewCard } from "./PlacePreviewCard";
 import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
+import { ErroUI } from "@/app/components/ui/ErroUI";
 
 export const PlacesManager = () => {
   const { places, refreshPlace } = usePlaces();
@@ -40,31 +41,47 @@ export const PlacesManager = () => {
       }
     });
   }, []);
+  if (error) {
+    return <ErroUI error={error} action="goHome" />;
+  }
   if (places.length === 0) {
     return (
-      <div className="w-full center flex-col!">
+      <section
+        className="w-full center flex-col!"
+        aria-labelledby="empty-places-heading"
+      >
         <Image
           src="/images/empty-places.svg"
           alt=""
           width={300}
           height={350}
           className="bg-[var(--neutral-50)] p-5 rounded-2xl"
+          aria-hidden
         />
-        <h2 className="text-4xl text-[var(--neutral-0)] mt-8 font-semibold">
+        <h2
+          id="empty-places-heading"
+          className="text-4xl text-[var(--neutral-0)] mt-8 font-semibold"
+        >
           No Places Saved (0)
         </h2>
         <p className="text-[var(--neutral-200)]! mt-1">
           Your saved places will appear here
         </p>
-      </div>
+      </section>
     );
   }
   return (
     <div className="max-w-screen-2xl w-full mt-10">
-      <section className="w-full glass px-5 py-6">
-        <h3 className="text-2xl sm:text-4xl text-[var(--text-primary)]">
+      <section
+        className="w-full glass px-5 py-6"
+        aria-labelledby="saved-places-heading"
+      >
+        <h2
+          id="saved-places-heading"
+          className="text-2xl sm:text-4xl text-[var(--text-primary)]"
+        >
           Your Saved Places ({places.length})
-        </h3>
+        </h2>
         <p className="text-xl! max-w-4xl">
           Here you can view and manage all the places you have saved. Stay
           updated with the latest weather information for each location. To
@@ -76,23 +93,30 @@ export const PlacesManager = () => {
             length={4}
           />
         ) : (
-          <div className="w-full grid xl:grid-cols-2 gap-8 mt-8">
+          <ul className="w-full grid xl:grid-cols-2 gap-8 mt-8" role="list">
             {places.map((place) => (
-              <WeatherOverviewCard
-                key={place.id}
-                data={place}
-                onWeatherUpdate={updateWeatherData}
-              />
+              <li key={place.id} className="list-none">
+                <WeatherOverviewCard
+                  data={place}
+                  onWeatherUpdate={updateWeatherData}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </section>
 
-      <section className="w-full glass px-5 py-6 mt-8">
+      <section
+        className="w-full glass px-5 py-6 mt-8"
+        aria-labelledby="smart-recommendations-heading"
+      >
         <header>
-          <h3 className="text-2xl sm:text-4xl text-[var(--text-primary)]">
+          <h2
+            id="smart-recommendations-heading"
+            className="text-2xl sm:text-4xl text-[var(--text-primary)]"
+          >
             Smart Recommendations
-          </h3>
+          </h2>
           <p className="max-w-4xl text-xl! mt-1.5">
             Personalized suggestions, just for you. These AI-powered
             recommendations use your saved places and recent searches to
@@ -106,11 +130,16 @@ export const PlacesManager = () => {
             length={4}
           />
         ) : (
-          <div className="w-full grid gap-8 md:grid-cols-2 xl:grid-cols-4 mt-8">
+          <ul
+            className="w-full grid gap-8 md:grid-cols-2 xl:grid-cols-4 mt-8"
+            role="list"
+          >
             {placePreviews.map((place) => (
-              <PlacePreviewCard key={place.id} data={place} />
+              <li key={place.id} className="list-none">
+                <PlacePreviewCard data={place} />
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </section>
     </div>

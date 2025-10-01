@@ -5,7 +5,10 @@ interface VideoBackgroundProps {
 }
 export const VideoBackground = ({ src }: VideoBackgroundProps) => {
   return (
-    <div className="absolute inset-0 overflow-hidden rounded-3xl -z-1">
+    <div
+      className="absolute inset-0 overflow-hidden rounded-3xl -z-1"
+      aria-hidden
+    >
       <video
         className="w-full h-full object-cover"
         src={src}
@@ -13,6 +16,10 @@ export const VideoBackground = ({ src }: VideoBackgroundProps) => {
         loop
         muted
         playsInline
+        tabIndex={-1}
+        aria-hidden="true"
+        role="presentation"
+        disablePictureInPicture
       />
     </div>
   );

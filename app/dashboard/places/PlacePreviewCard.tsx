@@ -30,15 +30,25 @@ export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
   };
 
   return (
-    <article className="glass ai-inset w-full relative  px-4 py-5">
+    <article
+      className="glass ai-inset w-full relative  px-4 py-5"
+      aria-labelledby={`place-card-${name}-${country}`}
+      role="region"
+    >
       <header className="w-full center flex-col! ">
         <span className="glass inset rounded-full!">
-          <WeatherIcon code={weatherCode!} size={80} />
+          <WeatherIcon code={weatherCode!} size={80} aria-hidden="true" />
         </span>
-        <p className="text-3xl! sm:text-5xl! font-bold mt-3.5 ml-2 text-[var(--neutral-200)]!">
+        <h3
+          id={`place-card-${name}-${country}`}
+          className="text-3xl! sm:text-5xl! font-bold mt-3.5 ml-2 text-[var(--neutral-200)]!"
+        >
           {formatTemp(temperature!, units.temperature)}
-        </p>
-        <p className=" text-[var(--neutral-200)]!">
+        </h3>
+        <p
+          className=" text-[var(--neutral-200)]!"
+          aria-label={`${name}, ${country}`}
+        >
           {name}, {country}
         </p>
       </header>
@@ -46,13 +56,17 @@ export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
         type="button"
         className="center justify-between! gap-1 h-12 max-w-[15rem] w-full mx-auto mt-5 px-6 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-semibold text-[var(--neutral-0)] text-lg"
         onClick={handleViewClick}
+        aria-label={`View detailed weather for ${name}, ${country}`}
       >
         View Place
-        <span className="center h-8 w-8 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]">
+        <span
+          className="center h-8 w-8 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]"
+          aria-hidden="true"
+        >
           <ArrowForward className="-rotate-20" />
         </span>
       </button>
-      <VideoBackground src={bgUrl} />
+      <VideoBackground src={bgUrl} aria-hidden="true" />
     </article>
   );
 };

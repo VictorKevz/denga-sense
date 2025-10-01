@@ -105,8 +105,7 @@ button:focus,
 a:focus {
   outline: none;
   cursor: pointer;
-  border: 2px solid var(--accent);
-  border-radius: 1.5rem;
+  border: 2px dashed var(--accent);
   background-color: var(--primary);
 }
 /* Common classes */
