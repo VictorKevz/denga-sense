@@ -8,7 +8,12 @@ interface DropDownProps {
 }
 export const DropDown = ({ data, onUpdate, currentDay }: DropDownProps) => {
   return (
-    <ul className="glass absolute right-0 top-full mt-1 min-w-[14rem] w-full flex flex-col gap-3  px-3 py-5 rounded-3xl backdrop-blur-[0.35rem] backdrop-saturate-150 border border-[var(--glass-border)]">
+    <ul
+      id="day-options-list"
+      className="glass absolute right-0 top-full mt-1 min-w-[14rem] w-full flex flex-col gap-3  px-3 py-5 rounded-3xl backdrop-blur-[0.35rem] backdrop-saturate-150 border border-[var(--glass-border)]"
+      role="listbox"
+      aria-label="Select day"
+    >
       {data.map((day) => {
         const isActive = currentDay === day.date;
         return (
@@ -21,10 +26,18 @@ export const DropDown = ({ data, onUpdate, currentDay }: DropDownProps) => {
                   : "glass inset border border-[var(--border)] hover:bg-[var(--primary)]!"
               }`}
               onClick={() => onUpdate(day.date)}
+              role="option"
+              aria-selected={isActive}
             >
               {day.label}
-              <span className="group-hover:translate-x-3">
-                <KeyboardArrowRight />
+              <span
+                aria-hidden="true"
+                className="center w-6 h-6 rounded-full bg-[var(--neutral-0)] group-hover:translate-x-2"
+              >
+                <KeyboardArrowRight
+                  fontSize="small"
+                  className="text-[var(--neutral-900)]"
+                />
               </span>
             </button>
           </li>

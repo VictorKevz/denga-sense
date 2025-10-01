@@ -14,13 +14,14 @@ export const HourlyForecastCard = ({ data, loading }: HourlyForecastProps) => {
   return (
     <li className="glass w-full flex items-center justify-between rounded-full! px-4 h-15">
       {loading ? (
-        <div className="w-full center py-4">
+        <div className="w-full center py-4" aria-busy="true" aria-live="polite">
           <PulseLoader size={20} color="var(--accent)" />
+          <span className="sr-only">Loading hourly forecast…</span>
         </div>
       ) : (
         <>
           <div className="flex items-center gap-3">
-            <WeatherIcon code={data.weatherCode!} />
+            <WeatherIcon code={data.weatherCode!} aria-hidden="true" />
             <time
               dateTime={data.time}
               className="text-[var(--text-primary)] text-lg"
@@ -28,7 +29,13 @@ export const HourlyForecastCard = ({ data, loading }: HourlyForecastProps) => {
               {formatHour(data.time, localization.timeFormat)}
             </time>
           </div>
-          <p className="text-base!">
+          <p
+            className="text-base!"
+            aria-label={`Temperature ${formatTemp(
+              data.temp,
+              units.temperature
+            )}`}
+          >
             {formatTemp(data.temp, units.temperature)}
           </p>
         </>

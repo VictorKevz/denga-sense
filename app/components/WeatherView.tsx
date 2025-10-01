@@ -179,9 +179,16 @@ export const WeatherView = () => {
                 type="button"
                 onClick={toggleDropDown}
                 className="center h-11 gap-1.5 px-2 sm:px-4 rounded-full text-[var(--neutral-0)] bg-[var(--primary)] border border-[var(--glass-border)]"
+                aria-haspopup="listbox"
+                aria-expanded={showDropDown}
+                aria-controls="day-options-list"
+                aria-label={`Select day, ${formatDayOfWeek(
+                  currentDay,
+                  "long"
+                )}`}
               >
                 {formatDayOfWeek(currentDay, "long")}
-                <span>
+                <span aria-hidden="true">
                   {showDropDown ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 </span>
               </button>

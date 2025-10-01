@@ -171,7 +171,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
                   <button
                     type="button"
                     onClick={() => updateCoords(city)}
-                    className="center inset-ai group w-full justify-between! border border-[var(--glass-border)] backdrop-blur-2xl! backdrop-saturate-90 backdrop-brightness-90 px-3 py-1 rounded-full hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]"
+                    className="center inset group w-full h-10 justify-between! border border-[var(--glass-border)] backdrop-blur-2xl! backdrop-saturate-150! backdrop-brightness-90 px-3 rounded-full hover:bg-[var(--primary)] hover:text-[var(--neutral-0)]"
                     role="option"
                     aria-selected={Boolean(
                       selectedPlace && selectedPlace.id === city.id
