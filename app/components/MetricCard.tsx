@@ -8,18 +8,23 @@ interface MetricCardProps {
 export const MetricCard = ({ data, loading }: MetricCardProps) => {
   const { label, value } = data;
   return (
-    <div className="glass p-5 rounded-2xl!">
+    <div
+      className="glass p-5 rounded-2xl!"
+      aria-busy={loading}
+      aria-label={`${label} metric`}
+    >
       {loading ? (
-        <div className="w-full center py-4">
+        <div className="w-full center py-4" aria-live="polite">
           <PulseLoader size={20} color="var(--primary)" />
+          <span className="sr-only">Loading {label}…</span>
         </div>
       ) : (
-        <>
-          <p className="text-[var(--text-secondary)]">{label}</p>
-          <h3 className="text-2xl text-[var(--text-primary)] font-light">
+        <dl>
+          <dt className="text-[var(--text-secondary)]">{label}</dt>
+          <dd className="text-2xl text-[var(--text-primary)] font-light">
             {value}
-          </h3>
-        </>
+          </dd>
+        </dl>
       )}
     </div>
   );

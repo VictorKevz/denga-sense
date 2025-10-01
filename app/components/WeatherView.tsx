@@ -19,6 +19,7 @@ import { useWeatherContext } from "../context/WeatherContext";
 import Link from "next/link";
 import { LoadingGrid } from "./ui/LoadingGrid";
 import { PropagateLoader } from "react-spinners";
+import { ErroUI } from "./ui/ErroUI";
 
 export interface MetricCardProps {
   label: string;
@@ -98,31 +99,26 @@ export const WeatherView = () => {
   const showOverflow = hoursToDisplay.length >= 7;
 
   if (error) {
-    return (
-      <div className="center flex-col! w-full min-h-[80dvh] px-6">
-        <h1 className="text-4xl">An error occurred!</h1>
-        <p>{error}</p>
-        <Link
-          href={`/`}
-          className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
-        >
-          Try again
-        </Link>
-      </div>
-    );
+    return <ErroUI error={error} action="goHome" />;
   }
   return (
-    <section className="max-w-screen-2xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]">
+    <main
+      className="max-w-screen-2xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]"
+      role="main"
+    >
       <header className="text-center">
         <h1 className="text-5xl text-[var(--neutral-0)]">
           How's the sky looking today?
         </h1>
         <SearchBar onWeatherUpdate={updateWeatherData} />
       </header>
-      <div className="w-full grid lg:grid-cols-2 xl:grid-cols-3 mt-10 gap-8 ">
+      <section className="w-full grid lg:grid-cols-2 xl:grid-cols-3 mt-10 gap-8 ">
         {/* ............................................................................................ */}
 
-        <div className="w-full lg:col-span-2">
+        <section
+          className="w-full lg:col-span-2"
+          aria-labelledby="weather-summary-heading"
+        >
           {loading ? (
             <LoadingGrid className="mx-auto mt-8" length={1}>
               <PropagateLoader
@@ -134,7 +130,6 @@ export const WeatherView = () => {
           ) : (
             <WeatherOverviewCard
               data={weather.current}
-              loading={loading}
               onWeatherUpdate={updateWeatherData}
             />
           )}
@@ -145,27 +140,40 @@ export const WeatherView = () => {
             ))}
           </div>
           <div className="w-full mt-10">
-            <h2 className="text-xl text-[var(--text-primary)]">
+            <h2
+              id="weather-summary-heading"
+              className="text-xl text-[var(--text-primary)]"
+            >
               Daily Forecast
             </h2>
-            <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
-              {weather.daily.map((day) => (
-                <DailyForecastCard
-                  key={day.date}
-                  data={day}
-                  loading={loading}
-                />
-              ))}
-            </div>
+            {loading ? (
+              <LoadingGrid
+                length={7}
+                className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4"
+                loaderClassName="glass inset w-full min-h-[8rem] px-2.5 py-4 flex flex-col items-center justify-between last:col-span-3 md:last:col-span-1"
+              />
+            ) : (
+              <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
+                {weather.daily.map((day) => (
+                  <DailyForecastCard key={day.date} data={day} />
+                ))}
+              </div>
+            )}
           </div>
-        </div>
+        </section>
 
         {/* ............................................................................................ */}
-        <article className={`glass inset w-full px-4 py-6 h-auto  `}>
+        <section
+          className="glass inset w-full px-4 py-6 h-auto"
+          aria-labelledby="hourly-forecast-heading"
+        >
           <header className="w-full flex items-center justify-between">
-            <h3 className="text-[var(--text-primary)] text-base md:text-lg font-semibold">
+            <h2
+              id="hourly-forecast-heading"
+              className="text-[var(--text-primary)] text-base md:text-lg font-semibold"
+            >
               Hourly forecast
-            </h3>
+            </h2>
             <div className="relative">
               <button
                 type="button"
@@ -201,9 +209,8 @@ export const WeatherView = () => {
               />
             ))}
           </ul>
-        </article>
-        {/* ............................................................................................ */}
-      </div>
-    </section>
+        </section>
+      </section>
+    </main>
   );
 };

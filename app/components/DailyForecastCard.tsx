@@ -2,36 +2,36 @@ import React from "react";
 import { ForecastDay } from "../types/weather";
 import { formatDayOfWeek } from "../utils/formatters";
 import { WeatherIcon } from "./WeatherIcon";
-import { PulseLoader } from "react-spinners";
+
 interface DailyForecastProps {
   data: ForecastDay;
-  loading: boolean;
 }
-export const DailyForecastCard = ({ data, loading }: DailyForecastProps) => {
+export const DailyForecastCard = ({ data }: DailyForecastProps) => {
   const { date, weatherCode, tempMax, tempMin } = data;
   return (
-    <div
-      className={`glass inset w-full px-2.5 py-4  flex flex-col items-center justify-between last:col-span-3 md:last:col-span-1`}
+    <article
+      className="glass inset w-full px-2.5 py-4 flex flex-col items-center justify-between last:col-span-3 md:last:col-span-1"
+      aria-labelledby={`daily-forecast-${date}`}
     >
-      {loading ? (
-        <div className="w-full center py-4">
-          <PulseLoader size={15} color="var(--primary)" />
-        </div>
-      ) : (
-        <>
-          <p className="text-[var(--text-secondary)]">
-            {formatDayOfWeek(date)}
-          </p>
-          <div className="my-5">
-            <WeatherIcon code={weatherCode!} />
-          </div>
-
-          <div className="w-full flex items-center justify-between gap-4!">
-            <p className="">{Math.round(tempMax)}°</p>
-            <p className="">{Math.floor(tempMin)}°</p>
-          </div>
-        </>
-      )}
-    </div>
+      <h3
+        id={`daily-forecast-${date}`}
+        className="text-[var(--text-secondary)]"
+      >
+        {formatDayOfWeek(date)}
+      </h3>
+      <div className="my-5">
+        <WeatherIcon code={weatherCode!} aria-hidden="true" />
+      </div>
+      <dl className="w-full flex items-center justify-between gap-4!">
+        <dt className="sr-only">High</dt>
+        <dd className="text-base text-[var(--text-primary)] font-light">
+          {Math.round(tempMax)}°
+        </dd>
+        <dt className="sr-only">Low</dt>
+        <dd className="text-base text-[var(--text-primary)] font-light">
+          {Math.floor(tempMin)}°
+        </dd>
+      </dl>
+    </article>
   );
 };

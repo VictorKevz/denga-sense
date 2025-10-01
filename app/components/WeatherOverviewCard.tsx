@@ -1,7 +1,6 @@
 import { Weather } from "../types/weather";
 import { formatFullDate, formatHour, formatTemp } from "../utils/formatters";
 import { WeatherIcon } from "./WeatherIcon";
-import { PropagateLoader } from "react-spinners";
 import { VideoBackground } from "./VideoBackground";
 import { getBackgroundClass } from "../data/backgrounds";
 import { useSettings } from "../context/SettingsContext";
@@ -16,7 +15,6 @@ import { usePlaces } from "../context/PlacesContext";
 import { usePathname, useRouter } from "next/navigation";
 interface WeatherOverviewCardProps {
   data: Weather;
-  loading: boolean;
   onWeatherUpdate: (lat: number, lon: number) => Promise<void>;
 }
 export const WeatherOverviewCard = ({
@@ -44,15 +42,20 @@ export const WeatherOverviewCard = ({
       className={`w-full relative  ${
         isPlaces ? "min-h-fit" : "min-h-[17rem]"
       } center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
+      aria-labelledby={`weather-card-title-${data.id}`}
+      role="region"
     >
       <header className="w-full flex flex-col-reverse sm:flex-row items-start justify-between gap-4 z-5">
-        <div className="">
-          <h3 className="text-lg sm:text-xl font-bold text-[var(--neutral-0)]">
+        <div>
+          <h2
+            id={`weather-card-title-${data.id}`}
+            className="text-lg sm:text-xl font-bold text-[var(--neutral-0)]"
+          >
             {data.city}, {data.country}{" "}
             <span className="">
               <Navigation fontSize="small" className="rotate-40 mb-2" />
             </span>
-          </h3>
+          </h2>
           <p className="mt-1 text-xl! text-[var(--neutral-200)]!">
             {info.label}
           </p>
@@ -64,8 +67,14 @@ export const WeatherOverviewCard = ({
             className={`w-12 h-12 rounded-full! backdrop-blur-2xl! mb-4 text-[var(--neutral-0)] hover:bg-[var(--primary)]! border border-[var(--glass-border)] ${
               isSaved(data.id) ? "bg-[var(--primary)]" : "glass inset"
             }`}
+            aria-pressed={isSaved(data.id)}
+            aria-label={
+              isSaved(data.id)
+                ? `Remove ${data.city}, ${data.country} from saved places`
+                : `Add ${data.city}, ${data.country} to saved places`
+            }
           >
-            {isSaved(data.id) ? <Bookmark className="" /> : <BookmarkAdd />}
+            {isSaved(data.id) ? <Bookmark /> : <BookmarkAdd />}
           </button>
           <div className="flex flex-col sm:items-end">
             <time
@@ -84,17 +93,26 @@ export const WeatherOverviewCard = ({
         </div>
       </header>
       <footer className="w-full flex justify-between items-baseline mt-4 z-5">
-        <div className="flex items-center gap-2  ">
+        <div
+          className="flex items-center gap-2  "
+          role="group"
+          aria-label="Current conditions"
+        >
           <div className="glass inset rounded-full!">
             <WeatherIcon
               code={data.weatherCode!}
               size={Number(`${isPlaces ? 50 : 80}`)}
+              aria-hidden="true"
             />
-          </div>{" "}
+          </div>
           <span
             className={`${
               isPlaces ? "text-4xl sm:text-6xl" : "text-6xl sm:text-8xl"
             } text-[var(--neutral-0)] font-semibold italic`}
+            aria-label={`Temperature ${formatTemp(
+              data.temp!,
+              units.temperature
+            )}`}
           >
             {formatTemp(data.temp!, units.temperature)}
           </span>
@@ -103,7 +121,8 @@ export const WeatherOverviewCard = ({
           <button
             type="button"
             onClick={handleViewClick}
-            className="center gap-2 h-12 min-w-fit px-5 bg-[var(--primary)] border border-[var(--glass-border)] text-[var(--neutral-0)] rounded-full"
+            className="center gap-2 h-12 min-w-max px-5 bg-[var(--primary)] border border-[var(--glass-border)] text-[var(--neutral-0)] rounded-full"
+            aria-label={`View detailed weather for ${data.city}`}
           >
             View
             <span className="center h-8 w-8 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]">
@@ -113,7 +132,7 @@ export const WeatherOverviewCard = ({
         )}
       </footer>
 
-      <VideoBackground src={bgUrl} />
+      <VideoBackground src={bgUrl} aria-hidden="true" />
     </article>
   );
 };
