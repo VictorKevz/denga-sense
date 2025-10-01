@@ -7,7 +7,6 @@ import { useWeatherData } from "@/app/hooks/useWeatherData";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { PlacePreviewCard } from "./PlacePreviewCard";
-import { PulseLoader } from "react-spinners";
 import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
 
 export const PlacesManager = () => {
@@ -82,7 +81,6 @@ export const PlacesManager = () => {
               <WeatherOverviewCard
                 key={place.id}
                 data={place}
-                loading={loading}
                 onWeatherUpdate={updateWeatherData}
               />
             ))}

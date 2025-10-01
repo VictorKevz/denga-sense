@@ -19,7 +19,7 @@ import { PropagateLoader } from "react-spinners";
 export const InsightsView = () => {
   const { insights, loading, error } = useInsights();
 
-  if (error) <ErroUI error={error} />;
+  if (error) <ErroUI error={error} action="goHome" />;
   if (loading) {
     return (
       <LoadingGrid
