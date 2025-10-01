@@ -197,6 +197,7 @@ export const WeatherView = () => {
                   data={dayOptions}
                   onUpdate={updateCurrentDay}
                   currentDay={currentDay}
+                  onClose={() => setShowDrop(false)}
                 />
               )}
             </div>

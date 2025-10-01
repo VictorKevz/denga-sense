@@ -101,6 +101,14 @@ input:focus {
   outline: none;
   cursor: pointer;
 }
+button:focus,
+a:focus {
+  outline: none;
+  cursor: pointer;
+  border: 2px solid var(--accent);
+  border-radius: 1.5rem;
+  background-color: var(--primary);
+}
 /* Common classes */
 .center {
   display: flex;

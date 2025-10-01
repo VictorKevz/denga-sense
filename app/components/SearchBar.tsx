@@ -181,9 +181,12 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
                     {city.name}, {city.country}{" "}
                     <span
                       aria-hidden="true"
-                      className="center w-6 h-6 rounded-full bg-[var(--neutral-0)] group-hover:translate-x-2 group-hover:text-[var(--neutral-900)]"
+                      className="center w-6 h-6 rounded-full bg-[var(--neutral-0)] group-hover:translate-x-2"
                     >
-                      <KeyboardArrowRight fontSize="small" />
+                      <KeyboardArrowRight
+                        fontSize="small"
+                        className="text-[var(--neutral-900)]"
+                      />
                     </span>
                   </button>
                 </li>

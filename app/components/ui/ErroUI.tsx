@@ -20,6 +20,9 @@ export const ErroUI = ({
       className={`center flex-col! w-full  px-6 ${
         isTryAgain ? "min-h-none" : "min-h-[80dvh]"
       }`}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
     >
       <h2 className="text-4xl">An error occurred!</h2>
       <p className="text-xl!">{error}</p>
@@ -27,6 +30,8 @@ export const ErroUI = ({
         <button
           onClick={onAction}
           className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
+          role="button"
+          aria-label="Try again"
         >
           Try again <Replay />
         </button>
@@ -35,6 +40,7 @@ export const ErroUI = ({
           href={`/`}
           onClick={onAction}
           className="center h-12 max-w-xs w-full border border-[var(--glass-border)] bg-[var(--primary)] text-[var(--neutral-0)] font-semibold rounded-full px-4 mt-10"
+          aria-label="Go home"
         >
           Go home <Replay />
         </Link>
