@@ -8,6 +8,8 @@ import {
 } from "@/app/types/settings";
 import React from "react";
 import { SettingsSelector } from "./SettingsSelector";
+import { AnimatePresence, motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 
 export const UnitsManager = () => {
   const { units, onUnitUpdate } = useSettings();
@@ -39,20 +41,27 @@ export const UnitsManager = () => {
     },
   ];
   return (
-    <article className="glass flex w-full h-full flex-col! justify-between gap-4 px-4 pt-5 pb-8">
-      {unitsData.map((obj) => {
-        return (
-          <SettingsSelector
-            key={obj.id}
-            label={obj.heading}
-            options={obj.options}
-            selected={units[obj.id as UnitsKey]}
-            onSelect={(value) =>
-              onUnitUpdate(obj.id as UnitsKey, value as UnitValue)
-            }
-          />
-        );
-      })}
-    </article>
+    <AnimatePresence mode="wait">
+      <motion.article
+        className="glass flex w-full h-full flex-col! justify-between gap-4 px-4 pt-5 pb-8"
+        variants={FadeInVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {unitsData.map((obj) => {
+          return (
+            <SettingsSelector
+              key={obj.id}
+              label={obj.heading}
+              options={obj.options}
+              selected={units[obj.id as UnitsKey]}
+              onSelect={(value) =>
+                onUnitUpdate(obj.id as UnitsKey, value as UnitValue)
+              }
+            />
+          );
+        })}
+      </motion.article>
+    </AnimatePresence>
   );
 };

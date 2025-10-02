@@ -5,14 +5,11 @@ import {
   AppearanceValues,
   SelectorDataType,
 } from "@/app/types/settings";
-import {
-  Contrast,
-  DarkMode,
-  DevicesOther,
-  LightMode,
-} from "@mui/icons-material";
+import { Contrast, DarkMode, LightMode } from "@mui/icons-material";
 import React from "react";
 import { SettingsSelector } from "./SettingsSelector";
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 
 export const AppearanceManager = () => {
   const { appearance, onAppearanceUpdate } = useSettings();
@@ -40,7 +37,12 @@ export const AppearanceManager = () => {
     },
   ];
   return (
-    <article className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset">
+    <motion.article
+      className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset"
+      variants={FadeInVariants}
+      initial="hidden"
+      animate="visible"
+    >
       {appearanceData.map((obj) => {
         return (
           <SettingsSelector
@@ -57,6 +59,6 @@ export const AppearanceManager = () => {
           />
         );
       })}
-    </article>
+    </motion.article>
   );
 };

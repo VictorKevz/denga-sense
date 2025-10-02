@@ -7,6 +7,8 @@ import {
 } from "@/app/types/settings";
 import React from "react";
 import { SettingsSelector } from "./SettingsSelector";
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 
 export const Localization = () => {
   const { localization, onLocalizationUpdate } = useSettings();
@@ -29,8 +31,13 @@ export const Localization = () => {
     },
   ];
   return (
-    <div className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset">
-      <ul className="w-full center flex-col! gap-4 justify-between  px-0.5 py-0.5">
+    <motion.article
+      className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset"
+      variants={FadeInVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <div className="w-full center flex-col! gap-4 justify-between  px-0.5 py-0.5">
         {localizationData.map((obj) => {
           return (
             <SettingsSelector
@@ -47,7 +54,7 @@ export const Localization = () => {
             />
           );
         })}
-      </ul>
-    </div>
+      </div>
+    </motion.article>
   );
 };

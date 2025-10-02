@@ -8,10 +8,6 @@ export const metadata: Metadata = {
   description:
     "Configure units, localization, and appearance preferences in Denga Sense.",
   alternates: { canonical: "/dashboard/settings" },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
 
 export default function Settings() {
