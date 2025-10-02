@@ -10,32 +10,38 @@ export async function POST(req: NextRequest) {
     const minimalWeather = {
       city: weather.current.city,
       country: weather.current.country,
-      temp: weather.current.temp,
-      feelsLike: weather.current.feelsLike,
+      temp: Math.round(weather.current.temp),
+      feelsLike: Math.round(weather.current.feelsLike),
       humidity: weather.current.humidity,
       windspeed: weather.current.windspeed,
       precipitation: weather.current.precipitation,
       weatherCode: weatherCodeMap[weather.current.weatherCode].label,
       daily: weather.daily.map((day: ForecastDay) => ({
         date: day.date,
-        tempMax: day.tempMax,
-        tempMin: day.tempMin,
+        tempMax: Math.round(day.tempMax),
+        tempMin: Math.round(day.tempMin),
         weatherCode: day.weatherCode,
       })),
     };
     const prompt = `Given the following weather data as JSON:
-${JSON.stringify(minimalWeather, null, 2)}
-
-Generate an array of 5 objects in JSON format. Each object must have:
-- id (1-5)
-- title (fixed from this list except for the first one where you should insert the location in the format city, country - ["Weather Overview", "Forecast Outlook", "Activity Outlook", "Comfort & Conditions", "Fun Vibes"])
-- summary: for the first object ("Weather Overview"), provide a concise summary of at least 3 sentences. For all other objects, provide a one-sentence natural-language summary of the card based on the weather data
-- features: 
-   -For id = 1 ("Weather Overview"): list 3 features showing exact metrics (temperature, feels like, humidity, wind, precipitation).  
-   -For ids 2–5: list 3 features that are activity suggestions, comfort tips, mood/vibe ideas, or short insights derived from the data. Avoid listing raw metrics directly in these cards.  
-- subTitle: a 1 or 2-word title that matches the features in the array of each object, for example "Games" for the "Fun Vibes" object
-
-Only change the summary, subTitle, and features based on the data. Titles and ids must remain fixed. Return only the JSON array.`;
+    ${JSON.stringify(minimalWeather, null, 2)}
+    
+    Generate an array of 5 objects in JSON format. Each object must have:
+    - id (1-5)
+    - title (fixed from this list, but for the first one include the location in the format "City, Country - Weather Overview":
+      ["Weather Overview", "Forecast Outlook", "Sports & Fun Vibes", "Local Attractions", "Culture & Lifestyle"])
+    - summary:
+      - For id = 1 ("Weather Overview"), provide a concise summary of at least 3 sentences describing the current weather conditions.
+      - For ids 2–5, provide a one-sentence natural-language summary related to the theme of the card and based on the weather data and/or location context.
+    - features:
+      - For id = 1 ("Weather Overview"): list 3 features showing exact metrics (temperature, feels like, humidity, wind, precipitation).
+      - For ids 2–5: list 3 creative features that match the theme of the card (e.g., forecast tips, seasonal sports or activities, popular sites or attractions, cultural/food/lifestyle recommendations). Do not just repeat raw metrics.
+    - subTitle: a short 1–2 word label that matches the theme of the features in each object (e.g., "Planning", "Activities", "Sites", "Culture").
+    
+    Rules:
+    - Do not invent fake numerical data — only use metrics from the provided JSON where required (in the Weather Overview card).
+    - Ensure features are specific, contextual, and engaging, not generic filler text.
+    - Return only the JSON array.`;
     const result = streamText({
       model: groq("llama-3.3-70b-versatile"),
       temperature: 0.9,

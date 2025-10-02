@@ -7,8 +7,8 @@ import { MUIIcon } from "@/app/types/settings";
 import {
   AddReaction,
   ArrowRight,
+  Attractions,
   Cloud,
-  HealthAndSafety,
   SportsHandball,
   Timeline,
 } from "@mui/icons-material";
@@ -38,7 +38,7 @@ export const InsightsView = () => {
     { icon: Cloud, color: "#24A0ED" },
     { icon: Timeline, color: "#F7C8DE" },
     { icon: SportsHandball, color: "#FFD6A5" },
-    { icon: HealthAndSafety, color: "#C1C9FB" },
+    { icon: Attractions, color: "#C1C9FB" },
     { icon: AddReaction, color: "#F0FFBA " },
   ];
   return (
@@ -113,7 +113,7 @@ export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
             key={feature}
             className="flex items-center text-[var(--text-secondary)] opacity-90"
           >
-            <ArrowRight className="-ml-2" aria-hidden="true" /> {feature}
+            <ArrowRight className="-ml-2" aria-hidden="true" /> {feature}.
           </li>
         ))}
       </ul>

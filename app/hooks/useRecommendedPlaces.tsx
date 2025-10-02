@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { PlaceResult, PlacePreview } from "../types/weather";
-import { loadFromStorage } from "../context/SettingsContext";
+// import { loadFromStorage } from "../context/SettingsContext";
 import { usePlaces } from "../context/PlacesContext";
 
 export function useRecommendedPlaces() {

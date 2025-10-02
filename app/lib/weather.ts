@@ -13,7 +13,7 @@ export async function getWeather(
   const weatherData = await weatherRes.json();
 
   // I fetch reverse geocoding for city and country here (Nominatim)
-  const geoUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+  const geoUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`;
   const geoRes = await fetch(geoUrl, {
     headers: { "User-Agent": "denga-sense-app/1.0" },
   });
@@ -87,6 +87,5 @@ export async function searchPlace(query: string) {
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch cities");
   const data = await res.json();
-  console.log("Search Data:", data);
   return data.results || [];
 }

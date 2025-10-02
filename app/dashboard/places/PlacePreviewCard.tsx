@@ -54,16 +54,16 @@ export const PlacePreviewCard = ({ data }: PlacePreviewProps) => {
       </header>
       <button
         type="button"
-        className="center justify-between! gap-1 h-12 max-w-[15rem] w-full mx-auto mt-5 px-6 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-semibold text-[var(--neutral-0)] text-lg"
+        className="center justify-between! gap-1 h-12 min-w-max mx-auto mt-5 px-4 rounded-full bg-[var(--primary)] border border-[var(--glass-border)] font-normal text-[var(--neutral-0)] text-lg"
         onClick={handleViewClick}
         aria-label={`View detailed weather for ${name}, ${country}`}
       >
-        View Place
+        View
         <span
-          className="center h-8 w-8 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]"
+          className="center h-7 w-7 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]"
           aria-hidden="true"
         >
-          <ArrowForward className="-rotate-20" />
+          <ArrowForward fontSize="small" className="-rotate-20" />
         </span>
       </button>
       <VideoBackground src={bgUrl} aria-hidden="true" />
