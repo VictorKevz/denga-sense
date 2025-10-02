@@ -9,11 +9,13 @@ import React, { useEffect } from "react";
 import { PlacePreviewCard } from "./PlacePreviewCard";
 import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
 import { ErroUI } from "@/app/components/ui/ErroUI";
+import { useTheme } from "next-themes";
 
 export const PlacesManager = () => {
   const { places, refreshPlace } = usePlaces();
   const { updateWeatherData } = useWeatherContext();
   const { fetchWeather, loading, error } = useWeatherData();
+  const { resolvedTheme } = useTheme();
   const {
     placePreviews,
     loading: loadingRecommended,
@@ -41,21 +43,25 @@ export const PlacesManager = () => {
       }
     });
   }, []);
+  const imgSrc =
+    resolvedTheme === "dark"
+      ? "/images/empty-dark.svg"
+      : "/images/empty-light.svg";
   if (error) {
     return <ErroUI error={error} action="goHome" />;
   }
   if (places.length === 0) {
     return (
       <section
-        className="w-full center flex-col!"
+        className="w-full center flex-col! mt-10"
         aria-labelledby="empty-places-heading"
       >
         <Image
-          src="/images/empty-places.svg"
+          src={imgSrc}
           alt=""
-          width={300}
-          height={350}
-          className="bg-[var(--neutral-50)] p-5 rounded-2xl"
+          width={250}
+          height={200}
+          className=""
           aria-hidden
         />
         <h2
