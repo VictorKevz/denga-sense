@@ -73,7 +73,6 @@
 }
 * {
   box-sizing: border-box;
-  transition: all 0.3s ease-in-out;
 }
 html.font-sans-custom {
   font-family: "DM Sans", sans-serif;
@@ -95,6 +94,7 @@ p {
 button,
 a {
   cursor: pointer;
+  transition: all 0.3s ease-in;
 }
 input:hover,
 input:focus {

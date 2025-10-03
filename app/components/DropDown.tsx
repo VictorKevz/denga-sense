@@ -3,7 +3,8 @@ import { DayOptions } from "../types/weather";
 import { KeyboardArrowRight } from "@mui/icons-material";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import TrapFocus from "@mui/material/Unstable_TrapFocus";
-
+import { motion } from "framer-motion";
+import { FadeInVariants, ScrollFadeInVariants } from "../variants";
 interface DropDownProps {
   data: DayOptions[];
   onUpdate: (option: string) => void;
@@ -18,7 +19,12 @@ export const DropDown = ({
 }: DropDownProps) => {
   return (
     <TrapFocus open disableEnforceFocus>
-      <div>
+      <motion.div
+        variants={FadeInVariants(5, 0)}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <ClickAwayListener
           onClickAway={onClose}
           mouseEvent="onClick"
@@ -40,7 +46,13 @@ export const DropDown = ({
             {data.map((day) => {
               const isActive = currentDay === day.date;
               return (
-                <li key={day.date} className="w-full">
+                <motion.li
+                  key={day.date}
+                  className="w-full"
+                  variants={FadeInVariants(20, 0.05)}
+                  initial="hidden"
+                  animate="visible"
+                >
                   <button
                     type="button"
                     className={`center group w-full h-10 justify-between! px-3 rounded-full hover:bg-[var(--primary)] hover:text-[var(--neutral-0)] hover:border-0 ${
@@ -67,12 +79,12 @@ export const DropDown = ({
                       />
                     </span>
                   </button>
-                </li>
+                </motion.li>
               );
             })}
           </ul>
         </ClickAwayListener>
-      </div>
+      </motion.div>
     </TrapFocus>
   );
 };

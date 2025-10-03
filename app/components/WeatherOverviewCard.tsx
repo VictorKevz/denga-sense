@@ -13,6 +13,8 @@ import {
 } from "@mui/icons-material";
 import { usePlaces } from "../context/PlacesContext";
 import { usePathname, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 interface WeatherOverviewCardProps {
   data: Weather;
   onWeatherUpdate: (lat: number, lon: number) => Promise<void>;
@@ -38,12 +40,15 @@ export const WeatherOverviewCard = ({
     router.push(`/dashboard/weather`);
   };
   return (
-    <article
+    <motion.article
       className={`w-full relative  ${
         isPlaces ? "min-h-fit" : "min-h-[17rem]"
       } center flex-col! px-6 py-8 rounded-3xl border border-[var(--glass-border)]`}
       aria-labelledby={`weather-card-title-${data.id}`}
       role="region"
+      variants={FadeInVariants(20, 0.1)}
+      initial="hidden"
+      animate="visible"
     >
       <header className="w-full flex flex-col-reverse sm:flex-row items-start justify-between gap-4 z-5">
         <div>
@@ -121,18 +126,18 @@ export const WeatherOverviewCard = ({
           <button
             type="button"
             onClick={handleViewClick}
-            className="center gap-2 h-12 min-w-max px-5 bg-[var(--primary)] border border-[var(--glass-border)] text-[var(--neutral-0)] rounded-full"
+            className="center gap-2 h-12 min-w-max px-4 bg-[var(--primary)] border border-[var(--glass-border)] text-[var(--neutral-0)] rounded-full"
             aria-label={`View detailed weather for ${data.city}`}
           >
             View
             <span className="center h-8 w-8 bg-[var(--neutral-0)] rounded-full text-[var(--neutral-900)]">
-              <ArrowForward className="-rotate-20" />
+              <ArrowForward className="-rotate-20" fontSize="small" />
             </span>
           </button>
         )}
       </footer>
 
       <VideoBackground src={bgUrl} aria-hidden="true" />
-    </article>
+    </motion.article>
   );
 };

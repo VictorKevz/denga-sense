@@ -5,7 +5,8 @@ import { PulseLoader } from "react-spinners";
 import { KeyboardArrowRight, Search } from "@mui/icons-material";
 import { usePlaces } from "../context/PlacesContext";
 import { ErroUI } from "./ui/ErroUI";
-
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 type FormProps = {
   onWeatherUpdate: (lat: number, long: number) => Promise<void>;
 };
@@ -107,7 +108,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
           onChange={handleChange}
           autoComplete="off"
           placeholder="Search for a place..."
-          className="h-14 w-full text-lg text-[var(--text-primary)] placeholder:text-[var(--text-primary)]"
+          className="h-14 w-full text-lg text-[var(--neutral-0)] placeholder:text-[var(--text-primary)]"
           aria-invalid={Boolean(inputError)}
           aria-describedby={inputError ? "query-error" : undefined}
           aria-controls="place-results-list"
@@ -132,11 +133,14 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
         Search
       </button>
       {query && (
-        <div
+        <motion.div
           className="glass inset backdrop-blur-2xl backdrop-saturate-90 backdrop-brightness-90 absolute top-full left-0 w-full rounded-3xl mt-3.5 px-5 py-6"
           role="region"
           aria-label="Search results"
           aria-live="polite"
+          variants={FadeInVariants(-20)}
+          initial="hidden"
+          animate="visible"
         >
           {loading && (
             <>
@@ -192,7 +196,7 @@ export const SearchBar = ({ onWeatherUpdate }: FormProps) => {
               ))}
             </ul>
           )}
-        </div>
+        </motion.div>
       )}
     </form>
   );

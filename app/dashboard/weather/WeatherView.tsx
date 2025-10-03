@@ -1,24 +1,26 @@
 "use client";
 import React, { useCallback, useState } from "react";
-import { DayOptions, ForecastHour } from "../types/weather";
-import { WeatherOverviewCard } from "./WeatherOverviewCard";
-import { MetricCard } from "./MetricCard";
-import { DailyForecastCard } from "./DailyForecastCard";
+import { DayOptions, ForecastHour } from "../../types/weather";
+import { WeatherOverviewCard } from "../../components/WeatherOverviewCard";
+import { MetricCard } from "../../components/MetricCard";
+import { DailyForecastCard } from "../../components/DailyForecastCard";
 import {
   formatDayOfWeek,
   formatPrecip,
   formatTemp,
   formatWind,
-} from "../utils/formatters";
-import { HourlyForecastCard } from "./HourlyForecastCard";
-import { DropDown } from "./DropDown";
+} from "../../utils/formatters";
+import { HourlyForecastCard } from "../../components/HourlyForecastCard";
+import { DropDown } from "../../components/DropDown";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import { SearchBar } from "./SearchBar";
-import { useSettings } from "../context/SettingsContext";
-import { useWeatherContext } from "../context/WeatherContext";
-import { LoadingGrid } from "./ui/LoadingGrid";
+import { SearchBar } from "../../components/SearchBar";
+import { useSettings } from "../../context/SettingsContext";
+import { useWeatherContext } from "../../context/WeatherContext";
+import { LoadingGrid } from "../../components/ui/LoadingGrid";
 import { PropagateLoader } from "react-spinners";
-import { ErroUI } from "./ui/ErroUI";
+import { ErroUI } from "../../components/ui/ErroUI";
+import { AnimatePresence, motion } from "framer-motion";
+import { FadeInVariants, ScrollFadeInVariants } from "@/app/variants";
 
 export interface MetricCardProps {
   label: string;
@@ -105,12 +107,17 @@ export const WeatherView = () => {
       className="max-w-screen-2xl w-full mx-auto center flex-col! mt-8 px-4 md:px-6 pb-[6rem]"
       role="main"
     >
-      <header className="text-center">
+      <motion.header
+        className="text-center"
+        variants={FadeInVariants(-20)}
+        initial="hidden"
+        animate="visible"
+      >
         <h1 className="text-5xl text-[var(--neutral-0)]">
           How's the sky looking today?
         </h1>
         <SearchBar onWeatherUpdate={updateWeatherData} />
-      </header>
+      </motion.header>
       <section className="w-full grid lg:grid-cols-2 xl:grid-cols-3 mt-10 gap-8 ">
         {/* ............................................................................................ */}
 
@@ -133,11 +140,17 @@ export const WeatherView = () => {
             />
           )}
 
-          <div className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+          <motion.div
+            className="w-full grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8"
+            variants={ScrollFadeInVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
             {metricCards.map((metric) => (
               <MetricCard key={metric.label} data={metric} loading={loading} />
             ))}
-          </div>
+          </motion.div>
           <div className="w-full mt-10">
             <h2
               id="weather-summary-heading"
@@ -152,19 +165,28 @@ export const WeatherView = () => {
                 loaderClassName="glass inset w-full min-h-[8rem] px-2.5 py-4 flex flex-col items-center justify-between last:col-span-3 md:last:col-span-1"
               />
             ) : (
-              <div className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4">
+              <motion.div
+                className="w-full mt-5 grid grid-cols-3 md:grid-cols-7 gap-4"
+                variants={ScrollFadeInVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
                 {weather.daily.map((day) => (
                   <DailyForecastCard key={day.date} data={day} />
                 ))}
-              </div>
+              </motion.div>
             )}
           </div>
         </section>
 
         {/* ............................................................................................ */}
-        <section
+        <motion.section
           className="glass inset w-full px-4 py-6 h-auto"
           aria-labelledby="hourly-forecast-heading"
+          variants={FadeInVariants(-20, 0.15)}
+          initial="hidden"
+          animate="visible"
         >
           <header className="w-full flex items-center justify-between">
             <h2
@@ -191,14 +213,16 @@ export const WeatherView = () => {
                   {showDropDown ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                 </span>
               </button>
-              {showDropDown && (
-                <DropDown
-                  data={dayOptions}
-                  onUpdate={updateCurrentDay}
-                  currentDay={currentDay}
-                  onClose={() => setShowDrop(false)}
-                />
-              )}
+              <AnimatePresence mode="wait">
+                {showDropDown && (
+                  <DropDown
+                    data={dayOptions}
+                    onUpdate={updateCurrentDay}
+                    currentDay={currentDay}
+                    onClose={() => setShowDrop(false)}
+                  />
+                )}
+              </AnimatePresence>
             </div>
           </header>
           <ul
@@ -216,7 +240,7 @@ export const WeatherView = () => {
               />
             ))}
           </ul>
-        </section>
+        </motion.section>
       </section>
     </main>
   );

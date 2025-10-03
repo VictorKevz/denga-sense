@@ -1,13 +1,10 @@
 "use client";
 import { useSettings } from "@/app/context/SettingsContext";
-import {
-  SelectorDataType,
-  SelectorOption,
-  UnitsKey,
-  UnitValue,
-} from "@/app/types/settings";
+import { SelectorDataType, UnitsKey, UnitValue } from "@/app/types/settings";
 import React from "react";
 import { SettingsSelector } from "./SettingsSelector";
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 
 export const UnitsManager = () => {
   const { units, onUnitUpdate } = useSettings();
@@ -39,7 +36,12 @@ export const UnitsManager = () => {
     },
   ];
   return (
-    <article className="glass flex w-full h-full flex-col! justify-between gap-4 px-4 pt-5 pb-8">
+    <motion.article
+      className="glass flex w-full h-full flex-col! justify-between gap-4 px-4 pt-5 pb-8"
+      variants={FadeInVariants()}
+      initial="hidden"
+      animate="visible"
+    >
       {unitsData.map((obj) => {
         return (
           <SettingsSelector
@@ -53,6 +55,6 @@ export const UnitsManager = () => {
           />
         );
       })}
-    </article>
+    </motion.article>
   );
 };
