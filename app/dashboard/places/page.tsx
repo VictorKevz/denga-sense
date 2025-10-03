@@ -13,16 +13,13 @@ export const metadata: Metadata = {
 
 export default function Places() {
   return (
-    <main
-      className="max-w-screen-xl min-h-[80vh] w-full mx-auto center flex-col! px-4 md:px-6 pb-[6rem]"
-      role="main"
-    >
+    <div className="max-w-screen-xl min-h-[80vh] w-full mx-auto center flex-col! px-4 md:px-6 pb-[6rem]">
       <header className="w-full text-center mt-6">
         <h1 className="text-4xl sm:text-5xl text-[var(--neutral-0)]">
           Your Places
         </h1>
       </header>
       <PlacesManager />
-    </main>
+    </div>
   );
 }

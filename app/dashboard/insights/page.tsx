@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function Insights() {
   return (
-    <main className="center items-start! w-full min-h-[80dvh] pb-[8rem]">
+    <div className="center items-start! w-full min-h-[80dvh] pb-[8rem]">
       <div className="center flex-col! w-full max-w-screen-2xl  px-4">
         <header className="center flex-col! w-full mx-auto rounded-3xl! py-6 px-4 mt-10">
           <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold bg-gradient-to-r from-[#00d0ff] to-[#eddbff] text-transparent bg-clip-text md:tracking-widest uppercase">
@@ -29,6 +29,6 @@ export default function Insights() {
         </header>
         <InsightsView />
       </div>
-    </main>
+    </div>
   );
 }

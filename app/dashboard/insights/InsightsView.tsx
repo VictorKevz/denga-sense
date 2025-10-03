@@ -14,6 +14,8 @@ import {
 } from "@mui/icons-material";
 import React from "react";
 import { PropagateLoader } from "react-spinners";
+import { AnimatePresence, motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 
 export const InsightsView = () => {
   const { insights, loading, error } = useInsights();
@@ -53,14 +55,16 @@ export const InsightsView = () => {
         className="w-full grid gap-8 lg:grid-cols-2 xl:grid-cols-3"
         role="list"
       >
-        {insights.map((insight, i) => (
-          <InsightCard
-            key={insight.id}
-            insight={insight}
-            Icon={icons[i].icon}
-            color={icons[i].color}
-          />
-        ))}
+        <AnimatePresence mode="wait">
+          {insights.map((insight, i) => (
+            <InsightCard
+              key={insight.id}
+              insight={insight}
+              Icon={icons[i].icon}
+              color={icons[i].color}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </section>
   );
@@ -74,10 +78,14 @@ interface InsightCard {
 
 export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
   return (
-    <article
+    <motion.article
       className="glass inset-ai w-full flex flex-col justify-between lg:first:col-span-2 px-4 py-5 backdrop-brightness-95!"
       aria-labelledby={`insight-${insight.id}-title`}
       role="region"
+      variants={FadeInVariants(10, 0.05)}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
     >
       <header className="w-full">
         <span
@@ -117,6 +125,6 @@ export const InsightCard = ({ insight, Icon, color }: InsightCard) => {
           </li>
         ))}
       </ul>
-    </article>
+    </motion.article>
   );
 };

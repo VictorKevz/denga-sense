@@ -10,6 +10,8 @@ import { PlacePreviewCard } from "./PlacePreviewCard";
 import { LoadingGrid } from "@/app/components/ui/LoadingGrid";
 import { ErroUI } from "@/app/components/ui/ErroUI";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 
 export const PlacesManager = () => {
   const { places, refreshPlace } = usePlaces();
@@ -52,9 +54,12 @@ export const PlacesManager = () => {
   }
   if (places.length === 0) {
     return (
-      <section
+      <motion.section
         className="w-full center flex-col! mt-10"
         aria-labelledby="empty-places-heading"
+        variants={FadeInVariants(20, 0.1)}
+        initial="hidden"
+        animate="visible"
       >
         <Image
           src={imgSrc}
@@ -73,14 +78,18 @@ export const PlacesManager = () => {
         <p className="text-[var(--neutral-200)]! mt-1">
           Your saved places will appear here
         </p>
-      </section>
+      </motion.section>
     );
   }
   return (
     <div className="max-w-screen-2xl w-full mt-10">
-      <section
+      <motion.section
         className="w-full glass px-5 py-6"
         aria-labelledby="saved-places-heading"
+        variants={FadeInVariants(10, 0.05)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
       >
         <h2
           id="saved-places-heading"
@@ -110,11 +119,15 @@ export const PlacesManager = () => {
             ))}
           </ul>
         )}
-      </section>
+      </motion.section>
 
-      <section
+      <motion.section
         className="w-full glass px-5 py-6 mt-8"
         aria-labelledby="smart-recommendations-heading"
+        variants={FadeInVariants(10, 0.05)}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
       >
         <header>
           <h2
@@ -144,13 +157,19 @@ export const PlacesManager = () => {
             role="list"
           >
             {placePreviews.map((place) => (
-              <li key={place.id} className="list-none">
+              <motion.li
+                key={place.id}
+                className="list-none"
+                variants={FadeInVariants(-20, 0.05)}
+                initial="hidden"
+                animate="visible"
+              >
                 <PlacePreviewCard data={place} />
-              </li>
+              </motion.li>
             ))}
           </ul>
         )}
-      </section>
+      </motion.section>
     </div>
   );
 };

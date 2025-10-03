@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { PulseLoader } from "react-spinners";
-
+import { motion } from "framer-motion";
+import { FadeInVariants } from "@/app/variants";
 interface LoadingGridProps {
   length?: number;
   className?: string;
@@ -16,12 +17,17 @@ export const LoadingGrid = ({
   children,
 }: LoadingGridProps) => {
   return (
-    <div className={`w-full ${className}`}>
+    <motion.div
+      className={`w-full ${className}`}
+      variants={FadeInVariants(20, 0.05)}
+      initial="hidden"
+      animate="visible"
+    >
       {Array.from({ length }).map((_, i) => (
         <div key={i} className={loaderClassName}>
           {children || <PulseLoader color="var(--primary)" />}
         </div>
       ))}
-    </div>
+    </motion.div>
   );
 };

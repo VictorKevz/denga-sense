@@ -39,7 +39,7 @@ export const AppearanceManager = () => {
   return (
     <motion.article
       className="glass flex w-full flex-col! gap-7 px-4 pt-5 pb-8 inset"
-      variants={FadeInVariants}
+      variants={FadeInVariants(-30, 0.25)}
       initial="hidden"
       animate="visible"
     >

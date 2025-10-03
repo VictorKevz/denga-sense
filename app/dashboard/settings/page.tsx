@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function Settings() {
   return (
-    <main className="center w-full px-4 mt-6 pb-[6.5rem]">
+    <div className="center w-full px-4 mt-6 pb-[6.5rem]">
       <div className="max-w-4xl w-full grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
         <section
           role="region"
@@ -64,6 +64,6 @@ export default function Settings() {
           </section>
         </section>
       </div>
-    </main>
+    </div>
   );
 }
