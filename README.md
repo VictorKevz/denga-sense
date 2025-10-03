@@ -1,27 +1,18 @@
-# Denga Sense
-A modern, accessible, and AI-powered weather dashboard built with Next.js 14 (App Router), TypeScript, and React. Denga Sense provides real-time weather data, personalized recommendations, and insights, with a focus on performance, accessibility, and developer experience.
+# Denga Sense  
+A modern, accessible, and AI-powered weather dashboard built with Next.js 14 (App Router), TypeScript, and React.  
+Denga Sense combines **real-time weather data** with **AI-driven insights** to make forecasts feel more personal and practical.  
+It’s designed to be **fast, intuitive, and inclusive**—balancing developer best practices with a smooth, human-friendly experience.  
 
-## Frontend Mentor Hackathon Submission
-This project was built for the [Frontend Mentor #FM30Hackathon](https://www.frontendmentor.io/challenges/weather-app-hackathon) challenge.  
-- 🌐 Solution link: [Frontend Mentor Solution](https://www.frontendmentor.io/solutions/denga-sense-weather-dashboard-xxxxxx)  
-- 🚀 Live site: [denga-sense.victorkevz.com](https://denga-sense.victorkevz.com)
+## Motivation & Background  
+This project was created as part of the **Frontend Mentor Hackathon**, but also as a way for me to push beyond just building “another weather app.”  
 
-## Table of Contents
-- [Features](#features)
-- [Demo](#demo)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Core Concepts](#core-concepts)
-- [Accessibility & SEO](#accessibility--seo)
-- [AI & Insights](#ai--insights)
-- [Customization](#customization)
-- [Contributing](#contributing)
-- [License](#license)
+I wanted to explore:  
+- How AI can enhance simple data into **useful stories and suggestions**.  
+- How accessibility and performance can coexist with sleek UI.  
+- How to design a dashboard that feels less like a utility and more like a **companion**.  
 
-## Features
-# Denga Sense
-A modern, accessible, and AI-powered weather dashboard built with Next.js 14 (App Router), TypeScript, and React. Denga Sense provides real-time weather data, personalized recommendations, and insights, with a focus on performance, accessibility, and developer experience.
-
+The experience was equal parts technical challenge and creative exploration—refining APIs, caching strategies, and state management, while also thinking about **UX, mood, and connection**. It taught me how small design choices (like insights phrasing or background animations) can change how people interact with data. 
+ 
 ## Frontend Mentor Hackathon Submission
 This project was built for the [Frontend Mentor #FM30Hackathon](https://www.frontendmentor.io/challenges/weather-app-hackathon) challenge.  
 - 🌐 Solution link: [Frontend Mentor Solution](https://www.frontendmentor.io/solutions/denga-sense-weather-dashboard-xxxxxx)  
@@ -93,6 +84,7 @@ yarn dev
 Visit [http://localhost:3000](http://localhost:3000) to view the app.
 
 ## Project Structure
+```
 📦app
  ┣ 📂api
  ┃ ┣ 📂insights
@@ -157,7 +149,7 @@ Visit [http://localhost:3000](http://localhost:3000) to view the app.
  ┣ 📜layout.tsx
  ┣ 📜page.tsx
  ┗ 📜variants.ts
-
+```
 ## Core Concepts
 
 ### State Management
