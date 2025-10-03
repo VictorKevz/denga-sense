@@ -12,7 +12,7 @@ I wanted to explore:
 - How to design a dashboard that feels less like a utility and more like a **companion**.  
 
 The experience was equal parts technical challenge and creative exploration—refining APIs, caching strategies, and state management, while also thinking about **UX, mood, and connection**. It taught me how small design choices (like insights phrasing or background animations) can change how people interact with data. 
- 
+ ![preview of the weather page](public/screenshots/weather-page.png)
 ## Frontend Mentor Hackathon Submission
 This project was built for the [Frontend Mentor #FM30Hackathon](https://www.frontendmentor.io/challenges/weather-app-hackathon) challenge.  
 - 🌐 Solution link: [Frontend Mentor Solution](https://www.frontendmentor.io/solutions/denga-sense-weather-dashboard-xxxxxx)  
