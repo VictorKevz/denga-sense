@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
+
 interface VideoBackgroundProps {
   src: string;
 }
+
 export const VideoBackground = ({ src }: VideoBackgroundProps) => {
   return (
     <div
@@ -16,6 +18,7 @@ export const VideoBackground = ({ src }: VideoBackgroundProps) => {
         loop
         muted
         playsInline
+        preload="auto"
         tabIndex={-1}
         aria-hidden="true"
         role="presentation"

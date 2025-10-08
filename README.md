@@ -2,6 +2,7 @@
 A modern, accessible, and AI-powered weather dashboard built with Next.js 14 (App Router), TypeScript, and React.  
 Denga Sense combines **real-time weather data** with **AI-driven insights** to make forecasts feel more personal and practical.  
 It’s designed to be **fast, intuitive, and inclusive**—balancing developer best practices with a smooth, human-friendly experience.  
+![](public/screenshots/dengaSense_main.webp)
 
 ## Motivation & Background  
 This project was created as part of the **Frontend Mentor Hackathon**, but also as a way for me to push beyond just building “another weather app.”  
@@ -12,7 +13,6 @@ I wanted to explore:
 - How to design a dashboard that feels less like a utility and more like a **companion**.  
 
 The experience was equal parts technical challenge and creative exploration—refining APIs, caching strategies, and state management, while also thinking about **UX, mood, and connection**. It taught me how small design choices (like insights phrasing or background animations) can change how people interact with data. 
- ![preview of the weather page](public/screenshots/weather-page.png)
 ## Frontend Mentor Hackathon Submission
 This project was built for the [Frontend Mentor #FM30Hackathon](https://www.frontendmentor.io/challenges/weather-app-hackathon) challenge.  
 - 🌐 Solution link: [Frontend Mentor Solution](https://www.frontendmentor.io/solutions/denga-sense-weather-dashboard-xxxxxx)  
