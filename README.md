@@ -1,7 +1,5 @@
 # Denga Sense  
-A modern, accessible, and AI-powered weather dashboard built with Next.js 14 (App Router), TypeScript, and React.  
-Denga Sense combines **real-time weather data** with **AI-driven insights** to make forecasts feel more personal and practical.  
-It’s designed to be **fast, intuitive, and inclusive**—balancing developer best practices with a smooth, human-friendly experience.  
+A modern, accessible, and AI-powered weather dashboard built with Next.js 14 (App Router), TypeScript, and React. Denga Sense combines **real-time weather data** with **AI-driven insights** to make forecasts feel more personal and practical. It’s designed to be **fast, intuitive, and inclusive**, balancing developer best practices with a smooth, human-friendly experience.  
 ![](public/screenshots/dengaSense_main.webp)
 
 ## Motivation & Background  
@@ -12,11 +10,12 @@ I wanted to explore:
 - How accessibility and performance can coexist with sleek UI.  
 - How to design a dashboard that feels less like a utility and more like a **companion**.  
 
-The experience was equal parts technical challenge and creative exploration—refining APIs, caching strategies, and state management, while also thinking about **UX, mood, and connection**. It taught me how small design choices (like insights phrasing or background animations) can change how people interact with data. 
+The experience was equal parts technical challenge and creative exploration—refining APIs, caching strategies, and state management, while also thinking about **UX, mood, and connection**. It taught me how small design choices (like insights phrasing or background videos) can change how people interact with data. 
+
 ## Frontend Mentor Hackathon Submission
 This project was built for the [Frontend Mentor #FM30Hackathon](https://www.frontendmentor.io/challenges/weather-app-hackathon) challenge.  
 - 🌐 Solution link: [Frontend Mentor Solution](https://www.frontendmentor.io/solutions/denga-sense-weather-dashboard-xxxxxx)  
-- 🚀 Live site: [denga-sense.victorkevz.com](https://denga-sense.victorkevz.com)
+- 🚀 Live site: [denga-sense.victorkevz.com](https://denga-sense.vercel.app/)
 
 ## Table of Contents
 - [Features](#features)
@@ -212,4 +211,7 @@ Visit [http://localhost:3000](http://localhost:3000) to view the app.
 
 
 ## Contact
-For questions, suggestions, or support, open an issue or contact [VictorKevz](https://github.com/VictorKevz).
+For questions, suggestions, or support, open an issue or contact:
+- [Email](mailto:contact@victorkevz.com)
+- [LinkedIn](https://www.linkedin.com/in/victor-kuwandira/)
+- [FrontendMentor](https://www.frontendmentor.io/profile/VictorKevz)
